@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -14,9 +14,13 @@ namespace CollectionExtensionsLibrary
         /// <param name="items">The items to add.</param>
         public static void AddRangeIfNotExists<T>(this List<T> list, IEnumerable<T> items)
         {
+            if (list is null) throw new ArgumentNullException(nameof(list));
+            if (items is null) throw new ArgumentNullException(nameof(items));
+
+            var existing = new HashSet<T>(list);
             foreach (var item in items)
             {
-                if (!list.Contains(item))
+                if (existing.Add(item))
                 {
                     list.Add(item);
                 }
@@ -171,9 +175,12 @@ namespace CollectionExtensionsLibrary
         /// <param name="newValue">The value to replace with.</param>
         public static void Replace<T>(this IList<T> list, T oldValue, T newValue)
         {
+            if (list is null) throw new ArgumentNullException(nameof(list));
+
+            var comparer = EqualityComparer<T>.Default;
             for (int i = 0; i < list.Count; i++)
             {
-                if (list[i].Equals(oldValue))
+                if (comparer.Equals(list[i], oldValue))
                 {
                     list[i] = newValue;
                 }

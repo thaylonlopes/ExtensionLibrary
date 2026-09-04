@@ -1,4 +1,5 @@
-﻿using System.Reflection;
+using System.Reflection;
+using System.Runtime.ExceptionServices;
 
 namespace ObjectExtensionsLibrary
 {
@@ -13,8 +14,21 @@ namespace ObjectExtensionsLibrary
         /// <returns>The result of the method invocation, or null if the method is not found.</returns>
         public static object InvokeMethod(this object obj, string methodName, params object[] args)
         {
+            if (obj is null) throw new System.ArgumentNullException(nameof(obj));
+            if (string.IsNullOrWhiteSpace(methodName)) throw new System.ArgumentException("Nome do método não pode ser nulo ou vazio.", nameof(methodName));
+
             var method = obj.GetType().GetMethod(methodName, BindingFlags.Public | BindingFlags.Instance | BindingFlags.IgnoreCase);
-            return method?.Invoke(obj, args);
+            if (method is null) return null;
+
+            try
+            {
+                return method.Invoke(obj, args);
+            }
+            catch (TargetInvocationException ex) when (ex.InnerException != null)
+            {
+                ExceptionDispatchInfo.Capture(ex.InnerException).Throw();
+                throw;
+            }
         }
 
     }

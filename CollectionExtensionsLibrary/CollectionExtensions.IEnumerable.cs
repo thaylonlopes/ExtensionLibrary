@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -15,10 +15,14 @@ namespace CollectionExtensionsLibrary
         /// <returns>The updated collection.</returns>
         public static IEnumerable<T> AddRangeIfNotExists<T>(this IEnumerable<T> source, IEnumerable<T> items)
         {
+            if (source is null) throw new ArgumentNullException(nameof(source));
+            if (items is null) throw new ArgumentNullException(nameof(items));
+
             var list = source.ToList();
+            var existing = new HashSet<T>(list);
             foreach (var item in items)
             {
-                if (!list.Contains(item))
+                if (existing.Add(item))
                 {
                     list.Add(item);
                 }
@@ -117,10 +121,25 @@ namespace CollectionExtensionsLibrary
         /// <returns>An IEnumerable of IEnumerable chunks.</returns>
         public static IEnumerable<IEnumerable<TSource>> ChunkBy<TSource>(this IEnumerable<TSource> source, int chunkSize)
         {
-            while (source.Any())
+            if (source is null) throw new ArgumentNullException(nameof(source));
+            if (chunkSize <= 0) throw new ArgumentOutOfRangeException(nameof(chunkSize), "O tamanho do lote deve ser maior que zero.");
+
+            return ChunkIterator(source, chunkSize);
+        }
+
+        private static IEnumerable<IEnumerable<TSource>> ChunkIterator<TSource>(IEnumerable<TSource> source, int chunkSize)
+        {
+            using (var enumerator = source.GetEnumerator())
             {
-                yield return source.Take(chunkSize);
-                source = source.Skip(chunkSize);
+                while (enumerator.MoveNext())
+                {
+                    var chunk = new List<TSource>(chunkSize) { enumerator.Current };
+                    while (chunk.Count < chunkSize && enumerator.MoveNext())
+                    {
+                        chunk.Add(enumerator.Current);
+                    }
+                    yield return chunk;
+                }
             }
         }
 
@@ -167,8 +186,18 @@ namespace CollectionExtensionsLibrary
         /// <returns>An IEnumerable with elements in random order.</returns>
         public static IEnumerable<T> Shuffle<T>(this IEnumerable<T> source)
         {
+            if (source is null) throw new ArgumentNullException(nameof(source));
+
+            var buffer = source.ToArray();
             var random = new Random();
-            return source.OrderBy(x => random.Next());
+            for (int i = buffer.Length - 1; i > 0; i--)
+            {
+                int j = random.Next(i + 1);
+                var temp = buffer[i];
+                buffer[i] = buffer[j];
+                buffer[j] = temp;
+            }
+            return buffer;
         }
 
         /// <summary>

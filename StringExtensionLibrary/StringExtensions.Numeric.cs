@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Globalization;
 
 namespace StringExtensionLibrary
@@ -45,6 +45,51 @@ namespace StringExtensionLibrary
 
 
         /// <summary>
+        ///     Attempts to parse the string to a 32-bit signed integer.
+        /// </summary>
+        /// <param name="value">The string to parse.</param>
+        /// <param name="result">When this method returns, contains the 32-bit signed integer equivalent if successful, or 0 if failed.</param>
+        /// <returns>True if parsing succeeded; otherwise, false.</returns>
+        public static bool TryToInt(this string value, out int result) =>
+            Int32.TryParse(value, NumberStyles.Integer, CultureInfo.InvariantCulture, out result);
+
+        /// <summary>
+        ///     Attempts to parse the string to a 64-bit signed integer.
+        /// </summary>
+        /// <param name="value">The string to parse.</param>
+        /// <param name="result">When this method returns, contains the 64-bit signed integer equivalent if successful, or 0 if failed.</param>
+        /// <returns>True if parsing succeeded; otherwise, false.</returns>
+        public static bool TryToInt64(this string value, out long result) =>
+            Int64.TryParse(value, NumberStyles.Integer, CultureInfo.InvariantCulture, out result);
+
+        /// <summary>
+        ///     Attempts to parse the string to a 16-bit signed integer.
+        /// </summary>
+        /// <param name="value">The string to parse.</param>
+        /// <param name="result">When this method returns, contains the 16-bit signed integer equivalent if successful, or 0 if failed.</param>
+        /// <returns>True if parsing succeeded; otherwise, false.</returns>
+        public static bool TryToInt16(this string value, out short result) =>
+            Int16.TryParse(value, NumberStyles.Integer, CultureInfo.InvariantCulture, out result);
+
+        /// <summary>
+        ///     Converts the string representation of a number to its 32-bit signed integer equivalent, or returns the specified default value.
+        /// </summary>
+        /// <param name="value">The string to convert.</param>
+        /// <param name="defaultValue">The default value to return if conversion fails.</param>
+        /// <returns>The 32-bit signed integer equivalent or the default value.</returns>
+        public static int ToIntOrDefault(this string value, int defaultValue = 0) =>
+            Int32.TryParse(value, NumberStyles.Integer, CultureInfo.InvariantCulture, out int result) ? result : defaultValue;
+
+        /// <summary>
+        ///     Converts the string representation of a number to its 64-bit signed integer equivalent, or returns the specified default value.
+        /// </summary>
+        /// <param name="value">The string to convert.</param>
+        /// <param name="defaultValue">The default value to return if conversion fails.</param>
+        /// <returns>The 64-bit signed integer equivalent or the default value.</returns>
+        public static long ToInt64OrDefault(this string value, long defaultValue = 0) =>
+            Int64.TryParse(value, NumberStyles.Integer, CultureInfo.InvariantCulture, out long result) ? result : defaultValue;
+
+        /// <summary>
         ///     Converts the string representation of a number to its 32-bit signed integer equivalent
         /// </summary>
         /// <param name="value">string containing a number to convert</param>
@@ -56,7 +101,7 @@ namespace StringExtensionLibrary
         public static int ToInt32(this string value)
         {
             int number;
-            Int32.TryParse(value, out number);
+            Int32.TryParse(value, NumberStyles.Integer, CultureInfo.InvariantCulture, out number);
             return number;
         }
 
@@ -72,7 +117,7 @@ namespace StringExtensionLibrary
         public static long ToInt64(this string value)
         {
             long number;
-            Int64.TryParse(value, out number);
+            Int64.TryParse(value, NumberStyles.Integer, CultureInfo.InvariantCulture, out number);
             return number;
         }
 
@@ -88,7 +133,7 @@ namespace StringExtensionLibrary
         public static short ToInt16(this string value)
         {
             short number;
-            Int16.TryParse(value, out number);
+            Int16.TryParse(value, NumberStyles.Integer, CultureInfo.InvariantCulture, out number);
             return number;
         }
 

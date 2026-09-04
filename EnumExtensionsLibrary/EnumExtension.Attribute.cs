@@ -3,10 +3,14 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 
+using System.Collections.Concurrent;
+
 namespace EnumExtensionsLibrary
 {
     public static partial class EnumExtension
     {
+        private static readonly ConcurrentDictionary<Enum, string> _descriptionCache = new ConcurrentDictionary<Enum, string>();
+
         /// <summary>
         /// Gets the description attribute of the enum value.
         /// </summary>
@@ -15,9 +19,15 @@ namespace EnumExtensionsLibrary
         /// <returns>The description of the enum value.</returns>
         public static string GetDescription<T>(this T enumValue) where T : Enum
         {
-            var field = enumValue.GetType().GetField(enumValue.ToString());
-            var attribute = field.GetCustomAttributes(typeof(DescriptionAttribute), false).FirstOrDefault();
-            return attribute == null ? enumValue.ToString() : ((DescriptionAttribute)attribute).Description;
+            if (EqualityComparer<T>.Default.Equals(enumValue, default)) return string.Empty;
+
+            return _descriptionCache.GetOrAdd(enumValue, val =>
+            {
+                var field = val.GetType().GetField(val.ToString());
+                if (field is null) return val.ToString();
+                var attribute = field.GetCustomAttributes(typeof(DescriptionAttribute), false).FirstOrDefault();
+                return attribute == null ? val.ToString() : ((DescriptionAttribute)attribute).Description;
+            });
         }
 
         /// <summary>
@@ -29,9 +39,11 @@ namespace EnumExtensionsLibrary
         {
             if (value is null) return default;
 
-            var attribute = value.GetAttribute<DescriptionAttribute>();
-
-            return attribute is null ? value.ToString() : attribute.Description;
+            return _descriptionCache.GetOrAdd(value, val =>
+            {
+                var attribute = val.GetAttribute<DescriptionAttribute>();
+                return attribute is null ? val.ToString() : attribute.Description;
+            });
         }
 
 

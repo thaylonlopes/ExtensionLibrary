@@ -9,7 +9,9 @@ namespace ClaimsPrincipalExtensionsLibrary
         /// </summary>
         /// <param name="claimsPrincipal">The ClaimsPrincipal to retrieve the "sub" claim from.</param>
         /// <returns>The value of the "sub" claim, or null if not found.</returns>
-        public static string ClaimSub(this ClaimsPrincipal claimsPrincipal) => claimsPrincipal?.Claim("sub")?.Value;
+        public static string ClaimSub(this ClaimsPrincipal claimsPrincipal) =>
+            claimsPrincipal?.Claim("sub")?.Value 
+            ?? claimsPrincipal?.Claim(ClaimTypes.NameIdentifier)?.Value;
 
         /// <summary>
         /// Retrieves the email claim from the ClaimsPrincipal instance.
@@ -17,7 +19,8 @@ namespace ClaimsPrincipalExtensionsLibrary
         /// <param name="claimsPrincipal">The ClaimsPrincipal to retrieve the email from.</param>
         /// <returns>The email claim value, or null if not found.</returns>
         public static string Email(this ClaimsPrincipal claimsPrincipal) =>
-            claimsPrincipal?.Claim("email")?.Value;
+            claimsPrincipal?.Claim("email")?.Value
+            ?? claimsPrincipal?.Claim(ClaimTypes.Email)?.Value;
 
         /// <summary>
         /// Retrieves the full name claim from the ClaimsPrincipal instance.
@@ -25,7 +28,8 @@ namespace ClaimsPrincipalExtensionsLibrary
         /// <param name="claimsPrincipal">The ClaimsPrincipal to retrieve the full name from.</param>
         /// <returns>The full name claim value, or null if not found.</returns>
         public static string FullName(this ClaimsPrincipal claimsPrincipal) =>
-            claimsPrincipal?.Claim("name")?.Value;
+            claimsPrincipal?.Claim("name")?.Value
+            ?? claimsPrincipal?.Claim(ClaimTypes.Name)?.Value;
 
 
     }

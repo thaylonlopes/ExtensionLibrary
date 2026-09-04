@@ -11,8 +11,14 @@ namespace AssemblyExtensionLibrary
         /// Gets the FileInfo object for the specified assembly's location.
         /// </summary>
         /// <param name="assembly">The assembly to get the FileInfo for.</param>
-        /// <returns>A FileInfo object representing the assembly's location.</returns>
-        public static FileInfo FileInfo(this Assembly assembly) => new(assembly.Location);
+        /// <returns>A FileInfo object representing the assembly's location, or null if the location is not defined.</returns>
+        public static FileInfo? FileInfo(this Assembly assembly)
+        {
+            if (assembly is null || string.IsNullOrWhiteSpace(assembly.Location))
+                return null;
+
+            return new FileInfo(assembly.Location);
+        }
 
         /// <summary>
         /// Gets a custom attribute of the specified type from the assembly.

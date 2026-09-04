@@ -28,28 +28,24 @@ namespace QueryableExtensionsLibrary
         /// <returns>A filtered IQueryable sequence.</returns>
         public static IQueryable<T> Filter<T>(this IQueryable<T> queryable, string property, string comparison, object value)
         {
+            if (queryable is null) throw new ArgumentNullException(nameof(queryable));
             if (string.IsNullOrWhiteSpace(property) || value is null || string.IsNullOrWhiteSpace(value.ToString())) return queryable;
 
             var parameter = Expression.Parameter(typeof(T));
-
-            var left = Create(property, parameter);
-
+            Expression left;
             try
             {
-                var propertyInfo = typeof(T).GetProperty(property);
-
-                if (propertyInfo is null) return queryable;
-
-                var type = Nullable.GetUnderlyingType(propertyInfo.PropertyType) ?? propertyInfo.PropertyType;
-
-                value = Change(value, type);
+                left = Create(property, parameter);
             }
-            catch
+            catch (ArgumentException ex)
             {
-                return Enumerable.Empty<T>().AsQueryable();
+                throw new ArgumentException($"A propriedade '{property}' não foi encontrada no tipo '{typeof(T).FullName}'.", nameof(property), ex);
             }
 
-            var right = Expression.Constant(value, left.Type);
+            var propertyType = Nullable.GetUnderlyingType(left.Type) ?? left.Type;
+            var convertedValue = Change(value, propertyType);
+
+            var right = Expression.Constant(convertedValue, left.Type);
 
             var body = Create(left, comparison, right);
 
