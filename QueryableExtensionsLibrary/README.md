@@ -27,6 +27,8 @@ dotnet add package TL.QueryableExtensionsLibrary
 | `Filter(property, comparison, value)` | `IQueryable<T>` | Filtra dinamicamente aplicando operadores de comparação (`=`, `!=`, `>`, `<`, `>=`, `<=`, `Contains`, `StartsWith`, `EndsWith`). |
 | `Order(property, ascending)` | `IQueryable<T>` | Ordena dinamicamente (`OrderBy` ou `OrderByDescending`) pelo nome da propriedade informada. |
 | `Page(index, size)` | `IQueryable<T>` | Realiza paginação baseada em índice inicial 1 (`Skip((index-1)*size).Take(size)`). |
+| `ToKeysetPagedList(keySelector, pageSize)` | `KeysetPagedList<T, TKey>` | Paginação Keyset/Seek $O(1)$ otimizada para bancos de dados sem cláusulas `OFFSET/SKIP`. |
+| `ToKeysetPagedList(keySelector, cursor, pageSize, direction)` | `KeysetPagedList<T, TKey>` | Navegação Keyset $O(1)$ dinâmica com cursor (`> cursor` ou `< cursor`) e direção (`Forward` / `Backward`). |
 | `GroupBy<T, TKey>(property)` | `IQueryable<IGrouping<TKey, T>>` | Agrupa os elementos dinamicamente pela propriedade especificada. |
 | `DistinctBy<T, TKey>(property)` | `IQueryable<T>` | Remove duplicatas mantendo o primeiro elemento para cada chave agrupada. |
 | `Sum(property)` | `decimal` | Calcula o somatório dinâmico da propriedade numérica especificada. |
