@@ -1,99 +1,89 @@
-﻿# CollectionExtensions
+# 📦 TL.CollectionExtensionsLibrary
 
-## Descrição
+[![NuGet](https://img.shields.io/nuget/v/TL.CollectionExtensionsLibrary.svg?style=flat-square&label=TL.CollectionExtensionsLibrary)](https://www.nuget.org/packages/TL.CollectionExtensionsLibrary/)
+[![.NET](https://img.shields.io/badge/.NET-net5.0%20%7C%20net6.0%20%7C%20net8.0-blue.svg)](https://dotnet.microsoft.com/)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](../LICENSE.txt)
+[![ADR](https://img.shields.io/badge/ADR-ADR--007-success.svg)](../docs/adr/ADR-007-collection-extensions-library.md)
 
-A biblioteca `CollectionExtensions` fornece uma variedade de métodos de extensão para coleções em .NET, facilitando a manipulação e a realização de operações comuns em `IList`, `Dictionary`, `IEnumerable` e `HashSet`. Com `CollectionExtensions`, você pode adicionar, remover, pesquisar e ordenar elementos de forma mais eficiente.
+O **`TL.CollectionExtensionsLibrary`** oferece um conjunto robusto de extensões de alto desempenho para coleções no .NET (`IEnumerable<T>`, `IList<T>`, `Dictionary<TKey, TValue>`, `HashSet<T>`, `Queue<T>` e `Stack<T>`), simplificando particionamento (batching), buscas, ordenações e manipulações comuns com complexidade assintótica previsível.
 
-## Instalação
+---
 
-Para instalar a biblioteca `CollectionExtensions` via NuGet, use o seguinte comando:
+## 📦 Instalação
+
+Adicione o pacote ao seu projeto através do .NET CLI:
 
 ```bash
-dotnet add package TL.CollectionExtensions
+dotnet add package TL.CollectionExtensionsLibrary
 ```
 
-## Funcionalidades
+---
 
-### Para `IList`
+## 🚀 Funcionalidades Principais
 
-- **AddRangeIfNotExists**
-  - **Descrição**: Adiciona uma gama de itens à lista se eles ainda não existirem na lista.
-  - **Exemplo de Uso**:
-    ```csharp
-    myList.AddRangeIfNotExists(newItems);
-    ```
+### `IEnumerable<T>`
+| Método | Retorno | Descrição |
+| :--- | :---: | :--- |
+| `ChunkBy(chunkSize)` | `IEnumerable<List<T>>` | Divide a sequência em lotes com passagem linear única $O(N)$ em streaming. |
+| `Shuffle()` | `IEnumerable<T>` | Embaralha os elementos com algoritmo Fisher-Yates e distribuição estatisticamente uniforme. |
+| `WhereIf(condition, predicate)` | `IEnumerable<T>` | Aplica o filtro de forma condicional apenas se `condition` for verdadeira. |
+| `DistinctBy(keySelector)` | `IEnumerable<T>` | Retorna elementos com base na unicidade da chave selecionada. |
+| `IsNullOrEmpty()` | `bool` | Valida se a coleção é nula ou se não possui nenhum elemento. |
 
-- **RemoveAll**
-  - **Descrição**: Remove todos os itens da lista que correspondem ao predicado especificado.
-  - **Exemplo de Uso**:
-    ```csharp
-    myList.RemoveAll(item => item.Condition);
-    ```
+### `IList<T>`
+| Método | Retorno | Descrição |
+| :--- | :---: | :--- |
+| `AddRangeIfNotExists(items)` | `void` | Adiciona em lote apenas os itens inexistentes com verificação $O(1)$ por elemento. |
+| `Replace(oldItem, newItem)` | `bool` | Substitui a primeira ocorrência do elemento com comparação segura contra nulos. |
+| `SortBy(keySelector)` | `void` | Ordena a lista *in-place* a partir de um seletor de chave. |
+| `RemoveAll(predicate)` | `int` | Remove todos os elementos que atendem ao predicado. |
+| `FindAll(predicate)` | `List<T>` | Retorna nova lista com todos os itens compatíveis. |
 
-- **FindAll**
-  - **Descrição**: Encontra todos os elementos na lista que correspondem ao predicado especificado.
-  - **Exemplo de Uso**:
-    ```csharp
-    var matches = myList.FindAll(item => item.Condition);
-    ```
+### `Dictionary<TKey, TValue>` & Estruturas Especializadas
+| Estrutura | Método | Descrição |
+| :--- | :--- | :--- |
+| `Dictionary` | `GetOrAdd(key, valueFactory)` | Retorna o valor existente ou calcula e armazena um novo valor caso ausente. |
+| `Dictionary` | `AddRangeIfNotExists(pairs)` | Adiciona múltiplos pares chave/valor ignorando chaves já presentes. |
+| `Queue<T>` | `EnqueueRange(items)` | Enfileira múltiplos itens sequencialmente em lote. |
+| `Stack<T>` | `PushRange(items)` | Empilha múltiplos itens sequencialmente em lote. |
 
-- **SortBy**
-  - **Descrição**: Ordena a lista pelo seletor de chave especificado.
-  - **Exemplo de Uso**:
-    ```csharp
-    myList.SortBy(item => item.Key);
-    ```
+---
 
-### Para `Dictionary<TKey, TValue>`
+## 💡 Exemplos de Uso
 
-- **AddRangeIfNotExists**
-  - **Descrição**: Adiciona uma gama de pares chave/valor ao dicionário se as chaves não existirem no dicionário.
-  - **Exemplo de Uso**:
-    ```csharp
-    myDictionary.AddRangeIfNotExists(newKeyValuePairs);
-    ```
+```csharp
+using System;
+using System.Collections.Generic;
+using CollectionExtensionsLibrary;
 
-- **RemoveAll**
-  - **Descrição**: Remove todos os pares chave/valor do dicionário que correspondem ao predicado especificado.
-  - **Exemplo de Uso**:
-    ```csharp
-    myDictionary.RemoveAll(kvp => kvp.Value.Condition);
-    ```
+public class LoteProcessador
+{
+    public void ProcessarEmLotes(IEnumerable<string> itens)
+    {
+        // 1. Particionamento linear de alta performance em lotes de 100
+        foreach (var lote in itens.ChunkBy(100))
+        {
+            EnviarParaFila(lote);
+        }
 
-- **FindAll**
-  - **Descrição**: Encontra todos os pares chave/valor no dicionário que correspondem ao predicado especificado.
-  - **Exemplo de Uso**:
-    ```csharp
-    var matches = myDictionary.FindAll(kvp => kvp.Value.Condition);
-    ```
+        // 2. Filtro condicional fluente sem quebrar a cadeia LINQ
+        bool apenasAtivos = true;
+        var filtrados = itens.WhereIf(apenasAtivos, item => item.StartsWith("ATIVO_"));
+    }
 
-- **SortBy**
-  - **Descrição**: Ordena o dicionário pelo seletor de chave especificado.
-  - **Exemplo de Uso**:
-    ```csharp
-    var sortedDictionary = myDictionary.SortBy(kvp => kvp.Key);
-    ```
+    private void EnviarParaFila(List<string> lote) => Console.WriteLine($"Lote de {lote.Count} enviado.");
+}
+```
 
-### Para `IEnumerable<T>`
+---
 
-- **DistinctBy**
-  - **Descrição**: Retorna elementos distintos de uma sequência usando um seletor de chave especificado.
-  - **Exemplo de Uso**:
-    ```csharp
-    var distinctItems = myEnumerable.DistinctBy(item => item.Key);
-    ```
+## 🏛️ Decisões Arquiteturais
 
-- **WhereIf**
-  - **Descrição**: Filtra uma sequência de valores com base em um predicado se uma condição for verdadeira.
-  - **Exemplo de Uso**:
-    ```csharp
-    var filteredItems = myEnumerable.WhereIf(condition, item => item.Condition);
-    ```
+Para entender as garantias de complexidade assintótica $O(N)$ em particionamentos e otimização de alocação de memória, consulte:
+- 📄 [ADR-007: Decisões Arquiteturais do TL.CollectionExtensionsLibrary](../docs/adr/ADR-007-collection-extensions-library.md)
 
-    
-## Contribuições
-Sinta-se à vontade para contribuir com este projeto. Faça um fork, crie uma branch com suas melhorias e abra um pull request!
+---
 
-## Licença
-Este projeto está licenciado sob a Licença MIT - consulte o arquivo LICENSE para obter detalhes.
+## 📄 Licença
 
+Distribuído sob a licença [MIT](../LICENSE.txt).

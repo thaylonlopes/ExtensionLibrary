@@ -361,3 +361,17 @@ MigrationBackup/
 
 # Fody - auto-generated XML schema
 FodyWeavers.xsd
+.*
+scratchpad.md
+**/scratchpad.md
+# Allowlist de Exceções Mandatórias do Repositório:
+!.gitignore
+!.gitattributes
+!.editorconfig
+!.dockerignore
+!.github/
+!.github/**
+!.template.config/
+!.template.config/**
+!.devcontainer/
+!.devcontainer/**

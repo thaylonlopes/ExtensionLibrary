@@ -7,16 +7,47 @@ namespace NumericExtensionLibrary
 
 
         /// <summary>
+        /// <summary>
         /// Calculates the sum of the digits of a number.
         /// </summary>
-        /// <param name="a">The first number.</param>
-        /// <param name="b">The second number.</param>
-        /// <returns>The sum of the digits of the number.</returns>
+        /// <param name="number">The number to calculate the sum of digits for.</param>
+        /// <returns>The sum of the digits.</returns>
+        public static int DigitSum(this int number)
+        {
+            long n = Math.Abs((long)number);
+            int sum = 0;
+            while (n > 0)
+            {
+                sum += (int)(n % 10);
+                n /= 10;
+            }
+            return sum;
+        }
+
+        /// <summary>
+        /// Calculates the sum of the digits of a 64-bit number.
+        /// </summary>
+        /// <param name="number">The number to calculate the sum of digits for.</param>
+        /// <returns>The sum of the digits.</returns>
+        public static int DigitSum(this long number)
+        {
+            long n = number == long.MinValue ? long.MaxValue : Math.Abs(number);
+            int sum = 0;
+            while (n > 0)
+            {
+                sum += (int)(n % 10);
+                n /= 10;
+            }
+            return sum;
+        }
+
+        /// <summary>
+        /// Calculates the sum of two numbers.
+        /// </summary>
         public static int DigitSum(this int a, int b)
         {
             return a + b;
         }
-
 
         /// <summary>
         /// Calculates the subtraction of a number.
@@ -37,23 +68,32 @@ namespace NumericExtensionLibrary
         /// <returns>The GCD of the two numbers.</returns>
         public static int GreatestCommonDivisor(this int a, int b)
         {
-            while (b != 0)
+            long x = Math.Abs((long)a);
+            long y = Math.Abs((long)b);
+
+            while (y != 0)
             {
-                int temp = b;
-                b = a % b;
-                a = temp;
+                long temp = y;
+                y = x % y;
+                x = temp;
             }
-            return a;
+            return (int)x;
         }
+
         /// <summary>
         /// Finds the greatest common multiple (LCM) of two numbers.
         /// </summary>
         /// <param name="a">The first number.</param>
         /// <param name="b">The second number.</param>
-        /// <returns>The LCM of the two numbers.</returns>
+        /// <returns>The LCM of the two numbers, or 0 if either number is 0.</returns>
         public static int GreatestCommonMultiple(this int a, int b)
         {
-            return Math.Abs(a * b) / a.GreatestCommonDivisor(b);
+            if (a == 0 || b == 0) return 0;
+            int gcd = a.GreatestCommonDivisor(b);
+            if (gcd == 0) return 0;
+
+            long product = Math.Abs((long)a * (long)b);
+            return (int)(product / gcd);
         }
 
         /// <summary>

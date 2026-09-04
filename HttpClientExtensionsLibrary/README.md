@@ -1,118 +1,77 @@
-﻿# HttpClientExtensionsLibrary
+# 🌐 TL.HttpClientExtensionsLibrary
 
-A biblioteca `HttpClientExtensionsLibrary` fornece uma variedade de métodos de extensão para a classe `HttpClient` do .NET, facilitando a realização de requisições HTTP, a manipulação de respostas, a autenticação e a implementação de políticas de retry.
+[![NuGet](https://img.shields.io/nuget/v/TL.HttpClientExtensionsLibrary.svg?style=flat-square&label=TL.HttpClientExtensionsLibrary)](https://www.nuget.org/packages/TL.HttpClientExtensionsLibrary/)
+[![.NET](https://img.shields.io/badge/.NET-net5.0%20%7C%20net6.0%20%7C%20net8.0-blue.svg)](https://dotnet.microsoft.com/)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](../LICENSE.txt)
+[![ADR](https://img.shields.io/badge/ADR-ADR--008-success.svg)](../docs/adr/ADR-008-http-client-extensions-library.md)
 
-## Instalação
+O **`TL.HttpClientExtensionsLibrary`** é uma biblioteca .NET voltada para simplificar chamadas REST sobre `System.Net.Http.HttpClient`, adicionando suporte a políticas de retentativa resilientes, tratamento de rate limiting (HTTP 429), upload/download de arquivos e manipulação de autenticação com Bearer Token e JWT.
 
-Para instalar a biblioteca `HttpClientExtensionsLibrary` via NuGet, use o seguinte comando:
+---
+
+## 📦 Instalação
+
+Adicione o pacote ao seu projeto através do .NET CLI:
 
 ```bash
 dotnet add package TL.HttpClientExtensionsLibrary
 ```
 
-## Funcionalidades
+---
 
-- **SendJsonAsync<T>**:
+## 🚀 Funcionalidades Principais
 
-Descrição: Envia uma requisição HTTP com payload JSON e recebe a resposta como um objeto do tipo T.
+| Categoria | Métodos Disponíveis | Descrição |
+| :--- | :--- | :--- |
+| **Envio & Respostas JSON** | `SendJsonAsync<T>()`, `ReadAsJsonAsync<T>()`, `PostJsonAsync<T>()` | Serialização e deserialização automática de payloads HTTP. |
+| **Resiliência & Retry** | `ExponentialBackoffRetryAsync()`, `RateLimitRetryAsync()`, `TimeoutRetryAsync()` | Retentativas com backoff exponencial e respeito a cabeçalhos `Retry-After`. |
+| **Autenticação & Tokens** | `AddBearerToken(token)`, `ExtractClaims(token)` | Injeção de credenciais Bearer e inspeção de claims em tokens JWT. |
+| **Transferência de Arquivos** | `UploadFileAsync()`, `DownloadFileAsync()`, `GetFileSizeAsync()` | Upload via `multipart/form-data` e download via streams otimizados. |
+| **Diagnóstico & Logs** | `LogRequest()`, `LogResponse()`, `LogError()` | Rastreabilidade de chamadas HTTP externas sem vazamento de credenciais. |
 
-Exemplo de Uso:
-```
-var response = await httpClient.SendJsonAsync<MyResponseType>("https://api.example.com/data", HttpMethod.Post, myPayload);
-```
-- **AddBearerToken**:
+---
 
-Descrição: Adiciona um token de autenticação Bearer aos cabeçalhos das requisições.
+## 💡 Exemplos de Uso
 
-Exemplo de Uso:
-```
-httpClient.AddBearerToken("myBearerToken");
-```
-- **ExponentialBackoffRetryAsync**:
+```csharp
+using System.Net.Http;
+using HttpClientExtensionsLibrary;
 
-Descrição: Implementa uma política de retry com backoff exponencial.
-
-Exemplo de Uso:
-```
-var response = await httpClient.ExponentialBackoffRetryAsync(request, retryCount: 3, baseDelayMilliseconds: 200);
-```
-- **ReadAsJsonAsync<T>**:
-
-Descrição: Lê o conteúdo da resposta como um objeto JSON.
-
-Exemplo de Uso:
-```
-var responseObject = await httpResponseMessage.ReadAsJsonAsync<MyResponseType>();
-```
-- **LogError**:
-
-Descrição: Loga erros de requisição.
-
-Exemplo de Uso:
-```
-try
+class Program
 {
-    var response = await httpClient.LogError(request);
-}
-catch (Exception ex)
-{
-    Console.WriteLine($"Erro na requisição: {ex.Message}");
+    static async Task Main()
+    {
+        using var httpClient = new HttpClient();
+
+        // 1. Configuração de Bearer Token
+        httpClient.AddBearerToken("eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...");
+
+        // 2. Envio de Payload com Resposta Tipada
+        var payload = new { Nome = "Serviço de Cobrança", Ativo = true };
+        var resposta = await httpClient.SendJsonAsync<ResultadoDto>(
+            "https://api.empresa.com/servicos", 
+            HttpMethod.Post, 
+            payload
+        );
+
+        // 3. Download Direto de Arquivo
+        await httpClient.DownloadFileAsync(
+            "https://api.empresa.com/relatorios/2026-09.pdf", 
+            @"C:\temp\relatorio.pdf"
+        );
+    }
 }
 ```
-- **UploadFileAsync**:
 
-Descrição: Envia um arquivo para o servidor via multipart/form-data.
+---
 
-Exemplo de Uso:
-```
-var response = await httpClient.UploadFileAsync("https://api.example.com/upload", "path/to/file.txt", "file");
-```
-- **DownloadFileAsync**:
+## 🏛️ Decisões Arquiteturais e Segurança
 
-Descrição: Faz o download de arquivos de uma URL e os salva no caminho especificado.
+Para detalhes sobre a prevenção de reenvio inválido de instâncias `HttpRequestMessage`, suporte a `CancellationToken` e proteção contra vazamento de tokens em logs, consulte o documento oficial:
+- 📄 [ADR-008: Decisões Arquiteturais do TL.HttpClientExtensionsLibrary](../docs/adr/ADR-008-http-client-extensions-library.md)
 
-Exemplo de Uso:
-```
-await httpClient.DownloadFileAsync("https://api.example.com/file", "path/to/save/file.txt");
-```
-- **GetFileMetadataAsync**:
+---
 
-Descrição: Obtém os metadados de um arquivo a partir de uma URL.
+## 📄 Licença
 
-Exemplo de Uso:
-```
-var metadata = await httpClient.GetFileMetadataAsync("https://api.example.com/file");
-```
-- **GetFileSizeAsync**:
-
-Descrição: Obtém o tamanho de um arquivo a partir de uma URL.
-
-Exemplo de Uso:
-```
-var fileSize = await httpClient.GetFileSizeAsync("https://api.example.com/file");
-```
-- **RetryPolicyAsync**:
-
-Descrição: Configura uma política de retry básica.
-
-Exemplo de Uso:
-```
-var response = await httpClient.RetryPolicyAsync(request, retryCount: 3);
-```
-- **HandleTransientErrorsAsync**:
-
-Descrição: Lida com erros transitórios e re-tenta a requisição.
-
-Exemplo de Uso:
-```
-var response = await httpClient.HandleTransientErrorsAsync(request, 
-```
-
-
-
-## Contribuições
-Sinta-se à vontade para contribuir com este projeto. Faça um fork, crie uma branch com suas melhorias e abra um pull request!
-
-## Licença
-Este projeto está licenciado sob a Licença MIT - consulte o arquivo LICENSE para obter detalhes.
-
+Distribuído sob a licença [MIT](../LICENSE.txt).

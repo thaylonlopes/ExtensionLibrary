@@ -45,16 +45,23 @@ namespace DateTimeExtensionsLibrary
         /// <returns>The number of business days between the two dates.</returns>
         public static int BusinessDaysBetween(this DateTime startDate, DateTime endDate)
         {
-            int businessDays = 0;
-            DateTime currentDate = startDate;
+            var start = startDate.Date;
+            var end = endDate.Date;
 
-            while (currentDate <= endDate)
+            if (start > end) return 0;
+
+            int totalDays = (int)(end - start).TotalDays + 1;
+            int fullWeeks = totalDays / 7;
+            int businessDays = fullWeeks * 5;
+
+            int remainingDays = totalDays % 7;
+            for (int i = 0; i < remainingDays; i++)
             {
-                if (currentDate.DayOfWeek != DayOfWeek.Saturday && currentDate.DayOfWeek != DayOfWeek.Sunday)
+                var day = start.AddDays((fullWeeks * 7) + i).DayOfWeek;
+                if (day != DayOfWeek.Saturday && day != DayOfWeek.Sunday)
                 {
                     businessDays++;
                 }
-                currentDate = currentDate.AddDays(1);
             }
 
             return businessDays;
@@ -79,19 +86,7 @@ namespace DateTimeExtensionsLibrary
         /// <returns>The number of business days until the future date.</returns>
         public static int BusinessDaysUntil(this DateTime date, DateTime futureDate)
         {
-            int businessDays = 0;
-            DateTime currentDate = date;
-
-            while (currentDate <= futureDate)
-            {
-                if (currentDate.IsBusinessDay())
-                {
-                    businessDays++;
-                }
-                currentDate = currentDate.AddDays(1);
-            }
-
-            return businessDays;
+            return date.BusinessDaysBetween(futureDate);
         }
 
     }

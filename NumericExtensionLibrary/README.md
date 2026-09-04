@@ -1,55 +1,91 @@
-﻿# NumericExtensionsLibrary
+# 🔢 TL.NumericExtensionsLibrary
 
-Uma biblioteca .NET para fornecer métodos de extensão úteis para `int`, `double` e `decimal`.
+[![NuGet](https://img.shields.io/nuget/v/TL.NumericExtensionsLibrary.svg?style=flat-square&label=TL.NumericExtensionsLibrary)](https://www.nuget.org/packages/TL.NumericExtensionsLibrary/)
+[![.NET](https://img.shields.io/badge/.NET-netstandard2.0%20%7C%20net5.0%20%7C%20net6.0%20%7C%20net8.0-blue.svg)](https://dotnet.microsoft.com/)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](../LICENSE.txt)
+[![ADR](https://img.shields.io/badge/ADR-ADR--002-success.svg)](../docs/adr/ADR-002-numeric-extensions-library.md)
 
+O **`TL.NumericExtensionsLibrary`** fornece uma suíte completa de métodos de extensão matemáticos, estatísticos e de conversão para tipos primitivos (`int`, `double` e `decimal`), com foco em zero alocação, previsibilidade de domínio e alta precisão para cenários financeiros e computação numérica.
 
-## Instalação
+---
 
-Você pode instalar a biblioteca via NuGet. No seu terminal, execute:
+## 📦 Instalação
+
+Adicione o pacote ao seu projeto através do .NET CLI:
 
 ```bash
 dotnet add package TL.NumericExtensionsLibrary
 ```
 
-## Funcionalidades
+---
+
+## 🚀 Funcionalidades Principais
 
 ### Extensões para `int`
-
-- `IsPrime()`: Verifica se um número é primo.
-- `IsEven()`: Verifica se um número é par.
-- `IsOdd()`: Verifica se um número é ímpar.
-- `Factorial()`: Calcula o fatorial de um número.
-- `IsPerfectSquare()`: Verifica se um número é um quadrado perfeito.
-- `ToBinaryString()`: Converte um número para uma string binária.
-- `ToHexString()`: Converte um número para uma string hexadecimal.
-- `IsMultipleOf(int divisor)`: Verifica se um número é múltiplo de outro número.
-- `DigitSum()`: Calcula a soma dos dígitos de um número.
-- `ReverseDigits()`: Inverte os dígitos de um número.
-- `GreatestCommonDivisor(int b)`: Calcula o maior divisor comum entre dois números.
-- `GreatestCommonMultiple(int b)`: Calcula o mínimo múltiplo comum entre dois números.
-- `Subtract(int subtrahend)`: Subtrai um número de outro.
+| Método | Retorno | Descrição |
+| :--- | :---: | :--- |
+| `IsPrime()` | `bool` | Valida se o número inteiro é primo. |
+| `IsEven()` / `IsOdd()` | `bool` | Determina se o número é par ou ímpar. |
+| `Factorial()` | `int` | Calcula o fatorial com validação de limites de representação. |
+| `IsPerfectSquare()` | `bool` | Verifica se o número é um quadrado perfeito. |
+| `IsMultipleOf(divisor)` | `bool` | Verifica se o número é múltiplo do divisor informado. |
+| `DigitSum()` | `int` | Calcula a soma absoluta de todos os algarismos. |
+| `ReverseDigits()` | `int` | Inverte a ordem dos algarismos do número. |
+| `GreatestCommonDivisor(b)` | `int` | Calcula o Máximo Divisor Comum (MDC / GCD). |
+| `GreatestCommonMultiple(b)` | `int` | Calcula o Mínimo Múltiplo Comum (MMC / LCM). |
+| `ToBinaryString()` | `string` | Converte o número para representação binária textual. |
+| `ToHexString()` | `string` | Converte o número para representação hexadecimal. |
 
 ### Extensões para `double`
-
-- `ToRadians()`: Converte graus para radianos.
-- `ToDegrees()`: Converte radianos para graus.
-- `IsEven()`: Verifica se um número é par.
-- `IsOdd()`: Verifica se um número é ímpar.
+| Método | Retorno | Descrição |
+| :--- | :---: | :--- |
+| `ToRadians()` | `double` | Converte valores em graus para radianos. |
+| `ToDegrees()` | `double` | Converte valores em radianos para graus. |
+| `IsEven()` / `IsOdd()` | `bool` | Validação de paridade sobre a porção inteira do número. |
 
 ### Extensões para `decimal`
+| Método | Retorno | Descrição |
+| :--- | :---: | :--- |
+| `Percentage(percentage)` | `decimal` | Calcula percentual mantendo exatidão de ponto fixo financeiro. |
+| `WeightedAverage(numbers, weights)` | `decimal` | Calcula a média ponderada entre valores e pesos correspondentes. |
+| `DigitSum()` | `int` | Soma absoluta dos algarismos presentes no valor decimal. |
+| `ReverseDigits()` | `decimal` | Inverte os algarismos da porção numérica. |
+| `Subtract(subtrahend)` | `decimal` | Subtração fluente com suporte a encadeamento de chamadas. |
 
-- `Percentage(decimal percentage)`: Calcula a porcentagem de um número.
-- `WeightedAverage(List<decimal> numbers, List<decimal> weights)`: Calcula a média ponderada de uma lista de números com seus pesos correspondentes.
-- `ToRadians()`: Converte graus para radianos.
-- `ToDegrees()`: Converte radianos para graus.
-- `DigitSum()`: Calcula a soma dos dígitos de um número.
-- `ReverseDigits()`: Inverte os dígitos de um número.
-- `Subtract(decimal subtrahend)`: Subtrai um número de outro.
+---
 
- ```          
+## 💡 Exemplos de Uso
 
-## Contribuição
-Sinta-se à vontade para contribuir com este projeto! Por favor, abra um pull request ou envie issues para sugestões e melhorias.
+```csharp
+using NumericExtensionLibrary;
 
-## Licença
-Este projeto está licenciado sob a MIT License - veja o arquivo LICENSE para detalhes.
+public class CalculadoraFinanceira
+{
+    public void ExecutarExemplos()
+    {
+        // 1. Cálculos de Teoria dos Números
+        int numero = 17;
+        bool primo = numero.IsPrime(); // true
+        int somaDigitos = 12345.DigitSum(); // 15
+        int mdc = 24.GreatestCommonDivisor(36); // 12
+
+        // 2. Cálculos Financeiros em Ponto Fixo
+        decimal valorBase = 1500.00m;
+        decimal desconto = valorBase.Percentage(10); // 150.00m
+        decimal totalLiquido = valorBase.Subtract(desconto); // 1350.00m
+    }
+}
+```
+
+---
+
+## 🏛️ Decisões Arquiteturais
+
+Para detalhes sobre o rigor matemático, prevenção contra estouros aritméticos e generic math, consulte:
+- 📄 [ADR-002: Decisões Arquiteturais do TL.NumericExtensionsLibrary](../docs/adr/ADR-002-numeric-extensions-library.md)
+
+---
+
+## 📄 Licença
+
+Distribuído sob a licença [MIT](../LICENSE.txt).

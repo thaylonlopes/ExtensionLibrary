@@ -1,76 +1,90 @@
-﻿# DateTimeExtensionsLibrary
+# 📅 TL.DateTimeExtensionsLibrary
 
-A biblioteca DateTimeExtensions fornece uma variedade de métodos de extensão para a classe `DateTime` do .NET, facilitando a manipulação e formatação de datas e horários. Com DateTimeExtensions, você pode calcular dias úteis, obter representações amigáveis de datas, dividir intervalos de tempo em partes menores, e muito mais.
+[![NuGet](https://img.shields.io/nuget/v/TL.DateTimeExtensionsLibrary.svg?style=flat-square&label=TL.DateTimeExtensionsLibrary)](https://www.nuget.org/packages/TL.DateTimeExtensionsLibrary/)
+[![.NET](https://img.shields.io/badge/.NET-net5.0%20%7C%20net6.0%20%7C%20net8.0-blue.svg)](https://dotnet.microsoft.com/)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](../LICENSE.txt)
+[![ADR](https://img.shields.io/badge/ADR-ADR--006-success.svg)](../docs/adr/ADR-006-date-time-extensions-library.md)
 
-## Funcionalidades
+O **`TL.DateTimeExtensionsLibrary`** oferece uma suíte de utilitários de alta performance para `System.DateTime`, simplificando cálculos de dias úteis em tempo constante $O(1)$, fatiamento temporal de intervalos (`Chunks`), limites de calendário e formatações especializadas com total preservação do `DateTimeKind`.
 
-- **Chunks**: Divide o intervalo de datas em partes menores com base em um número de dias especificado.
-- **AddBusinessDays**: Adiciona um número específico de dias úteis a uma data.
-- **IsWeekend**: Verifica se uma data é um fim de semana.
-- **StartOfWeek**: Obtém a data de início da semana.
-- **EndOfWeek**: Obtém a data de final da semana.
-- **StartOfMonth**: Obtém a data de início do mês.
-- **EndOfMonth**: Obtém a data de final do mês.
-- **IsLeapYear**: Verifica se o ano é bissexto.
-- **DaysInMonth**: Obtém o número de dias em um mês específico.
-- **Age**: Calcula a idade com base em uma data de nascimento.
-- **BusinessDaysBetween**: Calcula o número de dias úteis entre duas datas.
-- **IsBusinessDay**: Verifica se uma data é um dia útil.
-- **NextBusinessDay**: Obtém o próximo dia útil.
-- **DaysUntil**: Calcula o número de dias até uma data futura.
-- **BusinessDaysUntil**: Calcula o número de dias úteis até uma data futura.
-- **ToShortDateString**: Converte a data em uma string de data curta.
-- **ToLongDateString**: Converte a data em uma string de data longa.
-- **ToShortTimeString**: Converte a hora em uma string de hora curta.
-- **ToLongTimeString**: Converte a hora em uma string de hora longa.
-- **ToCustomFormat**: Converte a data/hora em uma string de formato personalizado.
-- **ToISO8601**: Converte a data/hora em uma string no formato ISO 8601.
-- **ToDayOfWeekString**: Converte a data no dia da semana correspondente em string.
-- **ToMonthName**: Converte a data no nome do mês correspondente.
-- **ToFriendlyDateString**: Converte a data em uma string amigável (ex: "hoje", "amanhã").
-- **ToOrdinalDateString**: Converte a data em uma string com sufixos ordinais (ex: "1st", "2nd").
+---
 
-## Instalação
+## 📦 Instalação
 
-Para instalar a biblioteca DateTimeExtensions via NuGet, use o seguinte comando:
+Adicione o pacote ao seu projeto através do .NET CLI:
 
-```sh
+```bash
 dotnet add package TL.DateTimeExtensionsLibrary
 ```
 
-## Exemplos de Uso
+---
 
+## 🚀 Funcionalidades Principais
 
-```sh
+### Dias Úteis e Prazos
+| Método | Retorno | Descrição |
+| :--- | :---: | :--- |
+| `AddBusinessDays(days)` | `DateTime` | Adiciona dias úteis ignorando finais de semana com integridade de timezone. |
+| `BusinessDaysBetween(endDate)` | `int` | Calcula o total de dias úteis em $O(1)$ sem loops iterativos. |
+| `IsBusinessDay()` | `bool` | Retorna se a data atual corresponde a um dia útil (segunda a sexta). |
+| `IsWeekend()` | `bool` | Verifica se a data corresponde a sábado ou domingo. |
+| `NextBusinessDay()` | `DateTime` | Obtém o próximo dia útil subsequente. |
+
+### Calendário e Particionamento de Intervalos
+| Método | Retorno | Descrição |
+| :--- | :---: | :--- |
+| `Chunks(endDate, days)` | `IEnumerable<Tuple<DateTime, DateTime>>` | Divide intervalos longos em lotes menores para consultas paginadas e jobs em lote. |
+| `StartOfMonth()` / `EndOfMonth()` | `DateTime` | Retorna o início (`00:00:00.000`) ou fim (`23:59:59.999`) do mês. |
+| `StartOfWeek()` / `EndOfWeek()` | `DateTime` | Retorna o primeiro ou último momento da semana. |
+| `Age()` | `int` | Calcula a idade exata com base na data atual ou especificada. |
+| `DaysUntil(target)` | `int` | Retorna a contagem de dias corridos até a data alvo. |
+
+### Formatações Especializadas
+| Método | Retorno | Descrição |
+| :--- | :---: | :--- |
+| `ToFriendlyDateString()` | `string` | Retorna texto humanizado (ex: "hoje", "ontem", "há 3 dias"). |
+| `ToISO8601()` | `string` | Converte para a representação universal padrão ISO 8601. |
+| `ToOrdinalDateString()` | `string` | Converte para texto ordinal (ex: "1st", "2nd", "3rd"). |
+
+---
+
+## 💡 Exemplos de Uso
+
+```csharp
+using System;
 using DateTimeExtensionsLibrary;
 
-class Program
+public class ServicoPrazos
 {
-    static void Main()
+    public void ExecutarExemplos()
     {
-        DateTime startDate = new DateTime(2023, 4, 1);
-        DateTime endDate = new DateTime(2023, 4, 20);
-        int days = 5;
+        DateTime hoje = DateTime.UtcNow;
 
-        var chunks = startDate.Chunks(endDate, days);
-        foreach (var chunk in chunks)
+        // 1. Cálculo de Prazos e Vencimentos Úteis
+        DateTime vencimento = hoje.AddBusinessDays(10);
+        int diasUteisRestantes = hoje.BusinessDaysBetween(vencimento);
+
+        // 2. Fatiamento de Consultas Massivas por Lotes de 7 dias
+        DateTime inicioAno = new DateTime(2026, 1, 1, 0, 0, 0, DateTimeKind.Utc);
+        DateTime fimAno = new DateTime(2026, 12, 31, 0, 0, 0, DateTimeKind.Utc);
+
+        foreach (var (inicio, fim) in inicioAno.Chunks(fimAno, 7))
         {
-            Console.WriteLine($"Chunk: {chunk.Item1} - {chunk.Item2}");
+            Console.WriteLine($"Consultando período: {inicio:yyyy-MM-dd} até {fim:yyyy-MM-dd}");
         }
-
-        DateTime today = DateTime.Today;
-        int daysToAdd = 5;
-
-        DateTime futureDate = today.AddBusinessDays(daysToAdd);
-        Console.WriteLine($"Future date after adding {daysToAdd} business days: {futureDate}");
-
     }
 }
+```
 
- ```          
+---
 
-## Contribuição
-Sinta-se à vontade para contribuir com este projeto! Por favor, abra um pull request ou envie issues para sugestões e melhorias.
+## 🏛️ Decisões Arquiteturais
 
-## Licença
-Este projeto está licenciado sob a MIT License - veja o arquivo LICENSE para detalhes.
+Para detalhes sobre a complexidade algorítmica $O(1)$ de dias úteis e preservação de fuso horário, consulte:
+- 📄 [ADR-006: Decisões Arquiteturais do TL.DateTimeExtensionsLibrary](../docs/adr/ADR-006-date-time-extensions-library.md)
+
+---
+
+## 📄 Licença
+
+Distribuído sob a licença [MIT](../LICENSE.txt).

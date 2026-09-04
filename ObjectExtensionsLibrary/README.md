@@ -1,85 +1,86 @@
-﻿# ObjectExtensions
+# 🧩 TL.ObjectExtensionsLibrary
 
-## Resumo
+[![NuGet](https://img.shields.io/nuget/v/TL.ObjectExtensionsLibrary.svg?style=flat-square&label=TL.ObjectExtensionsLibrary)](https://www.nuget.org/packages/TL.ObjectExtensionsLibrary/)
+[![.NET](https://img.shields.io/badge/.NET-net5.0%20%7C%20net6.0%20%7C%20net8.0-blue.svg)](https://dotnet.microsoft.com/)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](../LICENSE.txt)
+[![ADR](https://img.shields.io/badge/ADR-ADR--009-success.svg)](../docs/adr/ADR-009-object-extensions-library.md)
 
-Este projeto fornece várias extensões úteis para a classe `object` no .NET, facilitando a manipulação e transformação de objetos.
+O **`TL.ObjectExtensionsLibrary`** disponibiliza métodos utilitários genéricos para qualquer instância derivada de `System.Object`, facilitando clonagem profunda (*deep cloning*), conversões para dicionários e `ExpandoObject`, serialização de dados e invocação reflexiva com preservação do stack trace original.
 
-## Instalação
+---
 
-Você pode instalar a biblioteca via NuGet. No seu terminal, execute:
+## 📦 Instalação
+
+Adicione o pacote ao seu projeto através do .NET CLI:
 
 ```bash
 dotnet add package TL.ObjectExtensionsLibrary
 ```
 
-## Funcionalidades
+---
 
-```bash
-Bytes
-# Exemplo de uso:
-var bytes = myObject.Bytes();
+## 🚀 Funcionalidades Principais
 
-Dictionary
-# Exemplo de uso:
-var dictionary = myObject.Dictionary();
+| Método | Retorno | Descrição |
+| :--- | :---: | :--- |
+| `Clone()` | `T` | Realiza a clonagem profunda (*deep copy*) completa do grafo do objeto em memória. |
+| `ToExpando()` | `ExpandoObject` | Converte o objeto POCO em uma estrutura dinâmica expansível em tempo de execução. |
+| `Dictionary()` | `IDictionary<string, object?>` | Converte todas as propriedades públicas do objeto em um dicionário chave/valor. |
+| `Bytes()` | `byte[]` | Converte o objeto serializado para representação em array de bytes. |
+| `InvokeMethod(method, ...args)` | `object?` | Invoca dinamicamente um método por nome preservando a causa raiz original de exceções. |
+| `TryGetProperty(prop, out val)` | `bool` | Tenta ler o valor de uma propriedade pública sem disparar exceções caso ausente. |
+| `SetProperty(prop, value)` | `void` | Atribui valor à propriedade pelo nome informado via reflexão. |
+| `PropertiesEqual(other)` | `bool` | Compara se os valores de todas as propriedades públicas são idênticos entre dois objetos. |
+| `IsDefault()` | `bool` | Verifica se o valor da instância corresponde ao `default` do seu tipo. |
+| `Serialize()` | `string` | Serializa o objeto diretamente para formato JSON compacto. |
+| `ToJsonIndented()` | `string` | Serializa o objeto para JSON formatado e indentado (pretty-print). |
 
-GetPropertiesWithAttribute<T>
-# Exemplo de uso:
-var propertiesWithAttribute = myObject.GetPropertiesWithAttribute<MyAttribute>();
+---
 
-Serialize
-# Exemplo de uso:
-var jsonString = myObject.Serialize();
+## 💡 Exemplos de Uso
 
-SetProperty
-# Exemplo de uso:
-myObject.SetProperty("PropertyName", value);
+```csharp
+using System;
+using ObjectExtensionsLibrary;
 
-Clone
-# Exemplo de uso:
-var clonedObject = myObject.Clone();
+public class Configuracao
+{
+    public string Servidor { get; set; } = "localhost";
+    public int Porta { get; set; } = 8080;
+    public bool Habilitado { get; set; } = true;
+}
 
-PropertiesEqual
-# Exemplo de uso:
-bool areEqual = myObject.PropertiesEqual(otherObject);
+public class Exemplo
+{
+    public void Executar()
+    {
+        var config = new Configuracao();
 
-ToExpando
-# Exemplo de uso:
-var expandoObject = myObject.ToExpando();
+        // 1. Clonagem Profunda Independente
+        var copia = config.Clone();
+        copia.Porta = 9000;
 
-TryGetProperty
-# Exemplo de uso:
-bool found = myObject.TryGetProperty("PropertyName", out var value);
+        // 2. Comparação de Propriedades
+        bool saoIguais = config.PropertiesEqual(copia); // false
 
-IsDefault
-# Exemplo de uso:
-bool isDefault = myObject.IsDefault();
+        // 3. Conversão para Dicionário
+        var mapa = config.Dictionary();
 
-ToJsonIndented
-# Exemplo de uso:
-var indentedJson = myObject.ToJsonIndented();
-
-GetPropertyNames
-# Exemplo de uso:
-var propertyNames = myObject.GetPropertyNames();
-
-InvokeMethod
-# Exemplo de uso:
-var result = myObject.InvokeMethod("MethodName", arg1, arg2);
-
-AddOrUpdateProperty
-# Exemplo de uso:
-expandoObject.AddOrUpdateProperty("PropertyName", value);
-
-IsPropertyDefined
-# Exemplo de uso:
-bool isDefined = myObject.IsPropertyDefined("PropertyName");
-
+        // 4. Transformação para ExpandoObject Dinâmico
+        dynamic expando = config.ToExpando();
+    }
+}
 ```
 
-## Contribuições
-Sinta-se à vontade para contribuir com este projeto. Faça um fork, crie uma branch com suas melhorias e abra um pull request!
+---
 
-## Licença
+## 🏛️ Decisões Arquiteturais
 
-Este projeto está licenciado sob a Licença MIT - consulte o arquivo [LICENSE.md](./LICENSE.md) para obter detalhes.
+Para detalhes sobre clonagem profunda, desembrulho de `TargetInvocationException` e convenções de reflexão, consulte:
+- 📄 [ADR-009: Decisões Arquiteturais do TL.ObjectExtensionsLibrary](../docs/adr/ADR-009-object-extensions-library.md)
+
+---
+
+## 📄 Licença
+
+Distribuído sob a licença [MIT](../LICENSE.txt).
