@@ -1,127 +1,78 @@
-﻿# QueryableExtensions
+# 🔍 TL.QueryableExtensionsLibrary
 
-Este projeto fornece várias extensões úteis para a interface `IQueryable` no .NET, facilitando a manipulação e filtragem de dados.
+[![NuGet](https://img.shields.io/nuget/v/TL.QueryableExtensionsLibrary.svg?style=flat-square&label=TL.QueryableExtensionsLibrary)](https://www.nuget.org/packages/TL.QueryableExtensionsLibrary/)
+[![.NET](https://img.shields.io/badge/.NET-net5.0%20%7C%20net6.0%20%7C%20net8.0-blue.svg)](https://dotnet.microsoft.com/)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](../LICENSE.txt)
+[![ADR](https://img.shields.io/badge/ADR-ADR--010-success.svg)](../docs/adr/ADR-010-queryable-extensions-library.md)
 
+O **`TL.QueryableExtensionsLibrary`** fornece extensões para `IQueryable<T>` voltadas para construção dinâmica de consultas LINQ através de Expression Trees, viabilizando filtros, ordenações, paginação e agregações por nome de propriedade em tempo de execução.
 
-## Instalação
+---
 
-Você pode instalar a biblioteca via NuGet. No seu terminal, execute:
+## 📦 Instalação
+
+Adicione o pacote ao seu projeto através do .NET CLI:
 
 ```bash
 dotnet add package TL.QueryableExtensionsLibrary
 ```
 
-## Funcionalidades
+---
 
-```bash
-ClaimRoles
-# Exemplo de uso:
-var roles = user.ClaimsPrincipal.ClaimRoles();
+## 🚀 Funcionalidades Principais
 
-Claims
-# Exemplo de uso:
-var emails = user.ClaimsPrincipal.Claims("email");
+| Método | Retorno | Descrição |
+| :--- | :---: | :--- |
+| `Filter(property, value)` | `IQueryable<T>` | Filtra dinamicamente a sequência pelo nome da propriedade e valor com igualdade. |
+| `Filter(property, comparison, value)` | `IQueryable<T>` | Filtra dinamicamente aplicando operadores de comparação (`=`, `!=`, `>`, `<`, `>=`, `<=`, `Contains`, `StartsWith`, `EndsWith`). |
+| `Order(property, ascending)` | `IQueryable<T>` | Ordena dinamicamente (`OrderBy` ou `OrderByDescending`) pelo nome da propriedade informada. |
+| `Page(index, size)` | `IQueryable<T>` | Realiza paginação baseada em índice inicial 1 (`Skip((index-1)*size).Take(size)`). |
+| `GroupBy<T, TKey>(property)` | `IQueryable<IGrouping<TKey, T>>` | Agrupa os elementos dinamicamente pela propriedade especificada. |
+| `DistinctBy<T, TKey>(property)` | `IQueryable<T>` | Remove duplicatas mantendo o primeiro elemento para cada chave agrupada. |
+| `Sum(property)` | `decimal` | Calcula o somatório dinâmico da propriedade numérica especificada. |
+| `Min(property)` | `decimal` | Obtém o valor mínimo da propriedade numérica especificada. |
+| `Max(property)` | `decimal` | Obtém o valor máximo da propriedade numérica especificada. |
+| `Average(property)` | `decimal` | Calcula a média dos valores da propriedade numérica especificada. |
+| `Count(predicate)` | `int` | Retorna a quantidade de elementos que satisfazem o predicado informado. |
+| `Any(predicate)` | `bool` | Determina se qualquer elemento satisfaz a condição especificada. |
 
-Roles<T>
-# Exemplo de uso:
-var roleEnums = user.ClaimsPrincipal.Roles<MyEnum>();
+---
 
-ClaimSub
-# Exemplo de uso:
-var sub = user.ClaimsPrincipal.ClaimSub();
+## 💡 Exemplos de Uso
 
-Claim
-# Exemplo de uso:
-var claim = user.ClaimsPrincipal.Claim("email");
+```csharp
+using System.Linq;
+using QueryableExtensionsLibrary;
 
-Id
-# Exemplo de uso:
-var userId = user.ClaimsPrincipal.Id();
+public class Produto
+{
+    public int Id { get; set; }
+    public string Nome { get; set; } = string.Empty;
+    public decimal Preco { get; set; }
+    public string Categoria { get; set; } = string.Empty;
+}
 
-RolesFlag<T>
-# Exemplo de uso:
-var roleFlag = user.ClaimsPrincipal.RolesFlag<MyEnum>();
-
-HasRole
-# Exemplo de uso:
-var hasAdminRole = user.ClaimsPrincipal.HasRole("Admin");
-
-Email
-# Exemplo de uso:
-var email = user.ClaimsPrincipal.Email();
-
-FullName
-# Exemplo de uso:
-var fullName = user.ClaimsPrincipal.FullName();
-
-IsAuthenticated
-# Exemplo de uso:
-var isAuthenticated = user.ClaimsPrincipal.IsAuthenticated();
-
-Birthdate
-# Exemplo de uso:
-var birthdate = user.ClaimsPrincipal.Birthdate();
-
-AllClaims
-# Exemplo de uso:
-var allClaims = user.ClaimsPrincipal.AllClaims();
-
-Filter
-# Exemplo de uso:
-var filtered = data.Filter("Name", "John");
-
-Order
-# Exemplo de uso:
-var ordered = data.Order("Name", true);
-
-Page
-# Exemplo de uso:
-var paged = data.Page(1, 10);
-
-GroupBy
-# Exemplo de uso:
-var grouped = data.GroupBy<string, string>("Category");
-
-Count
-# Exemplo de uso:
-var count = data.Count(x => x.Age > 30);
-
-Sum
-# Exemplo de uso:
-var total = data.Sum("Price");
-
-Min
-# Exemplo de uso:
-var minimum = data.Min("Price");
-
-Max
-# Exemplo de uso:
-var maximum = data.Max("Price");
-
-DistinctBy
-# Exemplo de uso:
-var distinctItems = data.DistinctBy<string, string>("Category");
-
-Any
-# Exemplo de uso:
-var anyAdults = data.Any(x => x.Age >= 18);
-
-Average
-# Exemplo de uso:
-var averagePrice = data.Average("Price");
-
-ToDictionary
-# Exemplo de uso:
-var dictionary = data.ToDictionary<string, string, string>("Id", "Name");
-
-FirstOrDefault
-# Exemplo de uso:
-var first = data.FirstOrDefault(x => x.Name == "John");
-
+public class ConsultaService
+{
+    public IQueryable<Produto> FiltrarEOrdenar(IQueryable<Produto> produtos, string campoOrdenacao, bool ascendente, int pagina, int tamanho)
+    {
+        return produtos
+            .Filter("Categoria", "Eletronicos")
+            .Order(campoOrdenacao, ascendente)
+            .Page(pagina, tamanho);
+    }
+}
 ```
 
-## Contribuições
-Sinta-se à vontade para contribuir com este projeto. Faça um fork, crie uma branch com suas melhorias e abra um pull request!
+---
 
-## Licença
-Este projeto está licenciado sob a Licença MIT - consulte o arquivo LICENSE.md para obter detalhes.
+## 🏛️ Decisões Arquiteturais
+
+Para detalhes sobre a construção das árvores de expressão e considerações de desempenho, consulte:
+- 📄 [ADR-010: Decisões Arquiteturais do TL.QueryableExtensionsLibrary](../docs/adr/ADR-010-queryable-extensions-library.md)
+
+---
+
+## 📄 Licença
+
+Distribuído sob a licença [MIT](../LICENSE.txt).

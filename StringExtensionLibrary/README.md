@@ -1,57 +1,72 @@
-﻿# StringExtensions
+# 🧵 TL.StringExtensionsLibrary
 
-In English:
+[![NuGet](https://img.shields.io/nuget/v/TL.StringExtensionsLibrary.svg?style=flat-square&label=TL.StringExtensionsLibrary)](https://www.nuget.org/packages/TL.StringExtensionsLibrary/)
+[![.NET](https://img.shields.io/badge/.NET-netstandard2.0%20%7C%20net5.0%20%7C%20net6.0%20%7C%20net8.0-blue.svg)](https://dotnet.microsoft.com/)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](../LICENSE.txt)
+[![ADR](https://img.shields.io/badge/ADR-ADR--001-success.svg)](../docs/adr/ADR-001-string-extensions-library.md)
 
-The StringExtensions library offers a robust set of extension methods for strings, surpassing the typical validation methods and enhancing the .NET System.String class. With StringExtensions, you can effortlessly manipulate strings, check their types, count occurrences of specific values within strings, and perform various other advanced operations, ensuring a more efficient and effective development process.
+O **`TL.StringExtensionsLibrary`** fornece um conjunto abrangente de métodos de extensão para manipulação, formatação, validação, sanitização e conversão segura de cadeias de caracteres (`string`) em aplicações C# / .NET.
 
-Em Português:
+---
 
-A biblioteca StringExtensions oferece um conjunto robusto de métodos de extensão para strings, que superam os métodos comuns de validação e aprimoram a classe System.String do .NET. Com o StringExtensions, você pode manipular strings sem esforço, verificar seus tipos, contar ocorrências de valores específicos dentro das strings e realizar várias outras operações avançadas, garantindo um processo de desenvolvimento mais eficiente e eficaz.
+## 📦 Instalação
 
-## Instalação
-
-Você pode instalar a biblioteca via NuGet. No seu terminal, execute:
+Adicione o pacote ao seu projeto através do .NET CLI:
 
 ```bash
 dotnet add package TL.StringExtensionsLibrary
 ```
 
-## Usage
+---
 
-Once you have installed the String extension library within your project. String extensions functions will be available on all enum types 
+## 🚀 Funcionalidades Principais
 
+| Categoria | Métodos Disponíveis | Descrição |
+| :--- | :--- | :--- |
+| **Parsing & Conversões** | `ToBoolean()`, `ToInt32()`, `ToDecimal()`, `ToDateTime()` | Conversão tipada com validação defensiva e suporte a diferentes formatos. |
+| **Validação & Estado** | `IsNullOrEmpty()`, `IsNullOrWhiteSpace()`, `IsDateTime()`, `IsNumeric()` | Checagens rápidas de nulidade e formatos de data/numérico. |
+| **Truncamento & Fatiamento** | `Truncate()`, `TruncateWithEllipsis()`, `Left()`, `Right()`, `TrimSafe()` | Corte seguro de strings sem disparar `ArgumentOutOfRangeException`. |
+| **Formatação & Delimitadores** | `SplitBy()`, `ToCsv()`, `FromCsv()`, `ToDictionary()` | Transformação de textos estruturados em coleções e dicionários. |
+| **Expressões Regulares** | `IsMatch()`, `RegexReplace()` | Operações com regex com prevenção de ReDoS. |
+
+---
+
+## 💡 Exemplos de Uso
+
+```csharp
+using StringExtensionLibrary;
+
+// Conversão Booleana Flexível
+string ativoStr = "yes";
+bool ativo = ativoStr.ToBoolean(); // true (aceita "true", "yes", "y", "1")
+
+// Truncamento Seguro com Reticências
+string texto = "Relatório mensal consolidado de faturamento corporativo";
+string preview = texto.TruncateWithEllipsis(20); 
+// Resultado: "Relatório mensal co..."
+
+// Validação de Datas
+string dataInput = "03/09/2026";
+if (dataInput.IsDateTime("dd/MM/yyyy"))
+{
+    Console.WriteLine("Data válida no padrão brasileiro!");
+}
+
+// Fatiamento Seguro (Left / Right)
+string codigo = "INV-2026-998877";
+string prefixo = codigo.Left(3); // "INV"
+string sufixo = codigo.Right(6); // "998877"
 ```
-            string BooleanEquivalent = "false";
-            var teste1 = BooleanEquivalent.ToBoolean();
-            Console.WriteLine(teste1);
-            BooleanEquivalent = "true";
-            teste1 = BooleanEquivalent.ToBoolean();
-            Console.WriteLine(teste1);
-            BooleanEquivalent = "yes";
-            teste1 = BooleanEquivalent.ToBoolean();
-            Console.WriteLine(teste1);
-            BooleanEquivalent = "no";
-            teste1 = BooleanEquivalent.ToBoolean();
-            Console.WriteLine(teste1);
-            BooleanEquivalent = "y";
-            teste1 = BooleanEquivalent.ToBoolean(); 
-            Console.WriteLine(teste1);
-            BooleanEquivalent = "n";
-            teste1 = BooleanEquivalent.ToBoolean(); 
-            Console.WriteLine(teste1);
-    
-            BooleanEquivalent = DateTime.UtcNow.Date.ToString();
-            teste1 = BooleanEquivalent.IsDateTime("dd/MM/yyyy");
-            Console.WriteLine(teste1);
 
+---
 
-            teste1 = Summary.IsNullOrEmpty();
-            Console.WriteLine(teste1);
+## 🏛️ Decisões Arquiteturais e Segurança
 
- ```          
+Para detalhes sobre diretrizes de segurança (proteção contra ReDoS, invariância de cultura e uso de `ReadOnlySpan<char>`), consulte o documento oficial:
+- 📄 [ADR-001: Decisões Arquiteturais do TL.StringExtensionsLibrary](../docs/adr/ADR-001-string-extensions-library.md)
 
-## Contribuição
-Sinta-se à vontade para contribuir com este projeto! Por favor, abra um pull request ou envie issues para sugestões e melhorias.
+---
 
-## Licença
-Este projeto está licenciado sob a MIT License - veja o arquivo LICENSE para detalhes.
+## 📄 Licença
+
+Distribuído sob a licença [MIT](../LICENSE.txt).

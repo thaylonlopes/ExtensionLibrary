@@ -1,4 +1,4 @@
-﻿# AssemblyExtensionsLibrary
+# AssemblyExtensionsLibrary
 
 A biblioteca AssemblyExtensions fornece uma variedade de métodos de extensão para a classe `Assembly` do .NET, facilitando a manipulação e extração de informações úteis sobre assemblies. Com AssemblyExtensions, você pode obter facilmente informações de versão, tipos definidos, assemblies referenciados, e muito mais.
 
