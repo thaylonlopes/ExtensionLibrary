@@ -29,4 +29,57 @@ public class ObjectExtensionTests
         var ex = Assert.Throws<ArgumentException>(() => service.InvokeMethod("ThrowError"));
         Assert.Equal("Erro de teste disparado.", ex.Message);
     }
+
+    [Fact]
+    public void Clone_ShouldCreateIndependentDeepCopy()
+    {
+        var original = new Person { Name = "Alice", Age = 30 };
+        var cloned = original.Clone();
+
+        Assert.NotNull(cloned);
+        Assert.NotSame(original, cloned);
+        Assert.Equal(original.Name, cloned.Name);
+        Assert.Equal(original.Age, cloned.Age);
+
+        cloned.Name = "Bob";
+        Assert.Equal("Alice", original.Name);
+    }
+
+    [Fact]
+    public void Dictionary_ShouldConvertProperties()
+    {
+        var person = new Person { Name = "Alice", Age = 30 };
+        var dict = person.Dictionary();
+
+        Assert.NotNull(dict);
+        Assert.Equal("Alice", dict["Name"]);
+        Assert.Equal(30, dict["Age"]);
+    }
+
+    [Fact]
+    public void Dictionary_WhenNull_ShouldReturnNull()
+    {
+        Person nullPerson = null;
+        Person? nullPerson = null;
+        var dict = nullPerson.Dictionary();
+        var dict = nullPerson!.Dictionary();
+        Assert.Null(dict);
+    }
+
+    [Fact]
+    public void SetProperty_ShouldUpdateValue()
+    {
+        var person = new Person { Name = "Alice", Age = 30 };
+        person.SetProperty("Name", "Charlie");
+
+        Assert.Equal("Charlie", person.Name);
+    }
+}
+
+public class Person
+{
+    public string Name { get; set; }
+    public string? Name { get; set; }
+    public string Name { get; set; } = string.Empty;
+    public int Age { get; set; }
 }

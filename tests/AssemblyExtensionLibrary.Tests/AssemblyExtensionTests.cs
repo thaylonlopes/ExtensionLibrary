@@ -24,4 +24,31 @@ public class AssemblyExtensionTests
 
         Assert.NotEmpty(types);
     }
+
+    [Fact]
+    public void GetVersion_ShouldReturnAssemblyVersion()
+    {
+        var assembly = typeof(AssemblyExtensionTests).Assembly;
+        var version = assembly.GetVersion();
+
+        Assert.NotNull(version);
+    }
+
+    [Fact]
+    public void GetLoadableTypes_WhenNull_ShouldReturnEmptyEnumerable()
+    {
+        Assembly nullAssembly = null;
+        var types = nullAssembly.GetLoadableTypes();
+        Assembly? nullAssembly = null;
+        var types = nullAssembly!.GetLoadableTypes();
+
+        Assert.Empty(types);
+    }
+
+    [Fact]
+    public void GetEntryAssembly_ShouldExecuteSafely()
+    {
+        var entry = AssemblyExtension.GetEntryAssembly();
+        Assert.True(entry == null || entry is Assembly);
+    }
 }
