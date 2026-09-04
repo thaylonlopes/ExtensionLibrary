@@ -1,15 +1,21 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <TargetFrameworks>net8.0</TargetFrameworks>
+    <TargetFrameworks>net5.0;net6.0;net8.0</TargetFrameworks>
     <Nullable>disable</Nullable>
     <PackageId>TL.AssemblyExtensionLibrary</PackageId>
-    <Version>0.0.1</Version>
+    <Version>0.1.0</Version>
     <Authors>Thaylon Lopes</Authors>
-    <Description>Projeto de extensão para numeros</Description>
+    <Description>Projeto de extensão para Assembly</Description>
     <Title>AssemblyExtensionLibrary</Title>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <PackageProjectUrl>https://github.com/thaylonmayk/ExtensionsLibrary</PackageProjectUrl>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(TargetFramework)' == 'net5.0' OR '$(TargetFramework)' == 'net6.0'">
+    <Nullable>enable</Nullable>
   </PropertyGroup>
 
-
+  <ItemGroup>
+    <None Include="README.md" Pack="true" PackagePath="\" />
+  </ItemGroup>
 </Project>

@@ -1,18 +1,21 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <TargetFrameworks>netstandard2.0;net5.0;net6.0;net8.0</TargetFrameworks>
     <Nullable>disable</Nullable>
     <PackageId>TL.EnumExtensionsLibrary</PackageId>
-    <Version>0.0.3</Version>
+    <Version>0.1.0</Version>
     <Authors>Thaylon Lopes</Authors>
     <Description>Projeto de extensão para enum</Description>
     <Title>EnumExtensionsLibrary</Title>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
-    <PackageProjectUrl>https://github.com/thaylonmayk/ExtensionsLibrary</PackageProjectUrl>    
+    <PackageProjectUrl>https://github.com/thaylonmayk/ExtensionsLibrary</PackageProjectUrl>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
   </PropertyGroup>
   <PropertyGroup Condition="'$(TargetFramework)' == 'net5.0' OR '$(TargetFramework)' == 'net6.0'">
     <Nullable>enable</Nullable>
   </PropertyGroup>
-  
 
+  <ItemGroup>
+    <None Include="README.md" Pack="true" PackagePath="\" />
+  </ItemGroup>
 </Project>
