@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace CollectionExtensionsLibrary
@@ -105,7 +105,7 @@ namespace CollectionExtensionsLibrary
         /// <typeparam name="T">The type of elements in the HashSet.</typeparam>
         /// <param name="set">The current HashSet.</param>
         /// <param name="other">The collection to compare to the current HashSet.</param>
-        /// <returns>True if the current HashSet is a superset of the specified
+        /// <returns>True if the current HashSet is a superset of the specified collection; otherwise, false.</returns>
         public static bool IsSupersetOf<T>(this HashSet<T> set, IEnumerable<T> other) =>
             set.IsSupersetOf(other);
 

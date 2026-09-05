@@ -1,4 +1,5 @@
-﻿using System;
+#nullable enable
+using System;
 using System.IO;
 using System.Linq;
 using System.Reflection;
@@ -34,8 +35,8 @@ namespace AssemblyExtensionLibrary
         /// <summary>
         /// Gets the entry assembly (the process executable) in the current application.
         /// </summary>
-        /// <returns>The entry assembly.</returns>
-        public static Assembly GetEntryAssembly() => Assembly.GetEntryAssembly();
+        /// <returns>The entry assembly, or null if called from unmanaged code.</returns>
+        public static Assembly? GetEntryAssembly() => Assembly.GetEntryAssembly();
 
 
     }

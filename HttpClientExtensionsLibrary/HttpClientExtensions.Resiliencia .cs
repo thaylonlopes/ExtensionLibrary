@@ -9,9 +9,6 @@ namespace HttpClientExtensionsLibrary
 {
     public static partial class HttpClientExtensions
     {
-
-        /// <summary>
-        /// Sends an HTTP request with a retry policy.
         /// <summary>
         /// Sends an HTTP request with a retry policy using a request factory.
         /// </summary>
@@ -122,7 +119,7 @@ namespace HttpClientExtensionsLibrary
                     if (response.IsSuccessStatusCode)
                         return response;
                 }
-                catch (Exception ex) when (i < retryCount - 1)
+                catch (Exception) when (i < retryCount - 1)
                 {
                     await Task.Delay(circuitBreakerDuration);
                 }
@@ -155,10 +152,8 @@ namespace HttpClientExtensionsLibrary
                         return response;
                     }
                 }
-                catch (TaskCanceledException ex) when (i < retryCount - 1)
+                catch (TaskCanceledException) when (i < retryCount - 1)
                 {
-                    // Timeout occurred
-                    Console.WriteLine($"Request timed out. Attempt {i + 1} of {retryCount}");
                     if (i == retryCount - 1)
                         throw;
                 }
@@ -190,13 +185,11 @@ namespace HttpClientExtensionsLibrary
                 }
                 catch (HttpRequestException ex) when (IsTransientError(ex))
                 {
-                    // Handle transient error
                     await Task.Delay(retryDelay);
                 }
             }
             return response;
         }
-
 
         /// <summary>
         /// Sends an HTTP request and retries in case of rate limiting errors.
@@ -211,10 +204,9 @@ namespace HttpClientExtensionsLibrary
             for (int i = 0; i < retryCount; i++)
             {
                 response = await client.SendAsync(request);
-                if (response.StatusCode != (HttpStatusCode)429) // 429 Too Many Requests
+                if (response.StatusCode != (HttpStatusCode)429)
                     return response;
 
-                // Extract retry-after header value and wait before retrying
                 if (response.Headers.TryGetValues("Retry-After", out var values))
                 {
                     var retryAfter = values.First();
@@ -227,11 +219,9 @@ namespace HttpClientExtensionsLibrary
             return response;
         }
 
-
         private static bool IsTransientError(HttpRequestException ex)
         {
-            // Determine if the error is transient based on the exception details
-            return true; // Simplified for example purposes
+            return true;
         }
 
         private static HttpRequestMessage CloneHttpRequestMessage(HttpRequestMessage request)
@@ -263,6 +253,5 @@ namespace HttpClientExtensionsLibrary
 
             return clone;
         }
-
     }
 }

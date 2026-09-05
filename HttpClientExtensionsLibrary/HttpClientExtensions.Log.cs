@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
@@ -42,6 +42,14 @@ namespace HttpClientExtensionsLibrary
             stopwatch.Stop();
 
             // Log request details
+            await LogRequestToConsoleAsync(request);
+            await LogResponseToConsoleAsync(response, stopwatch.ElapsedMilliseconds);
+
+            return response;
+        }
+
+        private static async Task LogRequestToConsoleAsync(HttpRequestMessage request)
+        {
             Console.WriteLine($"Request URI: {request.RequestUri}");
             Console.WriteLine($"Request Method: {request.Method}");
             Console.WriteLine($"Request Headers: {string.Join(", ", request.Headers.Select(h => $"{h.Key}: {h.Value}"))}");
@@ -50,15 +58,15 @@ namespace HttpClientExtensionsLibrary
                 var requestBody = await request.Content.ReadAsStringAsync();
                 Console.WriteLine($"Request Body: {requestBody}");
             }
+        }
 
-            // Log response details
+        private static async Task LogResponseToConsoleAsync(HttpResponseMessage response, long elapsedMilliseconds)
+        {
             Console.WriteLine($"Response Status Code: {response.StatusCode}");
             Console.WriteLine($"Response Headers: {string.Join(", ", response.Headers.Select(h => $"{h.Key}: {h.Value}"))}");
             var responseBody = await response.Content.ReadAsStringAsync();
             Console.WriteLine($"Response Body: {responseBody}");
-            Console.WriteLine($"Elapsed Time: {stopwatch.ElapsedMilliseconds} ms");
-
-            return response;
+            Console.WriteLine($"Elapsed Time: {elapsedMilliseconds} ms");
         }
 
         /// <summary>
@@ -110,26 +118,32 @@ namespace HttpClientExtensionsLibrary
 
             using (var writer = new StreamWriter(filePath, true))
             {
-                // Log request details
-                await writer.WriteLineAsync($"Request URI: {request.RequestUri}");
-                await writer.WriteLineAsync($"Request Method: {request.Method}");
-                await writer.WriteLineAsync($"Request Headers: {string.Join(", ", request.Headers.Select(h => $"{h.Key}: {h.Value}"))}");
-                if (request.Content != null)
-                {
-                    var requestBody = await request.Content.ReadAsStringAsync();
-                    await writer.WriteLineAsync($"Request Body: {requestBody}");
-                }
-
-                // Log response details
-                await writer.WriteLineAsync($"Response Status Code: {response.StatusCode}");
-                await writer.WriteLineAsync($"Response Headers: {string.Join(", ", response.Headers.Select(h => $"{h.Key}: {h.Value}"))}");
-                var responseBody = await response.Content.ReadAsStringAsync();
-                await writer.WriteLineAsync($"Response Body: {responseBody}");
-                await writer.WriteLineAsync($"Elapsed Time: {stopwatch.ElapsedMilliseconds} ms");
+                await LogRequestToFileAsync(writer, request);
+                await LogResponseToFileAsync(writer, response, stopwatch.ElapsedMilliseconds);
             }
 
             return response;
         }
 
+        private static async Task LogRequestToFileAsync(StreamWriter writer, HttpRequestMessage request)
+        {
+            await writer.WriteLineAsync($"Request URI: {request.RequestUri}");
+            await writer.WriteLineAsync($"Request Method: {request.Method}");
+            await writer.WriteLineAsync($"Request Headers: {string.Join(", ", request.Headers.Select(h => $"{h.Key}: {h.Value}"))}");
+            if (request.Content != null)
+            {
+                var requestBody = await request.Content.ReadAsStringAsync();
+                await writer.WriteLineAsync($"Request Body: {requestBody}");
+            }
+        }
+
+        private static async Task LogResponseToFileAsync(StreamWriter writer, HttpResponseMessage response, long elapsedMilliseconds)
+        {
+            await writer.WriteLineAsync($"Response Status Code: {response.StatusCode}");
+            await writer.WriteLineAsync($"Response Headers: {string.Join(", ", response.Headers.Select(h => $"{h.Key}: {h.Value}"))}");
+            var responseBody = await response.Content.ReadAsStringAsync();
+            await writer.WriteLineAsync($"Response Body: {responseBody}");
+            await writer.WriteLineAsync($"Elapsed Time: {elapsedMilliseconds} ms");
+        }
     }
 }

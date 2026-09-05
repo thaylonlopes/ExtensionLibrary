@@ -1,4 +1,4 @@
-﻿using System.Reflection;
+using System.Reflection;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 
@@ -18,6 +18,7 @@ namespace ObjectExtensionsLibrary
         /// </summary>
         /// <param name="obj">The object on which to set the property value.</param>
         /// <param name="name">The name of the property to set.</param>
+        /// <param name="value">The value to set on the property.</param>
         public static void SetProperty(this object obj, string name, object value) => obj.GetType().GetProperty(name, BindingFlags.Public | BindingFlags.Instance | BindingFlags.IgnoreCase)?.SetValue(obj, value);
 
         /// <summary>
