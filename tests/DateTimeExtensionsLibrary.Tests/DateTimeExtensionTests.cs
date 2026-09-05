@@ -9,10 +9,8 @@ public class DateTimeExtensionTests
     [Fact]
     public void BusinessDaysBetween_ShouldCalculateCorrectly()
     {
-        var start = new DateTime(2026, 9, 1); // Terça-feira
-        var end = new DateTime(2026, 9, 7);   // Segunda-feira seguinte
-        var start = new DateTime(2026, 9, 1);
-        var end = new DateTime(2026, 9, 7);
+        var start = new DateTime(2026, 9, 1, 0, 0, 0, DateTimeKind.Utc);
+        var end = new DateTime(2026, 9, 7, 0, 0, 0, DateTimeKind.Utc);
 
         int businessDays = start.BusinessDaysBetween(end);
         Assert.Equal(5, businessDays);
@@ -21,8 +19,8 @@ public class DateTimeExtensionTests
     [Fact]
     public void DaysUntil_ShouldCalculateRemainingDays()
     {
-        var today = new DateTime(2026, 9, 1);
-        var future = new DateTime(2026, 9, 10);
+        var today = new DateTime(2026, 9, 1, 0, 0, 0, DateTimeKind.Utc);
+        var future = new DateTime(2026, 9, 10, 0, 0, 0, DateTimeKind.Utc);
 
         Assert.Equal(9, today.DaysUntil(future));
     }
@@ -30,9 +28,9 @@ public class DateTimeExtensionTests
     [Fact]
     public void IsWeekend_And_IsBusinessDay_ShouldIdentifyCorrectly()
     {
-        var saturday = new DateTime(2026, 9, 5);
-        var sunday = new DateTime(2026, 9, 6);
-        var monday = new DateTime(2026, 9, 7);
+        var saturday = new DateTime(2026, 9, 5, 0, 0, 0, DateTimeKind.Utc);
+        var sunday = new DateTime(2026, 9, 6, 0, 0, 0, DateTimeKind.Utc);
+        var monday = new DateTime(2026, 9, 7, 0, 0, 0, DateTimeKind.Utc);
 
         Assert.True(saturday.IsWeekend());
         Assert.True(sunday.IsWeekend());
@@ -45,8 +43,8 @@ public class DateTimeExtensionTests
     [Fact]
     public void IsLeapYear_ShouldIdentifyLeapYears()
     {
-        var leap = new DateTime(2024, 1, 1);
-        var nonLeap = new DateTime(2025, 1, 1);
+        var leap = new DateTime(2024, 1, 1, 0, 0, 0, DateTimeKind.Utc);
+        var nonLeap = new DateTime(2025, 1, 1, 0, 0, 0, DateTimeKind.Utc);
 
         Assert.True(leap.IsLeapYear());
         Assert.False(nonLeap.IsLeapYear());
@@ -55,8 +53,8 @@ public class DateTimeExtensionTests
     [Fact]
     public void Chunks_ShouldSplitRangeCorrectly()
     {
-        var start = new DateTime(2026, 9, 1);
-        var end = new DateTime(2026, 9, 15);
+        var start = new DateTime(2026, 9, 1, 0, 0, 0, DateTimeKind.Utc);
+        var end = new DateTime(2026, 9, 15, 0, 0, 0, DateTimeKind.Utc);
 
         var chunks = start.Chunks(end, days: 5);
         Assert.NotEmpty(chunks);

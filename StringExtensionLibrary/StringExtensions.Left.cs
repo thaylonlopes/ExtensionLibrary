@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 
 namespace StringExtensionLibrary
 {
@@ -16,13 +16,16 @@ namespace StringExtensionLibrary
         {
             if (string.IsNullOrEmpty(val))
             {
-                throw new ArgumentNullException("val");
+                throw new ArgumentNullException(nameof(val));
             }
+
             if (length < 0 || length > val.Length)
             {
-                throw new ArgumentOutOfRangeException("length",
+                throw new ArgumentOutOfRangeException(
+                    nameof(length),
                     "length cannot be higher than total string length or less than 0");
             }
+
             return val.Substring(0, length);
         }
 
@@ -32,13 +35,10 @@ namespace StringExtensionLibrary
         /// <param name="input">The input string to take the left part from</param>
         /// <param name="character">The character to find in the input string</param>
         /// <returns>The substring starting at startIndex 0 until either the position of the character (excluding the character) or the whole input string if the character was not found</returns>
-        public static string LeftOf(this string input, char character)
-        {
-            return LeftOf(input, character, 0);
-        }
+        public static string LeftOf(this string input, char character) => LeftOf(input, character, 0);
 
         /// <summary>
-        /// Extracts the left part of the input string limited by the first character
+        /// Extracts the left part of the input string limited by the character occurrence counting from the left
         /// </summary>
         /// <param name="input">The input string to take the left part from</param>
         /// <param name="character">The character to find in the input string</param>
@@ -46,47 +46,33 @@ namespace StringExtensionLibrary
         /// <returns>The substring starting at startIndex 0 until either the position of the character (excluding the character) or the whole input string if the character was not found</returns>
         public static string LeftOf(this string input, char character, int skip)
         {
-            // preconditions
             if (input == null)
-                throw new ArgumentNullException("input");
-            if (skip < 0)
-                throw new ArgumentOutOfRangeException("skip", "skip should be larger or equal to 0");
-
-            string result;
-
-            if (input.Length == 0)
             {
-                result = input;
+                throw new ArgumentNullException(nameof(input));
             }
-            else
+
+            if (skip < 0)
             {
-                int characterPosition = 0;
-                int charactersFound = -1;
+                throw new ArgumentOutOfRangeException(nameof(skip), "skip should be larger or equal to 0");
+            }
 
-                while (charactersFound < skip)
-                {
-                    characterPosition = input.IndexOf(character, characterPosition + 1);
-                    if (characterPosition == -1)
-                    {
-                        break;
-                    }
-                    else
-                    {
-                        charactersFound++;
-                    }
-                }
+            if (input.Length <= skip)
+            {
+                return input;
+            }
 
+            int characterPosition = -1;
+
+            for (int i = 0; i <= skip; i++)
+            {
+                characterPosition = input.IndexOf(character, characterPosition + 1);
                 if (characterPosition == -1)
                 {
-                    result = input;
-                }
-                else
-                {
-                    result = input.Substring(0, characterPosition);
+                    return input;
                 }
             }
 
-            return result;
+            return input.Substring(0, characterPosition);
         }
 
         /// <summary>
@@ -95,10 +81,7 @@ namespace StringExtensionLibrary
         /// <param name="input">The input string to take the left part from</param>
         /// <param name="value">The value to find in the input string</param>
         /// <returns>The substring starting at startIndex 0 until either the position of the first occurrence of value or the whole input string if the value was not found</returns>
-        public static string LeftOf(this string input, string value)
-        {
-            return LeftOf(input, value, StringComparison.Ordinal);
-        }
+        public static string LeftOf(this string input, string value) => LeftOf(input, value, StringComparison.Ordinal);
 
         /// <summary>
         /// Extracts the left part of the input string limited by the first occurrence of value
@@ -107,10 +90,7 @@ namespace StringExtensionLibrary
         /// <param name="value">The value to find in the input string</param>
         /// <param name="comparisonType">The way startsWith should be compared to the input string</param>
         /// <returns>The substring starting at startIndex 0 until either the position of the first occurrence of value or the whole input string if the value was not found</returns>
-        public static string LeftOf(this string input, string value, StringComparison comparisonType)
-        {
-            return LeftOf(input, value, 0, comparisonType);
-        }
+        public static string LeftOf(this string input, string value, StringComparison comparisonType) => LeftOf(input, value, 0, comparisonType);
 
         /// <summary>
         /// Extracts the left part of the input string limited by the n'th occurrence of value
@@ -122,49 +102,38 @@ namespace StringExtensionLibrary
         /// <returns>The substring starting at startIndex 0 until either the position of the n'th occurrence of value or the whole input string if the value was not found</returns>
         public static string LeftOf(this string input, string value, int skip, StringComparison comparisonType)
         {
-            // preconditions
             if (input == null)
-                throw new ArgumentNullException("input");
-            if (value == null)
-                throw new ArgumentNullException("value");
-            if (skip < 0)
-                throw new ArgumentOutOfRangeException("skip", "skip should be larger or equal to 0");
+            {
+                throw new ArgumentNullException(nameof(input));
+            }
 
-            string result;
+            if (value == null)
+            {
+                throw new ArgumentNullException(nameof(value));
+            }
+
+            if (skip < 0)
+            {
+                throw new ArgumentOutOfRangeException(nameof(skip), "skip should be larger or equal to 0");
+            }
 
             if (input.Length <= skip)
             {
-                result = input;
+                return input;
             }
-            else
+
+            int valuePosition = -1;
+
+            for (int i = 0; i <= skip; i++)
             {
-                int valuePosition = 0;
-                int valuesFound = -1;
-
-                while (valuesFound < skip)
-                {
-                    valuePosition = input.IndexOf(value, valuePosition + 1, comparisonType);
-                    if (valuePosition == -1)
-                    {
-                        break;
-                    }
-                    else
-                    {
-                        valuesFound++;
-                    }
-                }
-
+                valuePosition = input.IndexOf(value, valuePosition + 1, comparisonType);
                 if (valuePosition == -1)
                 {
-                    result = input;
-                }
-                else
-                {
-                    result = input.Substring(0, valuePosition);
+                    return input;
                 }
             }
 
-            return result;
+            return input.Substring(0, valuePosition);
         }
     }
 }

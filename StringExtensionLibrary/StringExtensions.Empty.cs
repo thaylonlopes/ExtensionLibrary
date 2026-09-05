@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 
 namespace StringExtensionLibrary
 {
@@ -12,9 +12,8 @@ namespace StringExtensionLibrary
         /// <exception cref="System.ArgumentNullException">input is null</exception>
         public static bool IsEmpty(this string input)
         {
-            // preconditions
             if (input == null)
-                throw new ArgumentNullException("input");
+                throw new ArgumentNullException(nameof(input));
 
             return input.Length == 0;
         }
@@ -26,18 +25,19 @@ namespace StringExtensionLibrary
         /// <returns>true if string is null or is empty else false</returns>
         public static bool IsNullOrEmpty(this string val)
         {
-            return String.IsNullOrEmpty(val);
+            return string.IsNullOrEmpty(val);
         }
+
         /// <summary>
         ///     Checks if a string is null or consists of only whitespaces
         /// </summary>
-        /// <param name="val">string to evaluate</param>
+        /// <param name="input">string to evaluate</param>
         /// <returns>true if string is null or consists of only whitespaces else false</returns>
         public static bool IsNullOrWhiteSpace(this string input)
         {
-            return String.IsNullOrWhiteSpace(input);
-
+            return string.IsNullOrWhiteSpace(input);
         }
+
         /// <summary>
         ///     Gets empty String if passed value is of type Null/Nothing
         /// </summary>
@@ -46,7 +46,7 @@ namespace StringExtensionLibrary
         /// <remarks></remarks>
         public static string GetEmptyStringIfNull(this string val)
         {
-            return (val != null ? val.Trim() : "");
+            return val?.Trim() ?? string.Empty;
         }
     }
 }

@@ -3,19 +3,16 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Net.Http;
+using System.Net.Http.Headers;
 using System.Threading.Tasks;
 
 namespace HttpClientExtensionsLibrary
 {
     public static partial class HttpClientExtensions
     {
-
         /// <summary>
-        /// Logs details of the HTTP request and response.
+        /// Logs details of the HTTP request and response to Console.
         /// </summary>
-        /// <param name="client">Instance of HttpClient.</param>
-        /// <param name="request">Instance of the HTTP request message.</param>
-        /// <returns>HTTP response message.</returns>
         public static async Task<HttpResponseMessage> LogRequestDetails(this HttpClient client, HttpRequestMessage request)
         {
             var stopwatch = Stopwatch.StartNew();
@@ -24,57 +21,29 @@ namespace HttpClientExtensionsLibrary
 
             Console.WriteLine($"Request to {request.RequestUri} took {stopwatch.ElapsedMilliseconds} ms.");
             Console.WriteLine($"Response status code: {response.StatusCode}");
-            Console.WriteLine($"Response headers: {string.Join(", ", response.Headers.Select(h => $"{h.Key}: {h.Value}"))}");
+            Console.WriteLine($"Response headers: {FormatHeaders(response.Headers)}");
 
             return response;
         }
 
         /// <summary>
-        /// Logs details of the HTTP request and response.
+        /// Logs full request and response details to Console.
         /// </summary>
-        /// <param name="client">Instance of HttpClient.</param>
-        /// <param name="request">Instance of the HTTP request message.</param>
-        /// <returns>HTTP response message.</returns>
         public static async Task<HttpResponseMessage> LogRequestAndResponse(this HttpClient client, HttpRequestMessage request)
         {
             var stopwatch = Stopwatch.StartNew();
             var response = await client.SendAsync(request);
             stopwatch.Stop();
 
-            // Log request details
             await LogRequestToConsoleAsync(request);
             await LogResponseToConsoleAsync(response, stopwatch.ElapsedMilliseconds);
 
             return response;
         }
 
-        private static async Task LogRequestToConsoleAsync(HttpRequestMessage request)
-        {
-            Console.WriteLine($"Request URI: {request.RequestUri}");
-            Console.WriteLine($"Request Method: {request.Method}");
-            Console.WriteLine($"Request Headers: {string.Join(", ", request.Headers.Select(h => $"{h.Key}: {h.Value}"))}");
-            if (request.Content != null)
-            {
-                var requestBody = await request.Content.ReadAsStringAsync();
-                Console.WriteLine($"Request Body: {requestBody}");
-            }
-        }
-
-        private static async Task LogResponseToConsoleAsync(HttpResponseMessage response, long elapsedMilliseconds)
-        {
-            Console.WriteLine($"Response Status Code: {response.StatusCode}");
-            Console.WriteLine($"Response Headers: {string.Join(", ", response.Headers.Select(h => $"{h.Key}: {h.Value}"))}");
-            var responseBody = await response.Content.ReadAsStringAsync();
-            Console.WriteLine($"Response Body: {responseBody}");
-            Console.WriteLine($"Elapsed Time: {elapsedMilliseconds} ms");
-        }
-
         /// <summary>
         /// Logs errors during the HTTP request.
         /// </summary>
-        /// <param name="client">Instance of HttpClient.</param>
-        /// <param name="request">Instance of the HTTP request message.</param>
-        /// <returns>HTTP response message.</returns>
         public static async Task<HttpResponseMessage> LogError(this HttpClient client, HttpRequestMessage request)
         {
             try
@@ -91,11 +60,8 @@ namespace HttpClientExtensionsLibrary
         }
 
         /// <summary>
-        /// Logs the status of the HTTP response.
+        /// Logs the status of the HTTP response to Console.
         /// </summary>
-        /// <param name="client">Instance of HttpClient.</param>
-        /// <param name="request">Instance of the HTTP request message.</param>
-        /// <returns>HTTP response message.</returns>
         public static async Task<HttpResponseMessage> LogResponseStatus(this HttpClient client, HttpRequestMessage request)
         {
             var response = await client.SendAsync(request);
@@ -106,17 +72,13 @@ namespace HttpClientExtensionsLibrary
         /// <summary>
         /// Logs request and response details to a file.
         /// </summary>
-        /// <param name="client">Instance of HttpClient.</param>
-        /// <param name="request">Instance of the HTTP request message.</param>
-        /// <param name="filePath">Path to the log file.</param>
-        /// <returns>HTTP response message.</returns>
         public static async Task<HttpResponseMessage> LogToFile(this HttpClient client, HttpRequestMessage request, string filePath)
         {
             var stopwatch = Stopwatch.StartNew();
             var response = await client.SendAsync(request);
             stopwatch.Stop();
 
-            using (var writer = new StreamWriter(filePath, true))
+            await using (var writer = new StreamWriter(filePath, append: true))
             {
                 await LogRequestToFileAsync(writer, request);
                 await LogResponseToFileAsync(writer, response, stopwatch.ElapsedMilliseconds);
@@ -125,11 +87,39 @@ namespace HttpClientExtensionsLibrary
             return response;
         }
 
+        private static async Task LogRequestToConsoleAsync(HttpRequestMessage request)
+        {
+            Console.WriteLine($"Request URI: {request.RequestUri}");
+            Console.WriteLine($"Request Method: {request.Method}");
+            Console.WriteLine($"Request Headers: {FormatHeaders(request.Headers)}");
+
+            if (request.Content != null)
+            {
+                var requestBody = await request.Content.ReadAsStringAsync();
+                Console.WriteLine($"Request Body: {requestBody}");
+            }
+        }
+
+        private static async Task LogResponseToConsoleAsync(HttpResponseMessage response, long elapsedMilliseconds)
+        {
+            Console.WriteLine($"Response Status Code: {response.StatusCode}");
+            Console.WriteLine($"Response Headers: {FormatHeaders(response.Headers)}");
+
+            if (response.Content != null)
+            {
+                var responseBody = await response.Content.ReadAsStringAsync();
+                Console.WriteLine($"Response Body: {responseBody}");
+            }
+
+            Console.WriteLine($"Elapsed Time: {elapsedMilliseconds} ms");
+        }
+
         private static async Task LogRequestToFileAsync(StreamWriter writer, HttpRequestMessage request)
         {
             await writer.WriteLineAsync($"Request URI: {request.RequestUri}");
             await writer.WriteLineAsync($"Request Method: {request.Method}");
-            await writer.WriteLineAsync($"Request Headers: {string.Join(", ", request.Headers.Select(h => $"{h.Key}: {h.Value}"))}");
+            await writer.WriteLineAsync($"Request Headers: {FormatHeaders(request.Headers)}");
+
             if (request.Content != null)
             {
                 var requestBody = await request.Content.ReadAsStringAsync();
@@ -140,10 +130,20 @@ namespace HttpClientExtensionsLibrary
         private static async Task LogResponseToFileAsync(StreamWriter writer, HttpResponseMessage response, long elapsedMilliseconds)
         {
             await writer.WriteLineAsync($"Response Status Code: {response.StatusCode}");
-            await writer.WriteLineAsync($"Response Headers: {string.Join(", ", response.Headers.Select(h => $"{h.Key}: {h.Value}"))}");
-            var responseBody = await response.Content.ReadAsStringAsync();
-            await writer.WriteLineAsync($"Response Body: {responseBody}");
+            await writer.WriteLineAsync($"Response Headers: {FormatHeaders(response.Headers)}");
+
+            if (response.Content != null)
+            {
+                var responseBody = await response.Content.ReadAsStringAsync();
+                await writer.WriteLineAsync($"Response Body: {responseBody}");
+            }
+
             await writer.WriteLineAsync($"Elapsed Time: {elapsedMilliseconds} ms");
+        }
+
+        private static string FormatHeaders(HttpHeaders headers)
+        {
+            return string.Join(", ", headers.Select(h => $"{h.Key}: {string.Join(";", h.Value)}"));
         }
     }
 }

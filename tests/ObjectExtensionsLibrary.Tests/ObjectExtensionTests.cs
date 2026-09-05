@@ -1,9 +1,11 @@
 using System;
+using System.Diagnostics.CodeAnalysis;
 using ObjectExtensionsLibrary;
 using Xunit;
 
 namespace ObjectExtensionsLibrary.Tests;
 
+[SuppressMessage("Major Code Smell", "S2325:Methods should be static", Justification = "Métodos de instância intencionais para validar chamadas de reflexão via InvokeMethod.")]
 public class SampleService
 {
     public string Echo(string message) => message;
@@ -59,9 +61,7 @@ public class ObjectExtensionTests
     [Fact]
     public void Dictionary_WhenNull_ShouldReturnNull()
     {
-        Person nullPerson = null;
         Person? nullPerson = null;
-        var dict = nullPerson.Dictionary();
         var dict = nullPerson!.Dictionary();
         Assert.Null(dict);
     }
@@ -78,8 +78,6 @@ public class ObjectExtensionTests
 
 public class Person
 {
-    public string Name { get; set; }
-    public string? Name { get; set; }
     public string Name { get; set; } = string.Empty;
     public int Age { get; set; }
 }

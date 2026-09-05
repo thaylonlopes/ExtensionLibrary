@@ -37,18 +37,24 @@ public class AssemblyExtensionTests
     [Fact]
     public void GetLoadableTypes_WhenNull_ShouldReturnEmptyEnumerable()
     {
-        Assembly nullAssembly = null;
-        var types = nullAssembly.GetLoadableTypes();
         Assembly? nullAssembly = null;
         var types = nullAssembly!.GetLoadableTypes();
 
         Assert.Empty(types);
     }
 
-    [Fact]
+  [Fact]
     public void GetEntryAssembly_ShouldExecuteSafely()
     {
-        var entry = AssemblyExtension.GetEntryAssembly();
-        Assert.True(entry == null || entry is Assembly);
+        var exception = Record.Exception(() =>
+        {
+            var entry = AssemblyExtension.GetEntryAssembly();
+            if (entry != null)
+            {
+                _ = entry.FullName;
+            }
+        });
+
+        Assert.Null(exception);
     }
 }

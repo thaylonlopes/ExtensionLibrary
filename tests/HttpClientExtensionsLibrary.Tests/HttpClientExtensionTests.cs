@@ -41,11 +41,10 @@ public class HttpClientExtensionTests
     [Fact]
     public async Task SendWithRetryAsync_WithNullClient_ShouldThrowArgumentNullException()
     {
-        HttpClient nullClient = null;
         HttpClient? nullClient = null;
         await Assert.ThrowsAsync<ArgumentNullException>(() =>
             nullClient.SendWithRetryAsync(() => new HttpRequestMessage(HttpMethod.Get, "http://localhost")));
-            nullClient!.SendWithRetryAsync(() => new HttpRequestMessage(HttpMethod.Get, "http://localhost")));
+            
     }
 
     [Fact]
@@ -53,8 +52,7 @@ public class HttpClientExtensionTests
     {
         var client = new HttpClient();
         await Assert.ThrowsAsync<ArgumentNullException>(() =>
-            client.SendWithRetryAsync((Func<HttpRequestMessage>)null));
-            client.SendWithRetryAsync((Func<HttpRequestMessage>)null!));
+            client.SendWithRetryAsync((Func<HttpRequestMessage>)null));            
     }
 
     [Fact]

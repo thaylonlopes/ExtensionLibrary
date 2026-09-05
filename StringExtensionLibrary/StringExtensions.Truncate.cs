@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 
 namespace StringExtensionLibrary
 {
@@ -9,64 +9,39 @@ namespace StringExtensionLibrary
         /// </summary>
         /// <param name="s">String to be truncated</param>
         /// <param name="maxLength">number of chars to truncate</param>
-        /// <returns></returns>
-        /// <remarks></remarks>
+        /// <returns>Truncated string with ellipsis</returns>
         public static string Truncate(this string s, int maxLength)
         {
-            if (String.IsNullOrEmpty(s) || maxLength <= 0)
+            if (string.IsNullOrEmpty(s) || maxLength <= 0)
             {
-                return String.Empty;
+                return string.Empty;
             }
+
             if (s.Length > maxLength)
             {
                 return s.Substring(0, maxLength) + "...";
             }
+
             return s;
         }
 
+        /// <summary>
+        /// Truncates the input string given to the length specified and possibly adds an ellipsis at the end to mark a truncation
+        /// </summary>
+        public static string Truncate(this string input, int length, string ellipsis) =>
+            Truncate(input, length, ellipsis, true);
 
         /// <summary>
         /// Truncates the input string given to the length specified and possibly adds an ellipsis at the end to mark a truncation
         /// </summary>
-        /// <param name="input">The input string to truncate</param>
-        /// <param name="length">The desired maximum length of the resulting string</param>
-        /// <param name="ellipsis">An ellipsis to append to the end of a string when it gets truncated or null if no ellipsis is required</param>
-        /// <returns>The input string possibly truncated at the desired length with the ellipsis added. The length of the resulting string will never exceed the length specified</returns>
-
-        public static string Truncate(this string input, int length, string ellipsis)
-        {
-            return Truncate(input, length, ellipsis, true);
-        }
+        public static string Truncate(this string input, int length, string ellipsis, bool inclusiveEllipsis) =>
+            Truncate(input, length, ellipsis, inclusiveEllipsis, null, false, StringComparison.Ordinal);
 
         /// <summary>
         /// Truncates the input string given to the length specified and possibly adds an ellipsis at the end to mark a truncation
         /// </summary>
-        /// <param name="input">The input string to truncate</param>
-        /// <param name="length">The desired maximum length of the resulting string</param>
-        /// <param name="ellipsis">An ellipsis to append to the end of a string when it gets truncated or null if no ellipsis is required</param>
-        /// <param name="inclusiveEllipsis">True if the ellipsis should be taken into account when checking for the length. 
-        /// If false, the input string will be cut of at the length specified and the ellipsis will be added even if that means the resulting string will be longer than the desired length</param>
-        /// <returns>The input string possibly truncated at the desired length with the ellipsis added</returns>
-
-        public static string Truncate(this string input, int length, string ellipsis, bool inclusiveEllipsis)
-        {
-            return Truncate(input, length, ellipsis, inclusiveEllipsis, null, false, StringComparison.Ordinal);
-        }
-
-        /// <summary>
-        /// Truncates the input string given to the length specified and possibly adds an ellipsis at the end to mark a truncation
-        /// </summary>
-        /// <param name="input">The input string to truncate</param>
-        /// <param name="length">The desired maximum length of the resulting string</param>
-        /// <param name="ellipsis">An ellipsis to append to the end of a string when it gets truncated or null if no ellipsis is required</param>
-        /// <param name="inclusiveEllipsis">True if the ellipsis should be taken into account when checking for the length. 
-        /// If false, the input string will be cut of at the length specified and the ellipsis will be added even if that means the resulting string will be longer than the desired length</param>
-        /// <param name="boundary">A string (e.g. space) on which to break.</param>
-        /// <param name="emptyOnNoBoundary">Determines the default behavior When no boundary is found. (Empty string or truncate without boundary)</param>
-        /// <param name="comparisonType">The way boundary should be compared to the input string</param>
-        /// <returns>The input string possibly truncated at the desired length with the ellipsis added</returns>
-
-        public static string Truncate(this string input,
+        public static string Truncate(
+            this string input,
             int length,
             string ellipsis,
             bool inclusiveEllipsis,
@@ -74,76 +49,55 @@ namespace StringExtensionLibrary
             bool emptyOnNoBoundary,
             StringComparison comparisonType)
         {
-            // preconditions
             if (input == null)
-                throw new ArgumentNullException("input");
+            {
+                throw new ArgumentNullException(nameof(input));
+            }
+
             if (length < 0)
-                throw new ArgumentOutOfRangeException("length", "length cant be smaller than 0");
-
-            // the length of ellipsis might not be larger than the desired length of the resulting string when inclusiveEllipsis is set
-            if (ellipsis != null)
             {
-                if (inclusiveEllipsis)
-                {
-                    if (ellipsis.Length > length)
-                        throw new ArgumentException("Ellipsis cant be larger than the desired length when inclusiveEllipsis is set", "ellipsis");
-                }
+                throw new ArgumentOutOfRangeException(nameof(length), "length cant be smaller than 0");
             }
 
-            string result = input;
-
-            if (input.Length > length)
+            if (inclusiveEllipsis && ellipsis != null && ellipsis.Length > length)
             {
-                int checkLength = length;
-
-                if (inclusiveEllipsis && !string.IsNullOrEmpty(ellipsis))
-                {
-                    // ensure that we leave space for the ellipsis
-                    checkLength -= ellipsis.Length;
-                }
-                if (!string.IsNullOrEmpty(boundary))
-                {
-                    int boundaryIndex = input.LastIndexOf(boundary, checkLength, checkLength, comparisonType);
-                    if (boundaryIndex != -1)
-                    {
-                        int boundaryLength = boundaryIndex; // we want to stop right before the boundary starts so we can use the index of the boundary as the length.
-
-                        result = input.Left(boundaryLength);
-                    }
-                    else
-                    {
-                        if (emptyOnNoBoundary)
-                        {
-                            result = string.Empty;
-                        }
-                        else
-                        {
-                            result = input.Left(length);
-                        }
-                    }
-                }
-                else
-                {
-                    result = input.Left(checkLength);
-                }
-
-                if (!string.IsNullOrEmpty(ellipsis))
-                {
-                    result += ellipsis;
-                }
-            }
-            else
-            {
-                if (!inclusiveEllipsis)
-                {
-                    if (ellipsis != null)
-                    {
-                        result += ellipsis;
-                    }
-                }
+                throw new ArgumentException("Ellipsis cant be larger than the desired length when inclusiveEllipsis is set", nameof(ellipsis));
             }
 
-            return result;
+            if (input.Length <= length)
+            {
+                return !inclusiveEllipsis && ellipsis != null ? input + ellipsis : input;
+            }
+
+            int checkLength = inclusiveEllipsis && !string.IsNullOrEmpty(ellipsis)
+                ? length - ellipsis.Length
+                : length;
+
+            string truncated = TruncateToBoundary(input, length, checkLength, boundary, emptyOnNoBoundary, comparisonType);
+
+            return !string.IsNullOrEmpty(ellipsis) ? truncated + ellipsis : truncated;
+        }
+
+        private static string TruncateToBoundary(
+            string input,
+            int length,
+            int checkLength,
+            string boundary,
+            bool emptyOnNoBoundary,
+            StringComparison comparisonType)
+        {
+            if (string.IsNullOrEmpty(boundary))
+            {
+                return input.Left(checkLength);
+            }
+
+            int boundaryIndex = input.LastIndexOf(boundary, checkLength, checkLength, comparisonType);
+            if (boundaryIndex != -1)
+            {
+                return input.Left(boundaryIndex);
+            }
+
+            return emptyOnNoBoundary ? string.Empty : input.Left(length);
         }
     }
 }
