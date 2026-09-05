@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 
 namespace NumericExtensionLibrary
 {
@@ -6,7 +6,6 @@ namespace NumericExtensionLibrary
     {
 
 
-        /// <summary>
         /// <summary>
         /// Calculates the sum of the digits of a number.
         /// </summary>

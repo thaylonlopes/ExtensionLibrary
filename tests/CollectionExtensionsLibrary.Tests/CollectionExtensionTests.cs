@@ -38,4 +38,55 @@ public class CollectionExtensionTests
 
         Assert.Equal(new[] { "z", "b", "z" }, list);
     }
+
+    [Fact]
+    public void ToKeysetPagedList_FirstPage_ShouldReturnPageAndNextCursor()
+    {
+        var data = Enumerable.Range(1, 50).Select(i => new { Id = i, Name = $"Item {i}" });
+
+        var page = data.ToKeysetPagedList(x => x.Id, pageSize: 10);
+
+        Assert.Equal(10, page.Items.Count);
+        Assert.Equal(1, page.Items[0].Id);
+        Assert.Equal(10, page.Items[9].Id);
+        Assert.True(page.HasNextPage);
+        Assert.False(page.HasPreviousPage);
+        Assert.Equal(10, page.NextCursor);
+    }
+
+    [Fact]
+    public void ToKeysetPagedList_SecondPage_ShouldReturnNextItems()
+    {
+        var data = Enumerable.Range(1, 25).Select(i => new { Id = i, Name = $"Item {i}" });
+
+        var page = data.ToKeysetPagedList(x => x.Id, cursor: 10, pageSize: 10, SeekDirection.Forward);
+
+        Assert.Equal(10, page.Items.Count);
+        Assert.Equal(11, page.Items[0].Id);
+        Assert.Equal(20, page.Items[9].Id);
+        Assert.True(page.HasNextPage);
+        Assert.True(page.HasPreviousPage);
+        Assert.Equal(20, page.NextCursor);
+    }
+
+    [Fact]
+    public void ToKeysetPagedList_Backward_ShouldNavigateInReverseChronologicalOrder()
+    {
+        var data = Enumerable.Range(1, 50).Select(i => new { Id = i, Name = $"Item {i}" });
+
+        var page = data.ToKeysetPagedList(x => x.Id, cursor: 21, pageSize: 10, SeekDirection.Backward);
+
+        Assert.Equal(10, page.Items.Count);
+        Assert.Equal(11, page.Items[0].Id);
+        Assert.Equal(20, page.Items[9].Id);
+    }
+
+    [Fact]
+    public void ToKeysetPagedList_InvalidPageSize_ShouldThrowArgumentOutOfRangeException()
+    {
+        var data = new[] { 1, 2, 3 };
+
+        Assert.Throws<ArgumentOutOfRangeException>(() =>
+            data.ToKeysetPagedList(x => x, pageSize: 0));
+    }
 }

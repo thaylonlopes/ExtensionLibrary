@@ -1,4 +1,4 @@
-﻿namespace StringExtensionLibrary
+namespace StringExtensionLibrary
 {
     public static partial class StringExtensions
     {
@@ -12,7 +12,7 @@
         /// <returns>true if string satisfies minimum and maximum allowable length</returns>
         public static bool IsLength(this string val, int minCharLength, int maxCharLength)
         {
-            return val != null && val.Length >= minCharLength && val.Length <= minCharLength;
+            return val != null && val.Length >= minCharLength && val.Length <= maxCharLength;
         }
 
         /// <summary>

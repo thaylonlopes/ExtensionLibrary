@@ -28,6 +28,8 @@ dotnet add package TL.CollectionExtensionsLibrary
 | `Shuffle()` | `IEnumerable<T>` | Embaralha os elementos com algoritmo Fisher-Yates e distribuição estatisticamente uniforme. |
 | `WhereIf(condition, predicate)` | `IEnumerable<T>` | Aplica o filtro de forma condicional apenas se `condition` for verdadeira. |
 | `DistinctBy(keySelector)` | `IEnumerable<T>` | Retorna elementos com base na unicidade da chave selecionada. |
+| `ToKeysetPagedList(keySelector, pageSize)` | `KeysetPagedList<T, TKey>` | Paginação de alta performance Keyset/Seek $O(1)$ para a primeira página. |
+| `ToKeysetPagedList(keySelector, cursor, pageSize, direction)` | `KeysetPagedList<T, TKey>` | Navegação Keyset/Seek $O(1)$ em streaming baseada em cursor e direção (`Forward` / `Backward`). |
 | `IsNullOrEmpty()` | `bool` | Valida se a coleção é nula ou se não possui nenhum elemento. |
 
 ### `IList<T>`

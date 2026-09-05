@@ -37,4 +37,60 @@ public class QueryableExtensionTests
 
         Assert.Throws<ArgumentException>(() => query.Filter("PropriedadeInexistente", "Valor"));
     }
+
+    [Fact]
+    public void ToKeysetPagedList_FirstPage_ShouldReturnPageAndCursors()
+    {
+        var query = Enumerable.Range(1, 30)
+            .Select(i => new Product { Id = i, Name = $"Product {i}", Price = i * 10 })
+            .AsQueryable();
+
+        var page = query.ToKeysetPagedList(x => x.Id, pageSize: 10);
+
+        Assert.Equal(10, page.Items.Count);
+        Assert.Equal(1, page.Items[0].Id);
+        Assert.Equal(10, page.Items[9].Id);
+        Assert.True(page.HasNextPage);
+        Assert.False(page.HasPreviousPage);
+        Assert.Equal(10, page.NextCursor);
+    }
+
+    [Fact]
+    public void ToKeysetPagedList_SeekForward_ShouldReturnNextPage()
+    {
+        var query = Enumerable.Range(1, 30)
+            .Select(i => new Product { Id = i, Name = $"Product {i}", Price = i * 10 })
+            .AsQueryable();
+
+        var page = query.ToKeysetPagedList(x => x.Id, cursor: 10, pageSize: 10, SeekDirection.Forward);
+
+        Assert.Equal(10, page.Items.Count);
+        Assert.Equal(11, page.Items[0].Id);
+        Assert.Equal(20, page.Items[9].Id);
+        Assert.True(page.HasNextPage);
+        Assert.True(page.HasPreviousPage);
+    }
+
+    [Fact]
+    public void ToKeysetPagedList_SeekBackward_ShouldReturnPreviousPageInOriginalOrder()
+    {
+        var query = Enumerable.Range(1, 30)
+            .Select(i => new Product { Id = i, Name = $"Product {i}", Price = i * 10 })
+            .AsQueryable();
+
+        var page = query.ToKeysetPagedList(x => x.Id, cursor: 21, pageSize: 10, SeekDirection.Backward);
+
+        Assert.Equal(10, page.Items.Count);
+        Assert.Equal(11, page.Items[0].Id);
+        Assert.Equal(20, page.Items[9].Id);
+    }
+
+    [Fact]
+    public void ToKeysetPagedList_InvalidPageSize_ShouldThrowArgumentOutOfRangeException()
+    {
+        var query = new List<Product>().AsQueryable();
+
+        Assert.Throws<ArgumentOutOfRangeException>(() =>
+            query.ToKeysetPagedList(x => x.Id, pageSize: -1));
+    }
 }

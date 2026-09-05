@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 
 namespace StringExtensionLibrary
 {
@@ -17,27 +17,27 @@ namespace StringExtensionLibrary
         /// </remarks>
         public static bool ToBoolean(this string value)
         {
-            if (string.IsNullOrEmpty(value) || string.IsNullOrWhiteSpace(value))
+            if (string.IsNullOrWhiteSpace(value))
             {
-                throw new ArgumentException("value");
+                throw new ArgumentException("Value cannot be null, empty or white-space.", nameof(value));
             }
-            string val = value.ToLower().Trim();
+
+            string val = value.Trim().ToLowerInvariant();
+
             switch (val)
             {
-                case "false":
-                    return false;
                 case "true":
-                    return true;
                 case "yes":
-                    return true;
-                case "no":
-                    return false;
                 case "y":
                     return true;
+
+                case "false":
+                case "no":
                 case "n":
                     return false;
+
                 default:
-                    throw new ArgumentException("Invalid boolean");
+                    throw new ArgumentException("Invalid boolean", nameof(value));
             }
         }
     }

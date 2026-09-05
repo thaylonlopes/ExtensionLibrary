@@ -1,4 +1,4 @@
-﻿using Newtonsoft.Json;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,7 +9,7 @@ namespace StringExtensionLibrary
     {
         /// <summary>
         ///     Converts a Json string to dictionary object method applicable for single hierarchy objects i.e
-        ///     no parent child relationships, for parent child relationships <see cref="JsonToExpanderObject" />
+        ///     no parent child relationships, for parent child relationships use ExpandoObject.
         /// </summary>
         /// <param name="val">string formated as Json</param>
         /// <returns>IDictionary Json object</returns>
@@ -20,35 +20,35 @@ namespace StringExtensionLibrary
         {
             if (string.IsNullOrEmpty(val))
             {
-                throw new ArgumentNullException("val");
+                throw new ArgumentNullException(nameof(val));
             }
-            return
-                (Dictionary<string, object>)JsonConvert.DeserializeObject(val, typeof(Dictionary<string, object>));
-        }
 
+            return JsonConvert.DeserializeObject<Dictionary<string, object>>(val)
+                   ?? new Dictionary<string, object>();
+        }
 
         /// <summary>
         ///     Convert url query string to IDictionary value key pair
         /// </summary>
         /// <param name="queryString">query string value</param>
-        /// <returns>IDictionary value key pair</returns>
+        /// <returns>IDictionary value key pair (empty dictionary if invalid or absent)</returns>
         public static IDictionary<string, string> QueryStringToDictionary(this string queryString)
         {
-            if (string.IsNullOrWhiteSpace(queryString))
+            if (string.IsNullOrWhiteSpace(queryString) || !queryString.Contains('?') || !queryString.Contains('='))
             {
-                return null;
+                return new Dictionary<string, string>();
             }
-            if (!queryString.Contains("?"))
-            {
-                return null;
-            }
-            string query = queryString.Replace("?", "");
-            if (!query.Contains("="))
-            {
-                return null;
-            }
-            return query.Split('&').Select(p => p.Split('=')).ToDictionary(
-                key => key[0].ToLower().Trim(), value => value[1]);
+
+            string query = queryString.Replace("?", string.Empty);
+
+            return query
+                .Split(new[] { '&' }, StringSplitOptions.RemoveEmptyEntries)
+                .Select(p => p.Split('='))
+                .Where(parts => parts.Length >= 2)
+                .ToDictionary(
+                    key => key[0].Trim().ToLowerInvariant(),
+                    value => value[1]
+                );
         }
     }
 }

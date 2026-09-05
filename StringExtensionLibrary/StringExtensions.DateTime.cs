@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Globalization;
 
 namespace StringExtensionLibrary
@@ -11,13 +11,7 @@ namespace StringExtensionLibrary
         /// <param name="data">String date</param>
         /// <param name="dateFormat">date format example dd/MM/yyyy HH:mm:ss</param>
         /// <returns>boolean True False if is valid System.DateTime</returns>
-        public static bool IsDateTime(this string data, string dateFormat)
-        {
-            // ReSharper disable once RedundantAssignment
-            DateTime dateVal = default(DateTime);
-            return DateTime.TryParseExact(data, dateFormat, CultureInfo.InvariantCulture, DateTimeStyles.None,
-                out dateVal);
-        }
-
+        public static bool IsDateTime(this string data, string dateFormat) =>
+            DateTime.TryParseExact(data, dateFormat, CultureInfo.InvariantCulture, DateTimeStyles.None, out _);
     }
 }

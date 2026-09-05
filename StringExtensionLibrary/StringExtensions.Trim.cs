@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 
 namespace StringExtensionLibrary
 {
@@ -24,8 +24,6 @@ namespace StringExtensionLibrary
         /// <returns>The result string trimmed 0 till x times with the startsWith string</returns>
         public static string TrimStart(this string input, string startsWith, StringComparison comparisonType)
         {
-            // its safe to call trimStart with int.MaxValue as max since a string cannot the currently restricted 2gb size limit.
-            // however, this might change in the future
             return TrimStart(input, startsWith, comparisonType, int.MaxValue);
         }
 
@@ -56,18 +54,16 @@ namespace StringExtensionLibrary
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1021:AvoidOutParameters", MessageId = "4#", Justification = "This API design choice is conform the standard")]
         public static string TrimStart(this string input, string startsWith, StringComparison comparisonType, int max, out int total)
         {
-            // preconditions
             if (input == null)
-                throw new ArgumentNullException("input");
+                throw new ArgumentNullException(nameof(input));
             if (startsWith == null)
-                throw new ArgumentNullException("startsWith");
+                throw new ArgumentNullException(nameof(startsWith));
             if (max <= 0)
-                throw new ArgumentOutOfRangeException("max", "Max cannot be smaller or equal to 0");
+                throw new ArgumentOutOfRangeException(nameof(max), "Max cannot be smaller or equal to 0");
 
             string result = input;
             total = 0;
 
-            // optimization to prevent empty startWith sequences from being removed
             if (startsWith.Length > 0)
             {
                 for (; total < max; total++)
@@ -106,8 +102,6 @@ namespace StringExtensionLibrary
         /// <returns>The result string trimmed 0 till x times with the value string</returns>
         public static string TrimEnd(this string input, string endsWith, StringComparison comparisonType)
         {
-            // its safe to call trimStart with int.MaxValue as max since a string cannot the currently restricted 2gb size limit.
-            // however, this might change in the future
             return TrimEnd(input, endsWith, comparisonType, int.MaxValue);
         }
 
@@ -138,18 +132,16 @@ namespace StringExtensionLibrary
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1021:AvoidOutParameters", MessageId = "4#", Justification = "This API design choice is conform the standard")]
         public static string TrimEnd(this string input, string endsWith, StringComparison comparisonType, int max, out int total)
         {
-            // preconditions
             if (input == null)
-                throw new ArgumentNullException("input");
+                throw new ArgumentNullException(nameof(input));
             if (endsWith == null)
-                throw new ArgumentNullException("endsWith");
+                throw new ArgumentNullException(nameof(endsWith));
             if (max <= 0)
-                throw new ArgumentOutOfRangeException("max", "Max cannot be smaller or equal to 0");
+                throw new ArgumentOutOfRangeException(nameof(max), "Max cannot be smaller or equal to 0");
 
             string result = input;
             total = 0;
 
-            // optimization to prevent empty value sequences from being removed
             if (endsWith.Length > 0)
             {
                 for (; total < max; total++)

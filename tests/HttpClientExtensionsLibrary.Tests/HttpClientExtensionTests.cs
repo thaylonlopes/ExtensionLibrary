@@ -37,4 +37,40 @@ public class HttpClientExtensionTests
         Assert.Equal(HttpStatusCode.OK, response.StatusCode);
         Assert.Equal(2, handler.InvocationCount);
     }
+
+    [Fact]
+    public async Task SendWithRetryAsync_WithNullClient_ShouldThrowArgumentNullException()
+    {
+        HttpClient? nullClient = null;
+        await Assert.ThrowsAsync<ArgumentNullException>(() =>
+            nullClient.SendWithRetryAsync(() => new HttpRequestMessage(HttpMethod.Get, "http://localhost")));
+            
+    }
+
+    [Fact]
+    public async Task SendWithRetryAsync_WithNullFactory_ShouldThrowArgumentNullException()
+    {
+        var client = new HttpClient();
+        await Assert.ThrowsAsync<ArgumentNullException>(() =>
+            client.SendWithRetryAsync((Func<HttpRequestMessage>)null));            
+    }
+
+    [Fact]
+    public void HasClaim_ShouldIdentifyJwtClaims()
+    {
+        var handler = new System.IdentityModel.Tokens.Jwt.JwtSecurityTokenHandler();
+        var descriptor = new Microsoft.IdentityModel.Tokens.SecurityTokenDescriptor
+        {
+            Subject = new System.Security.Claims.ClaimsIdentity(new[]
+            {
+                new System.Security.Claims.Claim("sub", "user-999"),
+                new System.Security.Claims.Claim("role", "Manager")
+            })
+        };
+        var tokenString = handler.CreateEncodedJwt(descriptor);
+
+        Assert.True(HttpClientExtensions.HasClaim(tokenString, "sub", "user-999"));
+        Assert.True(HttpClientExtensions.HasClaim(tokenString, "role", "Manager"));
+        Assert.False(HttpClientExtensions.HasClaim(tokenString, "role", "Guest"));
+    }
 }

@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Linq;
 using System.Text;
 
@@ -60,10 +60,12 @@ namespace StringExtensionLibrary
             if (val == null)
             {
                 throw new ArgumentNullException("val", "val parameter is null");
+                throw new ArgumentNullException(nameof(val), "val parameter is null");
             }
             if (suffix == null)
             {
                 throw new ArgumentNullException("suffix", "suffix parameter is null");
+                throw new ArgumentNullException(nameof(suffix), "suffix parameter is null");
             }
             if (val.Length < suffix.Length)
             {
@@ -83,10 +85,12 @@ namespace StringExtensionLibrary
             if (val == null)
             {
                 throw new ArgumentNullException("val", "val parameter is null");
+                throw new ArgumentNullException(nameof(val), "val parameter is null");
             }
             if (prefix == null)
             {
                 throw new ArgumentNullException("prefix", "prefix parameter is null");
+                throw new ArgumentNullException(nameof(prefix), "prefix parameter is null");
             }
             if (val.Length < prefix.Length)
             {
@@ -155,8 +159,7 @@ namespace StringExtensionLibrary
             {
                 chars[j] = val[i];
             }
-            val = new String(chars);
-            return val;
+            return new string(chars);
         }
 
 
