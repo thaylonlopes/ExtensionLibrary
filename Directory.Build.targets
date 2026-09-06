@@ -1,0 +1,9 @@
+﻿<Project>
+  <!-- Segmentação Física por TargetFramework (Zero #if em código C# de negócio) -->
+  <ItemGroup Condition="'$(TargetFramework)' == 'net8.0'">
+    <Compile Remove="**\*.NetStd.cs" />
+  </ItemGroup>
+  <ItemGroup Condition="'$(TargetFramework)' != 'net8.0'">
+    <Compile Remove="**\*.Net8.cs" />
+  </ItemGroup>
+</Project>
