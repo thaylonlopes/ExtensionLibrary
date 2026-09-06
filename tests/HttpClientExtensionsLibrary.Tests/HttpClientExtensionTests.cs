@@ -52,7 +52,7 @@ public class HttpClientExtensionTests
     {
         var client = new HttpClient();
         await Assert.ThrowsAsync<ArgumentNullException>(() =>
-            client.SendWithRetryAsync((Func<HttpRequestMessage>)null));            
+            client.SendWithRetryAsync((Func<HttpRequestMessage>)null!));
     }
 
     [Fact]

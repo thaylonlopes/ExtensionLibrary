@@ -1,9 +1,12 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <TargetFrameworks>net5.0;net6.0;net8.0</TargetFrameworks>
+    <TargetFrameworks>netstandard2.0;net8.0</TargetFrameworks>
     <Nullable>disable</Nullable>
     <PackageId>TL.HttpClientExtensionsLibrary</PackageId>
     <Description>Extensões para simplificar o uso do HttpClient.</Description>
+    <Description>Resilient HttpClient extensions for .NET: safe request handling, built-in retry policies, JSON helpers, and robust API communication.</Description>
+    <PackageTags>$(PackageTags);httpclient;http;resilience;retry;polly;rest;jwt;api</PackageTags>
     <Title>HttpClientExtensionsLibrary</Title>
     <PackageReadmeFile>README.md</PackageReadmeFile>
   </PropertyGroup>

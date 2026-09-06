@@ -78,7 +78,7 @@ namespace HttpClientExtensionsLibrary
             var response = await client.SendAsync(request);
             stopwatch.Stop();
 
-            await using (var writer = new StreamWriter(filePath, append: true))
+            using (var writer = new StreamWriter(filePath, append: true))
             {
                 await LogRequestToFileAsync(writer, request);
                 await LogResponseToFileAsync(writer, response, stopwatch.ElapsedMilliseconds);

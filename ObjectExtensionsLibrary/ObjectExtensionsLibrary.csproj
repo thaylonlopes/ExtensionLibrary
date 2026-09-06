@@ -1,12 +1,19 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <TargetFrameworks>net5.0;net6.0;net8.0</TargetFrameworks>
+    <TargetFrameworks>netstandard2.0;net8.0</TargetFrameworks>
     <Nullable>disable</Nullable>
     <PackageId>TL.ObjectExtensionsLibrary</PackageId>
     <Description>Projeto de extensão para objetos</Description>
+    <Description>Handy C# object extensions: pre-configured JSON serialization, dictionary/Expando conversion, deep cloning, and cached property access.</Description>
+    <PackageTags>$(PackageTags);object;json;serialization;reflection;expando;cloning;mapping</PackageTags>
     <Title>ObjectExtensionsLibrary</Title>
     <PackageReadmeFile>README.md</PackageReadmeFile>
   </PropertyGroup>
+
+  <ItemGroup Condition="'$(TargetFramework)' == 'netstandard2.0'">
+    <PackageReference Include="System.Text.Json" />
+  </ItemGroup>
 
   <ItemGroup>
     <None Include="README.md" Pack="true" PackagePath="\" />

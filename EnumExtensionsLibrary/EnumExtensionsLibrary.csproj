@@ -1,9 +1,12 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <TargetFrameworks>netstandard2.0;net5.0;net6.0;net8.0</TargetFrameworks>
+    <TargetFrameworks>netstandard2.0;net8.0</TargetFrameworks>
     <Nullable>disable</Nullable>
     <PackageId>TL.EnumExtensionsLibrary</PackageId>
     <Description>Projeto de extensão para enum</Description>
+    <Description>Cached and safe enum extensions for .NET: fast attribute description lookup, key-value mappings, and reliable string parsing.</Description>
+    <PackageTags>$(PackageTags);enum;descriptions;attributes;enum-values;parsing;reflection</PackageTags>
     <Title>EnumExtensionsLibrary</Title>
     <PackageReadmeFile>README.md</PackageReadmeFile>
   </PropertyGroup>

@@ -1,9 +1,12 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <TargetFrameworks>net5.0;net6.0;net8.0</TargetFrameworks>
+    <TargetFrameworks>netstandard2.0;net8.0</TargetFrameworks>
     <Nullable>disable</Nullable>
     <PackageId>TL.ClaimsPrincipalExtensionsLibrary</PackageId>
     <Description>Projeto de extensão para ClaimsPrincipal</Description>
+    <Description>Strongly-typed ClaimsPrincipal extensions for ASP.NET Core: clean, safe access to user IDs, roles, emails, and authentication claims.</Description>
+    <PackageTags>$(PackageTags);identity;claims;security;authorization;roles;jwt;aspnetcore</PackageTags>
     <Title>ClaimsPrincipalExtensionsLibrary</Title>
     <PackageReadmeFile>README.md</PackageReadmeFile>
   </PropertyGroup>

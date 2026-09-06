@@ -1,9 +1,12 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <TargetFrameworks>net5.0;net6.0;net8.0</TargetFrameworks>
+    <TargetFrameworks>netstandard2.0;net8.0</TargetFrameworks>
     <Nullable>disable</Nullable>
     <PackageId>TL.DateTimeExtensionsLibrary</PackageId>
     <Description>Projeto de extensão para DateTime</Description>
+    <Description>Business-ready DateTime extensions for .NET: business day calculations, holiday evaluation, deadline handling, and fluent date arithmetic.</Description>
+    <PackageTags>$(PackageTags);datetime;business-days;calendar;date;time;holiday;workdays</PackageTags>
     <Title>DateTimeExtensionsLibrary</Title>
     <PackageReadmeFile>README.md</PackageReadmeFile>
   </PropertyGroup>

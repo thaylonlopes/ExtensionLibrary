@@ -1,9 +1,12 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <TargetFrameworks>netstandard2.0;net5.0;net6.0;net8.0</TargetFrameworks>
+    <TargetFrameworks>netstandard2.0;net8.0</TargetFrameworks>
     <Nullable>disable</Nullable>
     <PackageId>TL.NumericExtensionsLibrary</PackageId>
     <Description>Projeto de extensão para numeros</Description>
+    <Description>Lightweight numeric helpers for C#: value clamping, percentage calculations, and fluent math utilities for domain models and business logic.</Description>
+    <PackageTags>$(PackageTags);numeric;math;calculate;digitsum;percentage;numbers</PackageTags>
     <Title>NumericExtensionsLibrary</Title>
     <PackageReadmeFile>README.md</PackageReadmeFile>
   </PropertyGroup>
