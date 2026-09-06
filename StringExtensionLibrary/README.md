@@ -1,9 +1,10 @@
-# 🧵 TL.StringExtensionsLibrary
+﻿# 🧵 TL.StringExtensionsLibrary
 
 [![NuGet](https://img.shields.io/nuget/v/TL.StringExtensionsLibrary.svg?style=flat-square&label=TL.StringExtensionsLibrary)](https://www.nuget.org/packages/TL.StringExtensionsLibrary/)
-[![.NET](https://img.shields.io/badge/.NET-netstandard2.0%20%7C%20net5.0%20%7C%20net6.0%20%7C%20net8.0-blue.svg)](https://dotnet.microsoft.com/)
+[![.NET](https://img.shields.io/badge/.NET-netstandard2.0%20%7C%20net8.0-blue.svg)](https://dotnet.microsoft.com/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](../LICENSE.txt)
-[![ADR](https://img.shields.io/badge/ADR-ADR--001-success.svg)](../docs/adr/ADR-001-string-extensions-library.md)
+> **Essential and ergonomic C# string utilities: safe truncation, span-friendly trimming, case-insensitive helpers, and clean parsing.**  
+> *Utilitários essenciais e ergonômicos de string em C#: truncamento seguro, trim otimizado, comparações case-insensitive e conversões limpas.*
 
 O **`TL.StringExtensionsLibrary`** fornece um conjunto abrangente de métodos de extensão para manipulação, formatação, validação, sanitização e conversão segura de cadeias de caracteres (`string`) em aplicações C# / .NET.
 

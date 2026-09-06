@@ -1,9 +1,10 @@
-# 🏷️ TL.EnumExtensionsLibrary
+﻿# 🏷️ TL.EnumExtensionsLibrary
 
 [![NuGet](https://img.shields.io/nuget/v/TL.EnumExtensionsLibrary.svg?style=flat-square&label=TL.EnumExtensionsLibrary)](https://www.nuget.org/packages/TL.EnumExtensionsLibrary/)
-[![.NET](https://img.shields.io/badge/.NET-netstandard2.0%20%7C%20net5.0%20%7C%20net6.0%20%7C%20net8.0-blue.svg)](https://dotnet.microsoft.com/)
+[![.NET](https://img.shields.io/badge/.NET-netstandard2.0%20%7C%20net8.0-blue.svg)](https://dotnet.microsoft.com/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](../LICENSE.txt)
-[![ADR](https://img.shields.io/badge/ADR-ADR--003-success.svg)](../docs/adr/ADR-003-enum-extensions-library.md)
+> **Cached and safe enum extensions for .NET: fast attribute description lookup, key-value mappings, and reliable string parsing.**  
+> *Extensões seguras e com cache para Enums no .NET: busca rápida de descrições por atributos, mapeamentos chave-valor e conversões confiáveis.*
 
 O **`TL.EnumExtensionsLibrary`** é uma biblioteca .NET BCL pura voltada para a manipulação produtiva e de alta performance de tipos enumerados (`System.Enum`), fornecendo cache thread-safe de metadados, suporte a descrições multicenário/chave (`[EnumDescription]`), conversão para dicionários e busca reversa.
 

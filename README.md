@@ -1,6 +1,11 @@
+<p align="center">
+  <img src="assets/icon.svg" alt="TL Extensions Icon" width="128" height="128" />
+</p>
+
 # 🚀 TL.UtilExtensions (ExtensionLibrary)
 
-[![.NET](https://img.shields.io/badge/.NET-netstandard2.0%20%7C%20net5.0%20%7C%20net6.0%20%7C%20net8.0-blue.svg)](https://dotnet.microsoft.com/)
+[![.NET](https://img.shields.io/badge/.NET-netstandard2.0%20%7C%20net8.0-blue.svg)](https://dotnet.microsoft.com/)
+[![Release](https://img.shields.io/badge/Release-v0.3.0-informational.svg)](https://github.com/thaylonmayk/ExtensionLibrary/releases)
 [![NuGet Profile](https://img.shields.io/badge/NuGet-ThaylonMALopes-004880.svg?logo=nuget)](https://www.nuget.org/profiles/ThaylonMALopes)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![Architecture: ADRs](https://img.shields.io/badge/ADRs-10%20Decisões%20Arquiteturais-success.svg)](./docs/adr/)
@@ -13,18 +18,18 @@ Cada módulo é empacotado e distribuído de forma **independente no NuGet** sob
 
 ## 📦 Catálogo de Módulos NuGet & Documentação
 
-| Pacote NuGet | Runtimes Suportados | Dependências | Guia do Pacote | Decisão Arquitetural |
+| Pacote NuGet | Descrição Oficial (Resumo) | Runtimes Suportados | Guia do Pacote | Decisão Arquitetural |
 | :--- | :--- | :---: | :---: | :---: |
-| **`TL.StringExtensionsLibrary`** | `netstandard2.0`<br/>`net5.0`<br/>`net6.0`<br/>`net8.0` | `Newtonsoft.Json` | [README](./StringExtensionLibrary/README.md) | [ADR-001](./docs/adr/ADR-001-string-extensions-library.md) |
-| **`TL.NumericExtensionsLibrary`** | `netstandard2.0`<br/>`net5.0`<br/>`net6.0`<br/>`net8.0` | **Zero (BCL pura)** | [README](./NumericExtensionLibrary/README.md) | [ADR-002](./docs/adr/ADR-002-numeric-extensions-library.md) |
-| **`TL.EnumExtensionsLibrary`** | `netstandard2.0`<br/>`net5.0`<br/>`net6.0`<br/>`net8.0` | **Zero (BCL pura)** | [README](./EnumExtensionsLibrary/README.md) | [ADR-003](./docs/adr/ADR-003-enum-extensions-library.md) |
-| **`TL.ClaimsPrincipalExtensionsLibrary`** | `net5.0`<br/>`net6.0`<br/>`net8.0` | **Zero (BCL pura)** | [README](./ClaimsPrincipalExtensionsLibrary/README.md) | [ADR-004](./docs/adr/ADR-004-claims-principal-extensions-library.md) |
-| **`TL.AssemblyExtensionLibrary`** | `net8.0` | **Zero (BCL pura)** | [README](./AssemblyExtensionLibrary/README.md) | [ADR-005](./docs/adr/ADR-005-assembly-extension-library.md) |
-| **`TL.DateTimeExtensionsLibrary`** | `net5.0`<br/>`net6.0`<br/>`net8.0` | **Zero (BCL pura)** | [README](./DateTimeExtensionsLibrary/README.md) | [ADR-006](./docs/adr/ADR-006-date-time-extensions-library.md) |
-| **`TL.CollectionExtensionsLibrary`** | `net5.0`<br/>`net6.0`<br/>`net8.0` | **Zero (BCL pura)** | [README](./CollectionExtensionsLibrary/README.md) | [ADR-007](./docs/adr/ADR-007-collection-extensions-library.md) |
-| **`TL.HttpClientExtensionsLibrary`** | `net5.0`<br/>`net6.0`<br/>`net8.0` | `Newtonsoft.Json`<br/>`Jwt` | [README](./HttpClientExtensionsLibrary/README.md) | [ADR-008](./docs/adr/ADR-008-http-client-extensions-library.md) |
-| **`TL.ObjectExtensionsLibrary`** | `net5.0`<br/>`net6.0`<br/>`net8.0` | **Zero (BCL pura)** | [README](./ObjectExtensionsLibrary/README.md) | [ADR-009](./docs/adr/ADR-009-object-extensions-library.md) |
-| **`TL.QueryableExtensionsLibrary`** | `net5.0`<br/>`net6.0`<br/>`net8.0` | **Zero (BCL pura)** | [README](./QueryableExtensionsLibrary/README.md) | [ADR-010](./docs/adr/ADR-010-queryable-extensions-library.md) |
+| **`TL.StringExtensionsLibrary`** | Essential and ergonomic C# string utilities: safe truncation, span-friendly trimming, case-insensitive helpers, and clean parsing. | `netstandard2.0`<br/>`net8.0` | [README](./StringExtensionLibrary/README.md) | [ADR-001](./docs/adr/ADR-001-string-extensions-library.md) |
+| **`TL.NumericExtensionsLibrary`** | Lightweight numeric helpers for C#: value clamping, percentage calculations, and fluent math utilities for domain models and business logic. | `netstandard2.0`<br/>`net8.0` | [README](./NumericExtensionLibrary/README.md) | [ADR-002](./docs/adr/ADR-002-numeric-extensions-library.md) |
+| **`TL.EnumExtensionsLibrary`** | Cached and safe enum extensions for .NET: fast attribute description lookup, key-value mappings, and reliable string parsing. | `netstandard2.0`<br/>`net8.0` | [README](./EnumExtensionsLibrary/README.md) | [ADR-003](./docs/adr/ADR-003-enum-extensions-library.md) |
+| **`TL.ClaimsPrincipalExtensionsLibrary`** | Strongly-typed ClaimsPrincipal extensions for ASP.NET Core: clean, safe access to user IDs, roles, emails, and authentication claims. | `netstandard2.0`<br/>`net8.0` | [README](./ClaimsPrincipalExtensionsLibrary/README.md) | [ADR-004](./docs/adr/ADR-004-claims-principal-extensions-library.md) |
+| **`TL.AssemblyExtensionLibrary`** | Lightweight assembly scanning extensions for .NET: type discovery, attribute filtering, and metadata helpers for clean dependency injection. | `netstandard2.0`<br/>`net8.0` | [README](./AssemblyExtensionLibrary/README.md) | [ADR-005](./docs/adr/ADR-005-assembly-extension-library.md) |
+| **`TL.DateTimeExtensionsLibrary`** | Business-ready DateTime extensions for .NET: business day calculations, holiday evaluation, deadline handling, and fluent date arithmetic. | `netstandard2.0`<br/>`net8.0` | [README](./DateTimeExtensionsLibrary/README.md) | [ADR-006](./docs/adr/ADR-006-date-time-extensions-library.md) |
+| **`TL.CollectionExtensionsLibrary`** | Practical collection extensions for .NET: efficient batching (ChunkBy), in-memory keyset pagination, safe filtering, and uniform shuffling. | `netstandard2.0`<br/>`net8.0` | [README](./CollectionExtensionsLibrary/README.md) | [ADR-007](./docs/adr/ADR-007-collection-extensions-library.md) |
+| **`TL.HttpClientExtensionsLibrary`** | Resilient HttpClient extensions for .NET: safe request handling, built-in retry policies, JSON helpers, and robust API communication. | `netstandard2.0`<br/>`net8.0` | [README](./HttpClientExtensionsLibrary/README.md) | [ADR-008](./docs/adr/ADR-008-http-client-extensions-library.md) |
+| **`TL.ObjectExtensionsLibrary`** | Handy C# object extensions: pre-configured JSON serialization, dictionary/Expando conversion, deep cloning, and cached property access. | `netstandard2.0`<br/>`net8.0` | [README](./ObjectExtensionsLibrary/README.md) | [ADR-009](./docs/adr/ADR-009-object-extensions-library.md) |
+| **`TL.QueryableExtensionsLibrary`** | Dynamic IQueryable extensions for EF Core: keyset pagination, string-based filtering, safe sorting, and conditional queries for clean APIs. | `netstandard2.0`<br/>`net8.0` | [README](./QueryableExtensionsLibrary/README.md) | [ADR-010](./docs/adr/ADR-010-queryable-extensions-library.md) |
 
 ---
 

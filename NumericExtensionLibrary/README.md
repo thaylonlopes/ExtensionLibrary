@@ -1,9 +1,10 @@
-# 🔢 TL.NumericExtensionsLibrary
+﻿# 🔢 TL.NumericExtensionsLibrary
 
 [![NuGet](https://img.shields.io/nuget/v/TL.NumericExtensionsLibrary.svg?style=flat-square&label=TL.NumericExtensionsLibrary)](https://www.nuget.org/packages/TL.NumericExtensionsLibrary/)
-[![.NET](https://img.shields.io/badge/.NET-netstandard2.0%20%7C%20net5.0%20%7C%20net6.0%20%7C%20net8.0-blue.svg)](https://dotnet.microsoft.com/)
+[![.NET](https://img.shields.io/badge/.NET-netstandard2.0%20%7C%20net8.0-blue.svg)](https://dotnet.microsoft.com/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](../LICENSE.txt)
-[![ADR](https://img.shields.io/badge/ADR-ADR--002-success.svg)](../docs/adr/ADR-002-numeric-extensions-library.md)
+> **Lightweight numeric helpers for C#: value clamping, percentage calculations, and fluent math utilities for domain models and business logic.**  
+> *Utilitários numéricos leves para C#: clamping (limites) de valores, cálculo de porcentagens e métodos matemáticos fluentes para regras de negócio.*
 
 O **`TL.NumericExtensionsLibrary`** fornece uma suíte completa de métodos de extensão matemáticos, estatísticos e de conversão para tipos primitivos (`int`, `double` e `decimal`), com foco em zero alocação, previsibilidade de domínio e alta precisão para cenários financeiros e computação numérica.
 

@@ -1,9 +1,10 @@
-# 🛡️ TL.ClaimsPrincipalExtensionsLibrary
+﻿# 🛡️ TL.ClaimsPrincipalExtensionsLibrary
 
 [![NuGet](https://img.shields.io/nuget/v/TL.ClaimsPrincipalExtensionsLibrary.svg?style=flat-square&label=TL.ClaimsPrincipalExtensionsLibrary)](https://www.nuget.org/packages/TL.ClaimsPrincipalExtensionsLibrary/)
-[![.NET](https://img.shields.io/badge/.NET-net5.0%20%7C%20net6.0%20%7C%20net8.0-blue.svg)](https://dotnet.microsoft.com/)
+[![.NET](https://img.shields.io/badge/.NET-netstandard2.0%20%7C%20net8.0-blue.svg)](https://dotnet.microsoft.com/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](../LICENSE.txt)
-[![ADR](https://img.shields.io/badge/ADR-ADR--004-success.svg)](../docs/adr/ADR-004-claims-principal-extensions-library.md)
+> **Strongly-typed ClaimsPrincipal extensions for ASP.NET Core: clean, safe access to user IDs, roles, emails, and authentication claims.**  
+> *Extensões fortemente tipadas para ClaimsPrincipal no ASP.NET Core: acesso limpo e seguro a IDs, roles, e-mails e claims de autenticação.*
 
 O **`TL.ClaimsPrincipalExtensionsLibrary`** é uma biblioteca .NET BCL pura voltada para a simplificação e segurança na extração de dados de autenticação e autorização a partir de instâncias de `System.Security.Claims.ClaimsPrincipal` (`HttpContext.User`).
 

@@ -1,9 +1,10 @@
-# 📦 TL.CollectionExtensionsLibrary
+﻿# 📦 TL.CollectionExtensionsLibrary
 
 [![NuGet](https://img.shields.io/nuget/v/TL.CollectionExtensionsLibrary.svg?style=flat-square&label=TL.CollectionExtensionsLibrary)](https://www.nuget.org/packages/TL.CollectionExtensionsLibrary/)
-[![.NET](https://img.shields.io/badge/.NET-net5.0%20%7C%20net6.0%20%7C%20net8.0-blue.svg)](https://dotnet.microsoft.com/)
+[![.NET](https://img.shields.io/badge/.NET-netstandard2.0%20%7C%20net8.0-blue.svg)](https://dotnet.microsoft.com/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](../LICENSE.txt)
-[![ADR](https://img.shields.io/badge/ADR-ADR--007-success.svg)](../docs/adr/ADR-007-collection-extensions-library.md)
+> **Practical collection extensions for .NET: efficient batching (ChunkBy), in-memory keyset pagination, safe filtering, and uniform shuffling.**  
+> *Extensões práticas para coleções no .NET: particionamento em lotes (ChunkBy), paginação keyset em memória, filtros seguros e embaralhamento uniforme.*
 
 O **`TL.CollectionExtensionsLibrary`** oferece um conjunto robusto de extensões de alto desempenho para coleções no .NET (`IEnumerable<T>`, `IList<T>`, `Dictionary<TKey, TValue>`, `HashSet<T>`, `Queue<T>` e `Stack<T>`), simplificando particionamento (batching), buscas, ordenações e manipulações comuns com complexidade assintótica previsível.
 

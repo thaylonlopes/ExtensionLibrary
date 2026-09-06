@@ -1,9 +1,10 @@
-# 🌐 TL.HttpClientExtensionsLibrary
+﻿# 🌐 TL.HttpClientExtensionsLibrary
 
 [![NuGet](https://img.shields.io/nuget/v/TL.HttpClientExtensionsLibrary.svg?style=flat-square&label=TL.HttpClientExtensionsLibrary)](https://www.nuget.org/packages/TL.HttpClientExtensionsLibrary/)
-[![.NET](https://img.shields.io/badge/.NET-net5.0%20%7C%20net6.0%20%7C%20net8.0-blue.svg)](https://dotnet.microsoft.com/)
+[![.NET](https://img.shields.io/badge/.NET-netstandard2.0%20%7C%20net8.0-blue.svg)](https://dotnet.microsoft.com/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](../LICENSE.txt)
-[![ADR](https://img.shields.io/badge/ADR-ADR--008-success.svg)](../docs/adr/ADR-008-http-client-extensions-library.md)
+> **Resilient HttpClient extensions for .NET: safe request handling, built-in retry policies, JSON helpers, and robust API communication.**  
+> *Extensões resilientes para HttpClient no .NET: manipulação segura de requisições, políticas de retry integradas, helpers de JSON e comunicação robusta com APIs.*
 
 O **`TL.HttpClientExtensionsLibrary`** é uma biblioteca .NET voltada para simplificar chamadas REST sobre `System.Net.Http.HttpClient`, adicionando suporte a políticas de retentativa resilientes, tratamento de rate limiting (HTTP 429), upload/download de arquivos e manipulação de autenticação com Bearer Token e JWT.
 

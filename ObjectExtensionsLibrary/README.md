@@ -1,9 +1,10 @@
-# 🧩 TL.ObjectExtensionsLibrary
+﻿# 🧩 TL.ObjectExtensionsLibrary
 
 [![NuGet](https://img.shields.io/nuget/v/TL.ObjectExtensionsLibrary.svg?style=flat-square&label=TL.ObjectExtensionsLibrary)](https://www.nuget.org/packages/TL.ObjectExtensionsLibrary/)
-[![.NET](https://img.shields.io/badge/.NET-net5.0%20%7C%20net6.0%20%7C%20net8.0-blue.svg)](https://dotnet.microsoft.com/)
+[![.NET](https://img.shields.io/badge/.NET-netstandard2.0%20%7C%20net8.0-blue.svg)](https://dotnet.microsoft.com/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](../LICENSE.txt)
-[![ADR](https://img.shields.io/badge/ADR-ADR--009-success.svg)](../docs/adr/ADR-009-object-extensions-library.md)
+> **Handy C# object extensions: pre-configured JSON serialization, dictionary/Expando conversion, deep cloning, and cached property access.**  
+> *Utilitários práticos para objetos em C#: serialização JSON pré-configurada, conversões para dicionário/Expando, clonagem e reflexão com cache.*
 
 O **`TL.ObjectExtensionsLibrary`** disponibiliza métodos utilitários genéricos para qualquer instância derivada de `System.Object`, facilitando clonagem profunda (*deep cloning*), conversões para dicionários e `ExpandoObject`, serialização de dados e invocação reflexiva com preservação do stack trace original.
 

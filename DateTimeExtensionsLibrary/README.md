@@ -1,9 +1,10 @@
-# 📅 TL.DateTimeExtensionsLibrary
+﻿# 📅 TL.DateTimeExtensionsLibrary
 
 [![NuGet](https://img.shields.io/nuget/v/TL.DateTimeExtensionsLibrary.svg?style=flat-square&label=TL.DateTimeExtensionsLibrary)](https://www.nuget.org/packages/TL.DateTimeExtensionsLibrary/)
-[![.NET](https://img.shields.io/badge/.NET-net5.0%20%7C%20net6.0%20%7C%20net8.0-blue.svg)](https://dotnet.microsoft.com/)
+[![.NET](https://img.shields.io/badge/.NET-netstandard2.0%20%7C%20net8.0-blue.svg)](https://dotnet.microsoft.com/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](../LICENSE.txt)
-[![ADR](https://img.shields.io/badge/ADR-ADR--006-success.svg)](../docs/adr/ADR-006-date-time-extensions-library.md)
+> **Business-ready DateTime extensions for .NET: business day calculations, holiday evaluation, deadline handling, and fluent date arithmetic.**  
+> *Extensões práticas de DateTime para .NET: cálculo de dias úteis, verificação de feriados, gestão de prazos e operações fluentes com datas.*
 
 O **`TL.DateTimeExtensionsLibrary`** oferece uma suíte de utilitários de alta performance para `System.DateTime`, simplificando cálculos de dias úteis em tempo constante $O(1)$, fatiamento temporal de intervalos (`Chunks`), limites de calendário e formatações especializadas com total preservação do `DateTimeKind`.
 

@@ -1,9 +1,10 @@
-# 🔍 TL.QueryableExtensionsLibrary
+﻿# 🔍 TL.QueryableExtensionsLibrary
 
 [![NuGet](https://img.shields.io/nuget/v/TL.QueryableExtensionsLibrary.svg?style=flat-square&label=TL.QueryableExtensionsLibrary)](https://www.nuget.org/packages/TL.QueryableExtensionsLibrary/)
-[![.NET](https://img.shields.io/badge/.NET-net5.0%20%7C%20net6.0%20%7C%20net8.0-blue.svg)](https://dotnet.microsoft.com/)
+[![.NET](https://img.shields.io/badge/.NET-netstandard2.0%20%7C%20net8.0-blue.svg)](https://dotnet.microsoft.com/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](../LICENSE.txt)
-[![ADR](https://img.shields.io/badge/ADR-ADR--010-success.svg)](../docs/adr/ADR-010-queryable-extensions-library.md)
+> **Dynamic IQueryable extensions for EF Core: keyset pagination, string-based filtering, safe sorting, and conditional queries for clean APIs.**  
+> *Extensões dinâmicas para IQueryable no EF Core: paginação keyset, filtros por string, ordenação segura e consultas condicionais para APIs limpas.*
 
 O **`TL.QueryableExtensionsLibrary`** fornece extensões para `IQueryable<T>` voltadas para construção dinâmica de consultas LINQ através de Expression Trees, viabilizando filtros, ordenações, paginação e agregações por nome de propriedade em tempo de execução.
 
