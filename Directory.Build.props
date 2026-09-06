@@ -1,7 +1,6 @@
 <Project>
   <PropertyGroup>
-    <Version>0.2.0</Version>
-    <Version>0.3.0</Version>
+    <Version>0.4.0</Version>
     <Authors>Thaylon Lopes</Authors>
     <Company>Thaylon Lopes</Company>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
@@ -15,6 +14,7 @@
     <PackageIcon>icon.png</PackageIcon>
     <PackageTags>csharp;dotnet;dotnet8;netstandard;extensions;utilities;clean-architecture;zero-allocation</PackageTags>
   </PropertyGroup>
+
 
   <ItemGroup Condition="'$(IsPackable)' != 'false'">
     <None Include="$(MSBuildThisFileDirectory)assets\icon.png" Pack="true" PackagePath="" />
