@@ -1,0 +1,27 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFrameworks>netstandard2.0;net8.0</TargetFrameworks>
+    <PackageId>TL.ExtensionLibrary.Domain</PackageId>
+    <Title>TL.ExtensionLibrary.Domain</Title>
+    <Description>Clean Architecture Domain metapackage: pure, high-performance domain extensions (String, Numeric, DateTime, Enum, Collection) with zero external infrastructure dependencies.</Description>
+    <PackageTags>$(PackageTags);clean-architecture;domain;domain-driven-design;ddd;metapackage;pure-domain</PackageTags>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
+    <IncludeBuildOutput>false</IncludeBuildOutput>
+    <NoWarn>$(NoWarn);NU5128</NoWarn>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\StringExtensionLibrary\StringExtensionLibrary.csproj" PrivateAssets="none" />
+    <ProjectReference Include="..\..\NumericExtensionLibrary\NumericExtensionLibrary.csproj" PrivateAssets="none" />
+    <ProjectReference Include="..\..\DateTimeExtensionsLibrary\DateTimeExtensionsLibrary.csproj" PrivateAssets="none" />
+    <ProjectReference Include="..\..\EnumExtensionsLibrary\EnumExtensionsLibrary.csproj" PrivateAssets="none" />
+    <ProjectReference Include="..\..\CollectionExtensionsLibrary\CollectionExtensionsLibrary.csproj" PrivateAssets="none" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="README.md" Pack="true" PackagePath="\" />
+  </ItemGroup>
+
+</Project>
+

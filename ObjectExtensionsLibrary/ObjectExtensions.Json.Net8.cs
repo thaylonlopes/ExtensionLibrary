@@ -1,4 +1,4 @@
-﻿using System.Text.Json;
+using System.Text.Json;
 using System.Text.Json.Serialization;
 
 namespace ObjectExtensionsLibrary
@@ -14,7 +14,7 @@ namespace ObjectExtensionsLibrary
             {
                 DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull
             };
-            options.MakeReadOnly();
+            options.MakeReadOnly(true);
             return options;
         }
 
@@ -24,7 +24,7 @@ namespace ObjectExtensionsLibrary
             {
                 WriteIndented = true
             };
-            options.MakeReadOnly();
+            options.MakeReadOnly(true);
             return options;
         }
 

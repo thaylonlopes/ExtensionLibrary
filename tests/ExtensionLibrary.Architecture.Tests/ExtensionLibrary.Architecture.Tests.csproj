@@ -1,0 +1,28 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <IsTestProject>true</IsTestProject>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="coverlet.collector" />
+    <PackageReference Include="Microsoft.NET.Test.Sdk" />
+    <PackageReference Include="xunit" />
+    <PackageReference Include="xunit.runner.visualstudio" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Using Include="Xunit" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\metapackages\TL.ExtensionLibrary.Domain\TL.ExtensionLibrary.Domain.csproj" />
+    <ProjectReference Include="..\..\metapackages\TL.ExtensionLibrary.Application\TL.ExtensionLibrary.Application.csproj" />
+    <ProjectReference Include="..\..\metapackages\TL.ExtensionLibrary.Infrastructure\TL.ExtensionLibrary.Infrastructure.csproj" />
+  </ItemGroup>
+
+</Project>
+
