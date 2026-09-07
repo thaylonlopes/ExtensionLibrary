@@ -1,10 +1,10 @@
-# ADR 000: Arquitetura e Convenções da Suíte TL.UtilExtensions
+# ADR 000: Arquitetura e Convenções da Suíte TL.ExtensionLibrary
 
 ---
 
 ## Contexto
 
-A suíte **TL.UtilExtensions** é uma coleção modular de métodos de extensão utilitários de alta performance em C# / .NET, distribuída através de pacotes NuGet independentes sob o prefixo `TL.*`.
+A suíte **TL.ExtensionLibrary** é uma coleção modular de métodos de extensão utilitários de alta performance em C# / .NET, distribuída através de pacotes NuGet independentes sob o prefixo `TL.*`.
 
 Composta por 10 projetos de bibliotecas de classes, a suíte estende tipos primitivos, estruturas do runtime (.NET BCL), coleções, requisições HTTP e operações LINQ. Para assegurar interoperabilidade, facilidade de uso, previsibilidade e alto desempenho em microsserviços e Web APIs corporativas, este documento formaliza os padrões de design, regras de nomenclatura e convenções arquiteturais que orientam todo o ecossistema.
 

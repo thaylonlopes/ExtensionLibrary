@@ -1,8 +1,8 @@
-# 🏛️ Visão Geral da Arquitetura: TL.UtilExtensions (ExtensionLibrary)
+# 🏛️ Visão Geral da Arquitetura: TL.ExtensionLibrary (ExtensionLibrary)
 
 ## 📌 1. Propósito e Filosofia do Ecossistema
 
-O **TL.UtilExtensions** (solução `ExtensionLibrary.sln`) é uma suíte modular de métodos de extensão em C# / .NET desenvolvida com o objetivo de estender tipos primitivos, estruturas fundamentais do runtime, coleções, requisições HTTP e operações de consulta do ecossistema .NET.
+O **TL.ExtensionLibrary** (solução `ExtensionLibrary.sln`) é uma suíte modular de métodos de extensão em C# / .NET desenvolvida com o objetivo de estender tipos primitivos, estruturas fundamentais do runtime, coleções, requisições HTTP e operações de consulta do ecossistema .NET.
 
 ### Princípios Norteadores:
 1. **Alta Granularidade & Baixo Acoplamento:** Cada biblioteca é empacotada individualmente no NuGet (`TL.*`), permitindo que aplicações consumidoras importem estritamente as extensões necessárias sem carregar dependências transitivas indesejadas.
@@ -16,11 +16,11 @@ O **TL.UtilExtensions** (solução `ExtensionLibrary.sln`) é uma suíte modular
 
 ### 2.1. Nível 1: Diagrama de Contexto de Sistema (C4 Context)
 
-O diagrama abaixo ilustra como as diversas aplicações corporativas (Web APIs, Microsserviços, Workers e Camadas de Persistência) consomem os módulos granulares da suíte **TL.UtilExtensions**.
+O diagrama abaixo ilustra como as diversas aplicações corporativas (Web APIs, Microsserviços, Workers e Camadas de Persistência) consomem os módulos granulares da suíte **TL.ExtensionLibrary**.
 
 ```mermaid
 C4Context
-    title Diagrama de Contexto de Sistema - Ecossistema TL.UtilExtensions
+    title Diagrama de Contexto de Sistema - Ecossistema TL.ExtensionLibrary
 
     Person(dev, "Desenvolvedor / Engenheiro .NET", "Consome métodos de extensão utilitários para acelerar o desenvolvimento e manter código limpo.")
 
@@ -30,7 +30,7 @@ C4Context
         System(dataLayer, "Data Access & Repositórios", "Camadas de persistência com EF Core, Dapper e MongoDB (DataHelpers)")
     }
 
-    System_Boundary(b1, "Ecossistema TL.UtilExtensions") {
+    System_Boundary(b1, "Ecossistema TL.ExtensionLibrary") {
         SystemDb_Ext(nugetPackages, "Pacotes NuGet TL.* (10 Módulos)", "Módulos de extensão utilitária compilados em Multi-Targeting")
     }
 
@@ -55,7 +55,7 @@ O diagrama a seguir detalha os **10 módulos granulares** que compõem a soluç�
 
 ```mermaid
 C4Container
-    title Diagrama de Containers / Módulos - Suíte TL.UtilExtensions
+    title Diagrama de Containers / Módulos - Suíte TL.ExtensionLibrary
 
     Container_Boundary(c1, "Solução ExtensionLibrary.sln (10 Módulos)") {
         Container(str, "TL.StringExtensionsLibrary", "C# / netstandard2.0;net5;net6;net8", "Manipulação de strings, casing, parsing, truncamento seguro, CSV e regex. Depende de Newtonsoft.Json.")

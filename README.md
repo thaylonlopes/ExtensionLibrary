@@ -5,14 +5,51 @@
 # 🚀 TL.UtilExtensions (ExtensionLibrary)
 
 [![.NET](https://img.shields.io/badge/.NET-netstandard2.0%20%7C%20net8.0-blue.svg)](https://dotnet.microsoft.com/)
-[![Release](https://img.shields.io/badge/Release-v0.3.0-informational.svg)](https://github.com/thaylonmayk/ExtensionLibrary/releases)
 [![NuGet Profile](https://img.shields.io/badge/NuGet-ThaylonMALopes-004880.svg?logo=nuget)](https://www.nuget.org/profiles/ThaylonMALopes)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
-[![Architecture: ADRs](https://img.shields.io/badge/ADRs-10%20Decisões%20Arquiteturais-success.svg)](./docs/adr/)
 
-Bem-vindo ao ecossistema **TL.UtilExtensions** (solução `ExtensionLibrary.sln`)! Esta suíte modular de bibliotecas em C# / .NET disponibiliza métodos de extensão utilitários de alta performance, projetados para simplificar o desenvolvimento diário, eliminar boilerplate, assegurar pureza funcional e manter seu código limpo e idiomático.
+Bem-vindo ao ecossistema **TL.UtilExtensions** (solução `ExtensionLibrary.sln`)! Esta suíte de bibliotecas em C# / .NET disponibiliza métodos de extensão utilitários de alta performance, projetados para simplificar o desenvolvimento diário, eliminar boilerplate, assegurar pureza funcional e manter seu código limpo e idiomático.
 
-Cada módulo é empacotado e distribuído de forma **independente no NuGet** sob o prefixo `TL.*`, permitindo que você importe estritamente as extensões necessárias sem carregar dependências desnecessárias.
+A biblioteca oferece duas formas de consumo:
+1. **Pacotes Granulares:** Instale estritamente os módulos específicos sob o prefixo `TL.*ExtensionsLibrary`.
+2. **Metapacotes da Clean Architecture:** Instale agregadores por camada com **zero overhead binário** e total garantia de isolamento arquitetural ([ADR-011](./docs/adr/ADR-011-metapacotes-agregadores-clean-architecture.md)).
+
+---
+
+## 🏛️ Metapacotes por Camadas da Clean Architecture
+
+Para projetos corporativos que seguem **Clean Architecture** ou **Domain-Driven Design (DDD)**, utilize os metapacotes dedicados para acelerar o desenvolvimento e impedir vazamento de dependências técnicas:
+
+```mermaid
+graph TD
+    subgraph DomainLayer ["Camada de Domínio (Pureza Total)"]
+        Domain["📦 TL.ExtensionLibrary.Domain"]
+        S["String, Numeric, DateTime, Enum, Collection"]
+        Domain --> S
+    end
+
+    subgraph AppLayer ["Camada de Aplicação (Orquestração & DTOs)"]
+        App["📦 TL.ExtensionLibrary.Application"]
+        O["Object, ClaimsPrincipal"]
+        App --> O
+        App --> Domain
+    end
+
+    subgraph InfraLayer ["Camada de Infraestrutura (Tecnologias Externas)"]
+        Infra["📦 TL.ExtensionLibrary.Infrastructure"]
+        T["Queryable, HttpClient, Assembly"]
+        Infra --> T
+        Infra --> App
+    end
+```
+
+| Metapacote NuGet | Camada Alvo | Módulos Incluídos | Instalação CLI |
+| :--- | :--- | :--- | :--- |
+| **`TL.ExtensionLibrary.Domain`** | Domínio DDD / Entidades | `String`, `Numeric`, `DateTime`, `Enum`, `Collection` | `dotnet add package TL.ExtensionLibrary.Domain` |
+| **`TL.ExtensionLibrary.Application`** | Casos de Uso / DTOs / CQRS | `Object`, `ClaimsPrincipal` + Transitivo `Domain` | `dotnet add package TL.ExtensionLibrary.Application` |
+| **`TL.ExtensionLibrary.Infrastructure`** | Acesso a Dados / APIs / Repositórios | `Queryable`, `HttpClient`, `Assembly` + Transitivo `Application` e `Domain` (Todos os 10 módulos) | `dotnet add package TL.ExtensionLibrary.Infrastructure` |
+
+> 💡 **Nota Técnica:** Os metapacotes utilizam `<IncludeBuildOutput>false</IncludeBuildOutput>`, não incluindo arquivos `.dll` próprios. O download possui apenas ~18 KB e propaga as dependências transitivas nativamente via NuGet.
 
 ---
 

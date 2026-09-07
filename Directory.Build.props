@@ -4,8 +4,8 @@
     <Authors>Thaylon Lopes</Authors>
     <Company>Thaylon Lopes</Company>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
-    <PackageProjectUrl>https://github.com/thaylonmayk/ExtensionLibrary</PackageProjectUrl>
-    <RepositoryUrl>https://github.com/thaylonmayk/ExtensionLibrary</RepositoryUrl>
+    <PackageProjectUrl>https://github.com/thaylonlopes/ExtensionLibrary</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/thaylonlopes/ExtensionLibrary</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
     <LangVersion>latest</LangVersion>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>

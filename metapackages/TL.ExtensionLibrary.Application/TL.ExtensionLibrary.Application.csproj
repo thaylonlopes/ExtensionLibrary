@@ -1,0 +1,25 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFrameworks>netstandard2.0;net8.0</TargetFrameworks>
+    <PackageId>TL.ExtensionLibrary.Application</PackageId>
+    <Title>TL.ExtensionLibrary.Application</Title>
+    <Description>Clean Architecture Application metapackage: application orchestration, object utilities, and identity extensions, transitively including Domain.</Description>
+    <PackageTags>$(PackageTags);clean-architecture;application;use-cases;dtos;identity;metapackage</PackageTags>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
+    <IncludeBuildOutput>false</IncludeBuildOutput>
+    <NoWarn>$(NoWarn);NU5128</NoWarn>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\TL.ExtensionLibrary.Domain\TL.ExtensionLibrary.Domain.csproj" PrivateAssets="none" />
+    <ProjectReference Include="..\..\ObjectExtensionsLibrary\ObjectExtensionsLibrary.csproj" PrivateAssets="none" />
+    <ProjectReference Include="..\..\ClaimsPrincipalExtensionsLibrary\ClaimsPrincipalExtensionsLibrary.csproj" PrivateAssets="none" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="README.md" Pack="true" PackagePath="\" />
+  </ItemGroup>
+
+</Project>
+

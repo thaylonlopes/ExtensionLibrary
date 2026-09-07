@@ -1,0 +1,26 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFrameworks>netstandard2.0;net8.0</TargetFrameworks>
+    <PackageId>TL.ExtensionLibrary.Infrastructure</PackageId>
+    <Title>TL.ExtensionLibrary.Infrastructure</Title>
+    <Description>Clean Architecture Infrastructure metapackage: database querying, resilient HTTP, and assembly scanning extensions, transitively including Application and Domain.</Description>
+    <PackageTags>$(PackageTags);clean-architecture;infrastructure;efcore;queryable;httpclient;assembly-scanning;metapackage</PackageTags>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
+    <IncludeBuildOutput>false</IncludeBuildOutput>
+    <NoWarn>$(NoWarn);NU5128</NoWarn>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\TL.ExtensionLibrary.Application\TL.ExtensionLibrary.Application.csproj" PrivateAssets="none" />
+    <ProjectReference Include="..\..\QueryableExtensionsLibrary\QueryableExtensionsLibrary.csproj" PrivateAssets="none" />
+    <ProjectReference Include="..\..\HttpClientExtensionsLibrary\HttpClientExtensionsLibrary.csproj" PrivateAssets="none" />
+    <ProjectReference Include="..\..\AssemblyExtensionLibrary\AssemblyExtensionLibrary.csproj" PrivateAssets="none" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="README.md" Pack="true" PackagePath="\" />
+  </ItemGroup>
+
+</Project>
+
