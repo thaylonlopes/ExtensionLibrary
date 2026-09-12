@@ -24,10 +24,17 @@ O objetivo é eliminar código repetitivo de reflexão nas camadas de apresenta�
 ### 4. Suporte a Padrões de Atributos do Ecossistema
 - Reconhecimento automático dos atributos padrão `System.ComponentModel.DescriptionAttribute`, `System.ComponentModel.DataAnnotations.DisplayAttribute` e o atributo embutido `EnumDescriptionAttribute`.
 
+### 5. Blindagem Defensiva com Bounded Cache e Fallback Seguro 
+- Para proteger ambientes sob restrição severa de memória (ex: containers AWS Fargate / Azure Container Apps com 256MB ou 512MB) contra enums dinâmicos ou volume massivo de consultas não mapeadas, o cache estático interno de descrições (`EnumDescriptionCache` / `EnumDescriptionCache<TEnum>`) foi blindado com limite finito de capacidade (Bounded Cache, padrão 1.024 entradas por partição).
+- Ao atingir a capacidade máxima configurada, o mecanismo não lança exceções nem compromete a integridade do processo: adota fallback seguro de reflexão direta sob demanda para as novas entradas sem inseri-las no dicionário, estabilizando o consumo de memória em patamar rigorosamente previsível ($O(1)$ em espaço).
+- Atomicidade e thread-safety absolutos sob alta concorrência são assegurados através de double-checked locking na inserção e leitura direta lock-free via `ConcurrentDictionary.TryGetValue`.
+- Em runtimes modernos (.NET 8+), o cache genérico `EnumDescriptionCache<TEnum>` garante leitura ultrarrápida em tempo $O(1)$ com alocação estrita de `0 B` de heap para entradas já cacheadas.
+
 ---
 
 ## Consequências e Trade-offs
 
-- **Performance Acelerada:** Redução expressiva do custo computacional de Reflection em endpoints que retornam catálogos de enums.
+- **Performance Acelerada:** Redução expressiva do custo computacional de Reflection em endpoints que retornam catálogos de enums ($O(1)$ e `0 B` de alocação no caminho quente).
 - **Produtividade:** Geração ágil de dicionários `(ID -> Descrição)` com uma única linha de código.
-- **Trade-off de Memória:** O uso de cache estático retém metadados em memória de forma proporcional à quantidade de tipos enum utilizados, o que representa um consumo negligenciável frente aos ganhos de CPU.
+- **Blindagem de Memória (Bounded Memory Footprint):** O consumo de memória é estritamente limitado pelo teto do Bounded Cache (1.024 entradas), eliminando vulnerabilidade de vazamento de memória ou OutOfMemory por enums dinâmicos.
+- **Fallback Gracioso sob Sobrecarga:** Entradas que ultrapassam a capacidade máxima são resolvidas via reflexão sob demanda sem falhas ou crashes de processo.
