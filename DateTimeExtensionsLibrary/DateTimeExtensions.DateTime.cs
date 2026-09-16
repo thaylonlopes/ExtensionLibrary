@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 
 namespace DateTimeExtensionsLibrary
 {
@@ -49,25 +49,7 @@ namespace DateTimeExtensionsLibrary
             return date.StartOfWeek().AddDays(6);
         }
 
-        /// <summary>
-        /// Gets the start date of the month for the specified DateTime.
-        /// </summary>
-        /// <param name="date">The date to get the start of the month for.</param>
-        /// <returns>The start date of the month.</returns>
-        public static DateTime StartOfMonth(this DateTime date)
-        {
-            return new DateTime(date.Year, date.Month, 1);
-        }
 
-        /// <summary>
-        /// Gets the end date of the month for the specified DateTime.
-        /// </summary>
-        /// <param name="date">The date to get the end of the month for.</param>
-        /// <returns>The end date of the month.</returns>
-        public static DateTime EndOfMonth(this DateTime date)
-        {
-            return new DateTime(date.Year, date.Month, DateTime.DaysInMonth(date.Year, date.Month));
-        }
 
         /// <summary>
         /// Gets the next occurrence of the specified day of the week.
