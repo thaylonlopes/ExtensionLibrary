@@ -6,7 +6,6 @@
     <Title>TL.ExtensionLibrary.Domain</Title>
     <Description>Clean Architecture Domain metapackage: pure, high-performance domain extensions (String, Numeric, DateTime, Enum, Collection) with zero external infrastructure dependencies.</Description>
     <PackageTags>$(PackageTags);clean-architecture;domain;domain-driven-design;ddd;metapackage;pure-domain</PackageTags>
-    <PackageReadmeFile>README.md</PackageReadmeFile>
     <IncludeBuildOutput>false</IncludeBuildOutput>
     <NoWarn>$(NoWarn);NU5128</NoWarn>
   </PropertyGroup>
@@ -18,10 +17,5 @@
     <ProjectReference Include="..\..\EnumExtensionsLibrary\EnumExtensionsLibrary.csproj" PrivateAssets="none" />
     <ProjectReference Include="..\..\CollectionExtensionsLibrary\CollectionExtensionsLibrary.csproj" PrivateAssets="none" />
   </ItemGroup>
-
-  <ItemGroup>
-    <None Include="README.md" Pack="true" PackagePath="\" />
-  </ItemGroup>
-
 </Project>
 
