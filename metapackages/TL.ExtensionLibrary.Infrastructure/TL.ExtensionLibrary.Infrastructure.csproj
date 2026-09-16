@@ -6,7 +6,6 @@
     <Title>TL.ExtensionLibrary.Infrastructure</Title>
     <Description>Clean Architecture Infrastructure metapackage: database querying, resilient HTTP, and assembly scanning extensions, transitively including Application and Domain.</Description>
     <PackageTags>$(PackageTags);clean-architecture;infrastructure;efcore;queryable;httpclient;assembly-scanning;metapackage</PackageTags>
-    <PackageReadmeFile>README.md</PackageReadmeFile>
     <IncludeBuildOutput>false</IncludeBuildOutput>
     <NoWarn>$(NoWarn);NU5128</NoWarn>
   </PropertyGroup>
@@ -17,10 +16,5 @@
     <ProjectReference Include="..\..\HttpClientExtensionsLibrary\HttpClientExtensionsLibrary.csproj" PrivateAssets="none" />
     <ProjectReference Include="..\..\AssemblyExtensionLibrary\AssemblyExtensionLibrary.csproj" PrivateAssets="none" />
   </ItemGroup>
-
-  <ItemGroup>
-    <None Include="README.md" Pack="true" PackagePath="\" />
-  </ItemGroup>
-
 </Project>
 
