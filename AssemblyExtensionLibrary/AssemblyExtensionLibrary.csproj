@@ -1,17 +1,10 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <TargetFrameworks>net5.0;net6.0;net8.0</TargetFrameworks>
     <TargetFrameworks>netstandard2.0;net8.0</TargetFrameworks>
     <Nullable>disable</Nullable>
     <PackageId>TL.AssemblyExtensionLibrary</PackageId>
-    <Description>Projeto de extensão para Assembly</Description>
+    <Title>AssemblyExtensionLibrary</Title>
     <Description>Lightweight assembly scanning extensions for .NET: type discovery, attribute filtering, and metadata helpers for clean dependency injection.</Description>
     <PackageTags>$(PackageTags);assembly;reflection;type-scanning;dependency-injection;metadata</PackageTags>
-    <Title>AssemblyExtensionLibrary</Title>
-    <PackageReadmeFile>README.md</PackageReadmeFile>
   </PropertyGroup>
-
-  <ItemGroup>
-    <None Include="README.md" Pack="true" PackagePath="\" />
-  </ItemGroup>
 </Project>

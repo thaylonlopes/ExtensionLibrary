@@ -1,29 +1,42 @@
 <Project>
   <PropertyGroup>
-    <Version>0.4.1</Version>
+    <Version>0.4.2</Version>
     <Authors>Thaylon Lopes</Authors>
     <Company>Thaylon Lopes</Company>
+    <Product>TL.ExtensionLibrary</Product>
+    <Copyright>Copyright © 2026 Thaylon Lopes</Copyright>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
     <PackageProjectUrl>https://github.com/thaylonlopes/ExtensionLibrary</PackageProjectUrl>
     <RepositoryUrl>https://github.com/thaylonlopes/ExtensionLibrary</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
     <LangVersion>latest</LangVersion>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
     <SuppressTfmSupportBuildWarnings>true</SuppressTfmSupportBuildWarnings>
+    <WarnOnPackingNonPackableProject>false</WarnOnPackingNonPackableProject>
     <NoWarn>$(NoWarn);1591</NoWarn>
     <PackageIcon>icon.png</PackageIcon>
     <PackageTags>csharp;dotnet;dotnet8;netstandard;extensions;utilities;clean-architecture;zero-allocation</PackageTags>
   </PropertyGroup>
 
+  <PropertyGroup Condition="'$(IsPackable)' != 'false'">
+    <PublishRepositoryUrl>true</PublishRepositoryUrl>
+    <EmbedUntrackedSources>true</EmbedUntrackedSources>
+    <IncludeSymbols>true</IncludeSymbols>
+    <SymbolPackageFormat>snupkg</SymbolPackageFormat>
+    <PackageOutputPath>$(MSBuildThisFileDirectory)artifacts/packages</PackageOutputPath>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
+  </PropertyGroup>
 
-  <ItemGroup Condition="'$(IsPackable)' != 'false'">
-    <None Include="$(MSBuildThisFileDirectory)assets\icon.png" Pack="true" PackagePath="" />
+ <ItemGroup Condition="'$(IsPackable)' != 'false'">
+    <None Include="$(MSBuildThisFileDirectory)assets\icon.png" Pack="true" PackagePath="\" Visible="false" Condition="Exists('$(MSBuildThisFileDirectory)assets\icon.png')" />
+    <None Include="README.md" Pack="true" PackagePath="\" Condition="Exists('README.md')" />
   </ItemGroup>
 
-  <!-- Regra de Governança: Testes e Exemplos não geram pacote NuGet nem documentação XML -->
-  <PropertyGroup Condition="$(MSBuildProjectName.EndsWith('.Tests')) Or $(MSBuildProjectName.Contains('.Showcase'))">
+  <PropertyGroup Condition="$(MSBuildProjectName.EndsWith('.Tests')) Or $(MSBuildProjectName.Contains('.Showcase')) Or $(MSBuildProjectName.EndsWith('.Benchmarks'))">
     <IsPackable>false</IsPackable>
     <GenerateDocumentationFile>false</GenerateDocumentationFile>
+    <NoWarn>$(NoWarn);1591</NoWarn>
   </PropertyGroup>
 </Project>
 
