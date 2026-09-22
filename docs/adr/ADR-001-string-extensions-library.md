@@ -27,9 +27,9 @@ A biblioteca é compatível com múltiplos runtimes (`netstandard2.0`, `net5.0`,
 ### 4. Resiliência e Prevenção de DoS em Expressões Regulares
 - Operações que utilizam expressões regulares (`Regex`) definem `TimeSpan matchTimeout` explícito, protegendo aplicações contra travamentos de CPU decorrentes de padrões de texto patológicos.
 
-### 5. Blindagem AppSec e Proteção de Dados Sensíveis (v0.5.0)
-- **Prevenção contra Log Injection / Anti-CRLF (CWE-117):** O método `SanitizeForLog()` neutraliza quebras de linha (`\r`, `\n`) substituindo-as por underscores (`_`), impedindo falsificação de registros em auditorias e logs estruturados.
-- **Mascaramento e Conformidade LGPD / PII (CWE-532):** O método `MaskEmail()` ofusca dados pessoais identificáveis preservando unicamente os caracteres limítrofes do identificador e o domínio corporativo (ex: `t*****n@empresa.com`). O método `Mask()` viabiliza ofuscação flexível de cartões, documentos e tokens com salvaguarda estrita contra exceções de limites de array (`IndexOutOfRangeException`).
+### 5. Proteção de Dados Sensíveis e Sanitização de Logs
+- **Prevenção contra Injeção de Logs e Quebras de Linha:** O método `SanitizeForLog()` neutraliza quebras de linha (`\r`, `\n`) substituindo-as por underscores (`_`), impedindo falsificação de registros em auditorias e logs estruturados.
+- **Mascaramento de Dados Pessoais Sensíveis:** O método `MaskEmail()` ofusca dados pessoais identificáveis preservando unicamente os caracteres limítrofes do identificador e o domínio corporativo (ex: `t*****n@empresa.com`). O método `Mask()` viabiliza ofuscação flexível de cartões, documentos e tokens com salvaguarda estrita contra exceções de limites de array (`IndexOutOfRangeException`).
 - **Truncamento e Decodificação Defensiva:** `TruncateWithEllipsis()` garante que o comprimento resultante nunca ultrapasse a cota máxima estipulada, enquanto `TryFromBase64()` elimina exceções de formato (`FormatException`) em processamento de fluxos externos.
 
 ---

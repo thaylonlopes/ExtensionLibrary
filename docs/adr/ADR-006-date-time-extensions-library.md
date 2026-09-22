@@ -24,7 +24,7 @@ Em serviços de faturamento, agendamento de tarefas e relatórios analíticos, c
 ### 4. Testabilidade com `TimeProvider` (.NET 8+)
 - Para garantir suporte a testes unitários determinísticos em pipelines de CI/CD, operações que consultam o relógio do sistema oferecem suporte opcional à abstração `TimeProvider`, permitindo simular datas futuras e passadas sem alterar o relógio da máquina servidora.
 
-### 5. Invariância UTC, Interoperabilidade Unix Epoch e Períodos Mensais (v0.5.0)
+### 5. Invariância UTC, Interoperabilidade Unix Epoch e Períodos Mensais
 - **Normalização Segura para UTC (`EnsureUtc`):** Elimina anomalias de fuso horário em ambientes distribuídos convertendo instâncias com `DateTimeKind.Local` via `ToUniversalTime()`, atribuindo `DateTimeKind.Utc` a instâncias `Unspecified` e preservando instâncias já em UTC.
 - **Interoperabilidade Unix Epoch (`ToUnixTimeMilliseconds` e `FromUnixTimeMilliseconds`):** Padroniza a conversão bidirecional de e para carimbos de data/hora no padrão POSIX/Unix Epoch (`1970-01-01T00:00:00Z`), essencial para contratos de telemetria, eventos e mensageria distribuída.
 - **Cálculo Determinístico de Limites Mensais (`StartOfMonth` e `EndOfMonth`):** Retorna com precisão o primeiro (`00:00:00.000`) e último instante (`23:59:59.999`) de cada mês, calculando dinamicamente dias do mês com suporte a anos bissextos e preservando estritamente o `DateTimeKind`.

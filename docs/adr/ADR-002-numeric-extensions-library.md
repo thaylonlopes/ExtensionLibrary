@@ -26,6 +26,12 @@ O objetivo é fornecer uma camada utilitária confiável para regras de negócio
 ### 4. Evolução com Generic Math (`INumber<T>`)
 - Para runtimes modernos (.NET 7 e .NET 8+), a suíte evolui para abstrações genéricas baseadas em `System.Numerics.INumber<T>`, reduzindo redundância de código e usufruindo de inlining nativo do JIT compiler.
 
+### 5. Matemática Defensiva e Precisão Financeira
+- **Divisão Defensiva (`SafeDivide`):** Oferece divisão segura com fallback configurável (padrão 0), eliminando exceções de divisão por zero em tempo de execução durante rotinas de fechamento, relatórios agregados e cálculos proporcionais.
+- **Arredondamento Bancário (`RoundFinancial`):** Adota a estratégia de arredondamento para o par mais próximo (`MidpointRounding.ToEven`), alinhada às normas bancárias e contábeis para prevenir divergências acumulativas de centavos em operações monetárias.
+- **Cálculo de Proporção Percentual (`CalculatePercentageOf`):** Provê utilitário expressivo para determinar a fração percentual que uma parte representa do todo, com tratamento defensivo quando a base total for zero ou inválida.
+- **Avaliação de Faixas (`IsBetween`):** Implementação genérica inclusiva para tipos comparáveis com inversão automática de limites para evitar falhas silenciosas quando parâmetros forem invertidos.
+
 ---
 
 ## Consequências e Trade-offs

@@ -24,6 +24,14 @@ Por atuar no núcleo de pipelines de dados, a previsibilidade da complexidade as
 ### 4. Tratamento Seguro de Nulidade em Comparações
 - Operações de substituição e busca (`Replace`, `DistinctBy`) utilizam `EqualityComparer<T>.Default.Equals`, suportando coleções que contenham valores nulos com total estabilidade.
 
+### 5. Otimizações de Coleções e Segregação de APIs
+- **Verificação Segura em Tempo Constante (`IsNullOrEmpty`):** Inspeciona propriedades de contagem (`Count`) de interfaces especializadas (`ICollection<T>`, `IReadOnlyCollection<T>`) antes de recorrer ao enumerador, evitando alocações no heap e iterações desnecessárias para checagens de nulidade e vazio.
+- **Segregação Física de `DistinctBy`:** Para evitar colisões de sobrecarga no .NET 8 (onde `Enumerable.DistinctBy` já existe nativamente na BCL), a extensão foi segregada fisicamente:
+  - No .NET 8, delega diretamente para a implementação nativa da Microsoft com zero alocação intermediária.
+  - No .NET Standard 2.0, utiliza tabela hash interna (`HashSet<TKey>`) com tratamento seguro para chaves nulas.
+- **Inserção Tolerante a Nulos (`AddRangeIfNotNull`):** Facilita a agregação em coleções de destino ignorando fontes nulas sem interrupção de fluxo nem exigência de verificações condicionais redundantes no chamador.
+- **Blindagem Defensiva em `ChunkBy` de Listas:** Validação estrita de limites (`chunkSize > 0`) e de fonte em coleções indexadas, prevenindo loops infinitos em chamadas com parâmetros inválidos.
+
 ---
 
 ## Consequências e Trade-offs

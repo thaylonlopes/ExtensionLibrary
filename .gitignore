@@ -367,7 +367,6 @@ scratchpad.md
 # Allowlist de Exceções Mandatórias do Repositório:
 !.gitignore
 !.gitattributes
-!.editorconfig
 !.dockerignore
 !.github/
 !.github/**

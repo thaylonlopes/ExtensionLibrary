@@ -202,4 +202,4 @@ Contribuições são muito bem-vindas! Siga estas diretrizes:
 
 ## 📄 Licença
 
-Este projeto é distribuído sob a licença [MIT](LICENSE.txt).
+Este projeto é distribuído sob a licença [MIT](LICENSE).
