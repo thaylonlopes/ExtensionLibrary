@@ -1,13 +1,20 @@
-﻿# AssemblyExtensionsLibrary
+# 📦 TL.AssemblyExtensionLibrary
 
-A biblioteca AssemblyExtensions fornece uma variedade de métodos de extensão para a classe `Assembly` do .NET, facilitando a manipulação e extração de informações úteis sobre assemblies. Com AssemblyExtensions, você pode obter facilmente informações de versão, tipos definidos, assemblies referenciados, e muito mais.
+[![.NET](https://img.shields.io/badge/.NET-netstandard2.0%20%7C%20net8.0-blue.svg)](https://dotnet.microsoft.com/)
+[![NuGet](https://img.shields.io/nuget/v/TL.AssemblyExtensionLibrary.svg)](https://www.nuget.org/packages/TL.AssemblyExtensionLibrary/)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+
+> Essential .NET Assembly inspection, resource extraction, and reflection diagnostics utilities.
+> Extensões utilitárias essenciais para inspeção de assemblies .NET, extração de recursos embutidos e diagnósticos via reflexão.
+
+A biblioteca **TL.AssemblyExtensionLibrary** fornece uma variedade de métodos de extensão para a classe `Assembly` do .NET, facilitando a manipulação e extração de informações úteis sobre assemblies. Com ela, você pode obter facilmente informações de versão, tipos definidos, assemblies referenciados e muito mais.
 
 ## Instalação
 
-Para instalar a biblioteca AssemblyExtensions via NuGet, use o seguinte comando:
+Para instalar a biblioteca via NuGet, use o seguinte comando:
 
 ```sh
-dotnet add package TL.AssemblyExtensionsLibrary
+dotnet add package TL.AssemblyExtensionLibrary
 ```
 
 ## Funcionalidades

@@ -27,10 +27,16 @@ A biblioteca é compatível com múltiplos runtimes (`netstandard2.0`, `net5.0`,
 ### 4. Resiliência e Prevenção de DoS em Expressões Regulares
 - Operações que utilizam expressões regulares (`Regex`) definem `TimeSpan matchTimeout` explícito, protegendo aplicações contra travamentos de CPU decorrentes de padrões de texto patológicos.
 
+### 5. Blindagem AppSec e Proteção de Dados Sensíveis (v0.5.0)
+- **Prevenção contra Log Injection / Anti-CRLF (CWE-117):** O método `SanitizeForLog()` neutraliza quebras de linha (`\r`, `\n`) substituindo-as por underscores (`_`), impedindo falsificação de registros em auditorias e logs estruturados.
+- **Mascaramento e Conformidade LGPD / PII (CWE-532):** O método `MaskEmail()` ofusca dados pessoais identificáveis preservando unicamente os caracteres limítrofes do identificador e o domínio corporativo (ex: `t*****n@empresa.com`). O método `Mask()` viabiliza ofuscação flexível de cartões, documentos e tokens com salvaguarda estrita contra exceções de limites de array (`IndexOutOfRangeException`).
+- **Truncamento e Decodificação Defensiva:** `TruncateWithEllipsis()` garante que o comprimento resultante nunca ultrapasse a cota máxima estipulada, enquanto `TryFromBase64()` elimina exceções de formato (`FormatException`) em processamento de fluxos externos.
+
 ---
 
 ## Consequências e Trade-offs
 
 - **Robustez:** Alta tolerância a variações de payloads e formatos de entrada sem risco de falhas não tratadas.
+- **Conformidade de Segurança:** Blindagem contra injeção de logs e vazamento de dados sensíveis em logs operacionais.
 - **Performance:** Eficiência de memória ao processar grandes volumes de texto através de spans.
 - **Compatibilidade:** O suporte a `netstandard2.0` em conjunto com APIs modernas do .NET 8+ é viabilizado de forma transparente por diretivas de compilação condicional, preservando a interoperabilidade da biblioteca.

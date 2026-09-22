@@ -2,13 +2,13 @@
   <img src="assets/icon.svg" alt="TL Extensions Icon" width="128" height="128" />
 </p>
 
-# 🚀 TL.UtilExtensions (ExtensionLibrary)
+# 🚀 TL.ExtensionLibrary
 
 [![.NET](https://img.shields.io/badge/.NET-netstandard2.0%20%7C%20net8.0-blue.svg)](https://dotnet.microsoft.com/)
 [![NuGet Profile](https://img.shields.io/badge/NuGet-ThaylonMALopes-004880.svg?logo=nuget)](https://www.nuget.org/profiles/ThaylonMALopes)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
-Bem-vindo ao ecossistema **TL.UtilExtensions** (solução `ExtensionLibrary.sln`)! Esta suíte de bibliotecas em C# / .NET disponibiliza métodos de extensão utilitários de alta performance, projetados para simplificar o desenvolvimento diário, eliminar boilerplate, assegurar pureza funcional e manter seu código limpo e idiomático.
+Bem-vindo ao ecossistema **TL.ExtensionLibrary**! Esta suíte de bibliotecas em C# / .NET disponibiliza métodos de extensão utilitários de alta performance, projetados para simplificar o desenvolvimento diário, eliminar boilerplate, assegurar pureza funcional e manter seu código limpo e idiomático.
 
 A biblioteca oferece duas formas de consumo:
 1. **Pacotes Granulares:** Instale estritamente os módulos específicos sob o prefixo `TL.*ExtensionsLibrary`.

@@ -31,9 +31,9 @@ Composta por 10 projetos de bibliotecas de classes, a suíte estende tipos primi
 - A separação física dos métodos é estruturada por afinidade de domínio no formato `<Tipo>Extension.<Categoria>.cs` (por exemplo: `StringExtensions.DateTime.cs`, `NumericExtension.Calculate.cs`, `CollectionExtensions.IEnumerable.cs`), facilitando a manutenção e a legibilidade.
 
 ### 3. Multi-Targeting Abrangente
-- As bibliotecas oferecem compatibilidade com múltiplos runtimes para atender tanto sistemas já em produção quanto novas aplicações em .NET 8+:
-  - Runtimes padrão: `netstandard2.0;net5.0;net6.0;net8.0`.
-  - Módulos que utilizam recursos avançados e diagnósticos de runtime (.NET 8+) compilam para `net8.0` (ex: `TL.AssemblyExtensionLibrary`).
+- As bibliotecas oferecem compatibilidade dual-target universal em todos os 10 módulos da suíte:
+  - Runtimes padrão: `netstandard2.0;net8.0`.
+  - As aplicações corporativas podem consumir a suíte de forma granular ou através dos 3 Metapacotes da Clean Architecture (`TL.ExtensionLibrary.Domain`, `Application`, `Infrastructure`), conforme formalizado na [ADR-011](./ADR-011-metapacotes-agregadores-clean-architecture.md).
 
 ### 4. Pureza Funcional e Guard Clauses (Fail-Fast)
 - Os métodos de extensão são concebidos com foco em previsibilidade e ausência de efeitos colaterais ocultos.
