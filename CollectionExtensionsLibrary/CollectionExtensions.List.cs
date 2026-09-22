@@ -28,6 +28,30 @@ namespace CollectionExtensionsLibrary
         }
 
         /// <summary>
+        /// Adds the elements of the specified sequence to the destination collection if the sequence is not null.
+        /// </summary>
+        /// <typeparam name="T">The type of elements in the collection.</typeparam>
+        /// <param name="destination">The destination collection to which elements should be added.</param>
+        /// <param name="source">The sequence of elements to add, or null.</param>
+        public static void AddRangeIfNotNull<T>(this ICollection<T> destination, IEnumerable<T> source)
+        {
+            if (destination is null)
+            {
+                throw new ArgumentNullException(nameof(destination));
+            }
+
+            if (source is null)
+            {
+                return;
+            }
+
+            foreach (var item in source)
+            {
+                destination.Add(item);
+            }
+        }
+
+        /// <summary>
         /// Removes all items from the list that match the specified predicate.
         /// </summary>
         /// <typeparam name="T">The type of elements in the list.</typeparam>
@@ -69,6 +93,9 @@ namespace CollectionExtensionsLibrary
         /// <returns>A list that contains distinct elements from the source list.</returns>
         public static IList<TSource> DistinctBy<TSource, TKey>(this IList<TSource> source, Func<TSource, TKey> keySelector)
         {
+            if (source is null) throw new ArgumentNullException(nameof(source));
+            if (keySelector is null) throw new ArgumentNullException(nameof(keySelector));
+
             var seenKeys = new HashSet<TKey>();
             var result = new List<TSource>();
             foreach (var element in source)
@@ -107,6 +134,16 @@ namespace CollectionExtensionsLibrary
         /// <returns>A list of list chunks.</returns>
         public static IList<IList<TSource>> ChunkBy<TSource>(this IList<TSource> source, int chunkSize)
         {
+            if (source is null)
+            {
+                throw new ArgumentNullException(nameof(source));
+            }
+
+            if (chunkSize <= 0)
+            {
+                throw new ArgumentOutOfRangeException(nameof(chunkSize), "O tamanho do lote deve ser maior que zero.");
+            }
+
             var chunks = new List<IList<TSource>>();
             for (int i = 0; i < source.Count; i += chunkSize)
             {

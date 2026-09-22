@@ -75,25 +75,6 @@ namespace CollectionExtensionsLibrary
             }
         }
 
-        /// <summary>
-        /// Returns distinct elements from a sequence by using a specified key selector.
-        /// </summary>
-        /// <typeparam name="TSource">The type of elements in the source IEnumerable.</typeparam>
-        /// <typeparam name="TKey">The type of key to distinguish elements by.</typeparam>
-        /// <param name="source">The source IEnumerable.</param>
-        /// <param name="keySelector">A function to extract the key for each element.</param>
-        /// <returns>An IEnumerable that contains distinct elements from the source sequence.</returns>
-        public static IEnumerable<TSource> DistinctBy<TSource, TKey>(this IEnumerable<TSource> source, Func<TSource, TKey> keySelector)
-        {
-            var seenKeys = new HashSet<TKey>();
-            foreach (var element in source)
-            {
-                if (seenKeys.Add(keySelector(element)))
-                {
-                    yield return element;
-                }
-            }
-        }
 
         /// <summary>
         /// Filters a sequence of values based on a predicate if a condition is true.
